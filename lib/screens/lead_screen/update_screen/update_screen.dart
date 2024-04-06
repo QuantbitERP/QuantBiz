@@ -27,7 +27,7 @@ class _UpdateLeadScreenState extends State<UpdateLeadScreen> {
       builder: (context, model, child)=> Scaffold(
 appBar: AppBar(title:  Text(model.leaddata.name ?? "",style: const TextStyle(fontSize: 18),),
 actions: [IconButton(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.addLeadScreen,arguments: AddLeadScreenArguments(leadid: widget.updateId)), icon:const Icon(Icons.edit) ),],
-leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.leadListScreen), icon: const Icon(Icons.arrow_back)),),
+leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),),
 body: fullScreenLoader(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -41,7 +41,7 @@ body: fullScreenLoader(
                         children: [
                           Expanded(flex: 4,child: AutoSizeText(model.leaddata.name ?? ""),),
                           Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: DropdownButtonHideUnderline(
                                     child: CdropDown(dropdownButton: DropdownButton2<String>(
                                       isExpanded: true,
@@ -62,7 +62,7 @@ body: fullScreenLoader(
                                                 ),
                                               ))
                                           .toList(),
-                                      value: model.leaddata.status,
+                                      value: model.leaddata.customCallStatus,
                                       onChanged: (String? value) {
                                        model.changestatus(widget.updateId, value);
                                       },

@@ -94,6 +94,7 @@ class _LoginViewScreenState extends State<LoginViewScreen> {
                             ),
                             const SizedBox(height: 16.0),
                             TextFormField(
+                              keyboardType: TextInputType.emailAddress,
                               controller: model.usernameController,
                               style: const TextStyle(color: Colors.black87),
                               decoration: InputDecoration(
@@ -216,18 +217,18 @@ class _LoginViewScreenState extends State<LoginViewScreen> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 16,
+                                fontSize: 20,
                               ),
                             ),
                             const SizedBox(height: 10),
                             SizedBox(
-                              height: 50,
+                              height: 60,
                               width: double.infinity,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF007BFF),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
                                 ),
                                 onPressed: () =>model.loginWithDemoUser(context),
@@ -239,7 +240,7 @@ class _LoginViewScreenState extends State<LoginViewScreen> {
                                     : const Text(
                                   'Continue as Demo User >',
                                   style: TextStyle(
-                                      fontSize: 20, color: Colors.white),
+                                      fontSize: 25, color: Colors.white),
                                 ),
                               ),
                             ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/constants.dart';
 import 'package:geolocation/widgets/drop_down.dart';
@@ -5,7 +6,6 @@ import 'package:geolocation/widgets/full_screen_loader.dart';
 import 'package:geolocation/widgets/text_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
-import '../../../router.router.dart';
 import '../../../widgets/customtextfield.dart';
 import '../../../widgets/view_docs_from_internet.dart';
 import 'add_expense_viewmodel.dart';
@@ -27,7 +27,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         builder: (context, model, child)=>Scaffold(
 
           appBar:AppBar(title:  const Text('Create Expense',style: TextStyle(fontSize: 18),),
-            leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.expenseScreen), icon: const Icon(Icons.arrow_back)),actions: [
+            leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),actions: [
                IconButton.outlined(onPressed: ()=>model.onSavePressed(context), icon: const Icon(Icons.check))
             ],),
           body: fullScreenLoader(
@@ -128,8 +128,8 @@ onDeleted: () {
                       const SizedBox(height: 15,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [CtextButton(onPressed: () => Navigator.of(context).pop(), text: 'Cancel', buttonColor: Colors.red.shade500,),
-                          CtextButton(onPressed: ()=> model.onSavePressed(context), text:'Create Expense', buttonColor: Colors.blueAccent,)
+                        children: [Expanded(child: CtextButton(onPressed: () => Navigator.of(context).pop(), text: 'Cancel', buttonColor: Colors.red.shade500,)),
+                      SizedBox(width: 20,),    Expanded(child: CtextButton(onPressed: ()=> model.onSavePressed(context), text:'Create Expense', buttonColor: Colors.blueAccent,))
               ]
                       )
                     ],

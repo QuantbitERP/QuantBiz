@@ -28,6 +28,11 @@ List<LeaveList> get takenlist => _takenleavelist;
     setBusy(false);
   }
 
+Future<void> refresh() async {
+  _upcomingleavelist=await fetchupcomingleaveForCurrentYear();
+  _takenleavelist=await fetchTakenLeaveForCurrentYear();
+  notifyListeners();
+}
   Future<List<LeaveList>> fetchupcomingleaveForCurrentYear() async {
     _selectedYear = DateTime.now().year.toInt();
     _selectedmonth=DateTime.now().month;

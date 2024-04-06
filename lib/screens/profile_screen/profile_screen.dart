@@ -24,13 +24,13 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'My Profile',
-            style: TextStyle(fontSize: 18, color: colorScheme.onPrimary),
+            style: TextStyle(fontSize: 18, ),
           ),
           leading: IconButton.outlined(
-            onPressed: () => Navigator.popAndPushNamed(context, Routes.homePage),
-            icon:  Icon(Icons.arrow_back, color: colorScheme.onPrimary),
+            onPressed: () =>Navigator.pop(context),
+            icon:  Icon(Icons.arrow_back,),
           ),
-          backgroundColor: colorScheme.primary,
+
         ),
            body: fullScreenLoader(
           loader: model.isBusy,

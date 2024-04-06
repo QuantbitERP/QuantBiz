@@ -16,7 +16,7 @@ class HolidayScreen extends StatelessWidget {
         builder: (context, model, child)=> Scaffold(
 backgroundColor: Colors.grey.shade200,
           appBar: AppBar(title: const Text('Holiday'),
-            leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.homePage), icon: const Icon(Icons.arrow_back)),
+            leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
           bottom:  PreferredSize(preferredSize: const Size(20, 75), child:Container(
             padding: const EdgeInsets.all(10),
             color: Colors.white,

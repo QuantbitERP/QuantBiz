@@ -117,6 +117,7 @@ class AddOrderServices {
       );
 
       if (response.statusCode == 200) {
+        orderStatus=response.data["data"]['docstatus'];
         Fluttertoast.showToast(msg: "Order Submitted successfully");
         return true;
       } else {
@@ -127,8 +128,37 @@ class AddOrderServices {
        Fluttertoast.showToast(gravity:ToastGravity.BOTTOM,msg: 'Error: ${e.response!.data["exception"].toString().split(":").elementAt(1).trim()} ',textColor:const Color(0xFFFFFFFF),backgroundColor: const Color(0xFFBA1A1A),);
       Logger().e(e);
 
-      
-     
+    }
+    return false;
+  }
+
+  Future<bool> cancelOrder(AddOrderModel orderdetails) async {
+    baseurl =  await geturl();
+
+    Logger().i(orderdetails.toString());
+    try {
+      var dio = Dio();
+      var response = await dio.request(
+        '$baseurl/api/resource/Sales Order/${orderdetails.name.toString()}',
+        options: Options(
+          method: 'PUT',
+          headers: {'Authorization': await getTocken()},
+        ),
+        data: orderdetails.toJson(),
+      );
+
+      if (response.statusCode == 200) {
+        orderStatus=response.data["data"]['docstatus'];
+        Fluttertoast.showToast(msg: "Order Cancelled successfully");
+        return true;
+      } else {
+        Fluttertoast.showToast(msg: "UNABLE TO update Order!");
+        return false;
+      }
+    } on DioException catch (e) {
+      Fluttertoast.showToast(gravity:ToastGravity.BOTTOM,msg: 'Error: ${e.response!.data["exception"].toString().split(":").elementAt(1).trim()} ',textColor:const Color(0xFFFFFFFF),backgroundColor: const Color(0xFFBA1A1A),);
+      Logger().e(e);
+
     }
     return false;
   }
@@ -152,9 +182,8 @@ class AddOrderServices {
 
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: response.data['message'].toString());
-        String name=response.data["data"].toString();
-        Logger().i(response.data);
-        Logger().i(name);
+        String name=response.data["data"]['name'].toString();
+        orderStatus=response.data["data"]['docstatus'];
         return name;
       } else {
         Fluttertoast.showToast(msg: "UNABLE TO Order!");

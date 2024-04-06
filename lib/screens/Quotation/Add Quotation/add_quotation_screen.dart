@@ -34,7 +34,7 @@ class _AddQuotationViewState extends State<AddQuotationView> {
               : const Text('Create Quotation'),
           leading: IconButton.outlined(
             onPressed: () {
-              Navigator.popAndPushNamed(context, Routes.listQuotationScreen);
+              Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back),
           ),
@@ -215,7 +215,7 @@ if(model.isEdit==true)
                    const SizedBox(
                     height: 5,
                   ),
-                  Text('Item List',style: TextStyle(fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  const Text('Item List',style: TextStyle(fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
                    const SizedBox(
                     height: 10,
                   ),
@@ -233,12 +233,12 @@ if(model.isEdit==true)
                           background: Container(
                             color: Colors.red.shade400,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
+                            alignment: Alignment.centerLeft,
                             child: const Icon(
                               Icons.delete_forever_outlined,
                               color: Colors.white,
                               size: 40,
                             ),
-                            alignment: Alignment.centerLeft,
                           ),
                           confirmDismiss: (direction) async {
                             if (direction == DismissDirection.startToEnd) {
@@ -273,7 +273,7 @@ if(model.isEdit==true)
                             model.deleteitem(index); // Delete the item from the model
                           },
                           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
                                         color: Colors.white,
@@ -297,11 +297,11 @@ if(model.isEdit==true)
                     width: 70, // Set width to twice the radius for a complete circle
                     height: 70,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
                     errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/image.png', scale: 5)),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 // Product Details
                 Expanded(
                   child: Column(
@@ -309,14 +309,14 @@ if(model.isEdit==true)
                     children: [
                       Text(
                        'ID: ${selectedItem.itemCode}(${selectedItem.itemName})',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                        AutoSizeText(
                                         'Rate: ${selectedItem.rate.toString()}',
                                         style: const TextStyle(
@@ -336,7 +336,7 @@ if(model.isEdit==true)
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Quantity"),
+                    const Text("Quantity"),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -375,7 +375,7 @@ if(model.isEdit==true)
             ),
           ),
         );
-      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10,); },
+      }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 10,); },
     ),
                   const SizedBox(
                     height: 8,
@@ -384,51 +384,88 @@ if(model.isEdit==true)
                   const SizedBox(
                     height: 25,
                   ),
-
+                  quotationStatus==2?Container():
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CtextButton(
-                        text: 'Cancel',
-                        onPressed: () => Navigator.of(context).pop(), buttonColor: Colors.red.shade400,
-                      ),
-                      model.isSame==false ?
-                        CtextButton(
-                        text:  model.isEdit
-                                        ? 'Update Quotation'
-                                        : 'Create Quotation',
-                        onPressed: () =>  model.onSavePressed(context), buttonColor: Colors.blueAccent.shade400,
-                      )
-                     :
-                      CtextButton(
-                        text: 'Submit Quotation',
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Confirm"),
-                                content: Text("Permanently submit quotation?"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop(false); // Return false when cancel is pressed
-                                    },
-                                    child: Text("Cancel"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      model.onSubmitPressed(context); // Return true when confirm is pressed
-                                    },
-                                    child: Text("Confirm"),
-                                  ),
-                                ],
+                      Expanded(
+                        child: CtextButton(
+                          text: 'Cancel',
+                          onPressed: () {
+                            if(quotationStatus==1){
+                        
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Are you want to cancel?"),
+                                    content: const Text("Permanently Cancelled quotation?"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false); // Return false when cancel is pressed
+                                        },
+                                        child: const Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                          model.onCancelPressed(context); // Return true when confirm is pressed
+                                        },
+                                        child: const Text("Confirm"),
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
-                            },
-                          );
-                        },
-                        buttonColor: Colors.blueAccent.shade400,
-                      )
+                             }else{
+                            Navigator.of(context).pop();}}, buttonColor: Colors.red.shade400,
+                        ),
+                      ),
+const SizedBox(width: 20,),
+                      quotationStatus==0||model.quotationdata.docstatus==null?
+                      model.isSame==false ?
+                        Expanded(
+                          child: CtextButton(
+                          text:  model.isEdit
+                                          ? 'Update Quotation'
+                                          : 'Create Quotation',
+                          onPressed: () =>  model.onSavePressed(context), buttonColor: Colors.blueAccent.shade400,
+                                                ),
+                        )
+                     :
+                      Expanded(
+                        child: CtextButton(
+                          text: 'Submit Quotation',
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Confirm Submit?"),
+                                  content: const Text("Permanently submit quotation?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false); // Return false when cancel is pressed
+                                      },
+                                      child: const Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                        model.onSubmitPressed(context); // Return true when confirm is pressed
+                                      },
+                                      child: const Text("Confirm"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          buttonColor: Colors.blueAccent.shade400,
+                        ),
+                      ):Container()
 
 
                     ],

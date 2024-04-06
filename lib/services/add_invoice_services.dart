@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import '../constants.dart';
@@ -85,6 +86,7 @@ class AddInvoiceServices{
       );
 
       if (response.statusCode == 200) {
+        invoiceStatus=response.data["data"]['docstatus'];
         Fluttertoast.showToast(msg: "Invoice Submitted successfully");
         return true;
       } else {
@@ -93,21 +95,21 @@ class AddInvoiceServices{
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 417) {
-        String errorMessage = e.response!.data["exception"].toString();
+        Html errorMessage = Html(data: e.response!.data["exception"]);
 
 
           // Handle NegativeStockError
-          String item = errorMessage.split("<a")[1].split(">")[1].split("<")[0].trim();
-          String warehouse = errorMessage.split("<a")[2].split(">")[1].split("<")[0].trim();
+          // String item = errorMessage.split("<a")[1].split(">")[1].split("<")[0].trim();
+          // String warehouse = errorMessage.split("<a")[2].split(">")[1].split("<")[0].trim();
 
           Fluttertoast.showToast(
             gravity: ToastGravity.BOTTOM,
-            msg: 'NegativeStock Error: $item needed in $warehouse.',
+            msg: 'NegativeStock Error: ${errorMessage.data}',
             textColor: const Color(0xFFFFFFFF),
             backgroundColor: const Color(0xFFBA1A1A),
           );
 
-          Logger().e("Negative Stock Error: $item needed in $warehouse");
+          Logger().e("Negative Stock Error: $errorMessage");
 
 
         return false;
@@ -131,7 +133,46 @@ class AddInvoiceServices{
 
   }
 
-  Future<String> addOrder(AddInvoiceModel orderdetails) async {
+  Future<bool> cancelInvoice(AddInvoiceModel orderdetails) async {
+    baseurl =  await geturl();
+    Logger().i(orderdetails.toString());
+    try {
+      var dio = Dio();
+      var response = await dio.request(
+        '$baseurl/api/resource/Sales Invoice/${orderdetails.name.toString()}',
+        options: Options(
+          method: 'PUT',
+          headers: {'Authorization': await getTocken()},
+        ),
+        data: orderdetails.toJson(),
+      );
+
+      if (response.statusCode == 200) {
+        invoiceStatus=response.data["data"]['docstatus'];
+        Fluttertoast.showToast(msg: "Invoice Cancelled successfully");
+        return true;
+      } else {
+        Fluttertoast.showToast(msg: "UNABLE TO update Invoice!");
+        return false;
+      }
+    } on DioException catch (e) {
+
+        // Handle other DioException cases
+        String? errorDetails = e.response?.data['exception'].toString();
+
+        Fluttertoast.showToast(
+          gravity: ToastGravity.BOTTOM,
+          msg: 'Error: $errorDetails',
+          textColor: const Color(0xFFFFFFFF),
+          backgroundColor: const Color(0xFFBA1A1A),
+        );
+
+        Logger().e("DioException: $errorDetails");
+        return false;
+      }
+  }
+
+  Future<String> addInvoice(AddInvoiceModel orderdetails) async {
     baseurl =  await geturl();
     var data = json.encode(
       orderdetails,
@@ -150,7 +191,8 @@ class AddInvoiceServices{
 
       if (response.statusCode == 200) {
         Fluttertoast.showToast( msg: response.data['message'].toString(),);
-        String name=response.data["data"].toString();
+        String name=response.data["data"]['name'].toString();
+        invoiceStatus=response.data["data"]['docstatus'];
         Logger().i(response.data);
         return name;
       } else {

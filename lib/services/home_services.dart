@@ -58,7 +58,7 @@ class HomeServices {
      }
    } on DioException catch (e) {
      // Fluttertoast.showToast(gravity:ToastGravity.BOTTOM,msg: 'Error: ${e.response?.data["message"].toString()} ',textColor:const Color(0xFFFFFFFF),backgroundColor: const Color(0xFFBA1A1A),);
-     Logger().e(e.response!.data["message"].toString());
+     Logger().e(e.response?.data["message"].toString());
      return null;
    }
    // return null;

@@ -44,7 +44,7 @@ class InvoiceListServices{
     try {
       var dio = Dio();
       var response = await dio.request(
-        '$baseurl/api/resource/Sales Invoice?order_by=creation desc&fields=["name","customer_name","due_date","grand_total","status","total_qty"]',
+        '$baseurl/api/resource/Sales Invoice?order_by=modified desc&fields=["name","customer_name","due_date","grand_total","status","total_qty"]',
         options: Options(
           method: 'GET',
           headers: {'Authorization': await getTocken()},
@@ -76,7 +76,7 @@ class InvoiceListServices{
 
       // Construct the base URL
       String apiUrl =
-          '$baseurl/api/resource/Sales Invoice?order_by=creation desc&fields=["name","customer_name","due_date","grand_total","status","total_qty"]';
+          '$baseurl/api/resource/Sales Invoice?order_by=modified desc&fields=["name","customer_name","due_date","grand_total","status","total_qty"]';
 
       if(customerName.isNotEmpty && date.isNotEmpty){
         apiUrl += '&filters=[["customer_name", "=", "$customerName"],["due_date", "=", "$date"]]';

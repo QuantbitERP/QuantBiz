@@ -99,7 +99,7 @@ for(var i in notes){
       if (res) {
         if (context.mounted) {
           setBusy(false);
-          Navigator.pushReplacementNamed(context, Routes.leadListScreen);
+          Navigator.pop(context);
         
       }}
     }else{
@@ -108,7 +108,7 @@ for(var i in notes){
       if (res) {
         if (context.mounted) {
           setBusy(false);
-          Navigator.pushReplacementNamed(context, Routes.leadListScreen);
+          Navigator.pop(context);
         
       }}}
     }

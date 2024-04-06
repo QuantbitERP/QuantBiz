@@ -22,7 +22,7 @@ class ChangePasswordModel extends BaseViewModel{
         if (res) {
           if (context.mounted) {
             setBusy(false);
-            Navigator.pushReplacementNamed(context, Routes.profileScreen);
+            Navigator.pop(context);
           }}
     }
     setBusy(false);

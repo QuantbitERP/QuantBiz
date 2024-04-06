@@ -20,7 +20,7 @@ class AttendanceScreen extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           appBar: AppBar(title: const Text('Attendance'),
 
-            leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.homePage), icon: const Icon(Icons.arrow_back)),
+            leading: IconButton.outlined(onPressed: ()=> Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
 
             bottom:  PreferredSize(preferredSize: Size(20, 95), child:Container(
               padding: EdgeInsets.all(10),
@@ -121,7 +121,7 @@ class AttendanceScreen extends StatelessWidget {
                         weekendDays: const [DateTime.sunday],
                         startingDayOfWeek: StartingDayOfWeek.sunday,
                         headerStyle: HeaderStyle(
-              
+
                           // ... header style configuration ...
                           formatButtonVisible: true,
                           formatButtonDecoration: BoxDecoration(
@@ -160,7 +160,7 @@ class AttendanceScreen extends StatelessWidget {
                         calendarBuilders: CalendarBuilders(
                           markerBuilder: (context, date, events) {
                             final attendance = model.getAttendanceForDate(date); // You should have a method to get attendance for a specific date
-              
+
                             if (attendance != null) {
                               // Use different colors based on the status
                               Color markerColor = model.getColorForStatus(attendance.status ?? "");
@@ -215,7 +215,8 @@ class AttendanceScreen extends StatelessWidget {
                 // color:model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
                 child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: AutoSizeText("${model.getMonthName(model.selectedMonth ?? 0).toUpperCase()}  ${model.selectedYear}",  textAlign:
+                child: AutoSizeText("${model.getMonthName(model.selectedMonth ?? 0).toUpperCase()}  ${model.selectedYear}",
+                  textAlign:
                 TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
@@ -309,11 +310,15 @@ class AttendanceScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
                                   ),
-                                
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      AutoSizeText(DateFormat("EEEE dd").format(DateTime.parse(model.attendancelist[index].attendanceDate ?? "")),style: TextStyle(fontWeight: FontWeight.w500),),
+                                      Container( 
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.blueAccent,
+                                      ),child: AutoSizeText(DateFormat("EEEE dd").format(DateTime.parse(model.attendancelist[index].attendanceDate ?? "")),style: TextStyle(fontWeight: FontWeight.w500,color: Colors.white),)),
                                       SizedBox(height: 10,)
                                       ,Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

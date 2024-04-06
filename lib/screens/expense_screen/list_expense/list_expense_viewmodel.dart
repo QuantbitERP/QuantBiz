@@ -25,6 +25,10 @@ String? monthname;
     notifyListeners();
     setBusy(false);
   }
+Future<void> refresh() async {
+  _expenselist=await fetchHolidaysForCurrentYear();
+  notifyListeners();
+}
 
 IconData getIconForStatus(String status) {
   switch (status) {

@@ -50,6 +50,12 @@ class ListQuotationModel extends BaseViewModel {
     }
   }
 
+
+  Future<void> refresh() async {
+    filterquotationlist=await QuotationServices().fetchquotation();
+    notifyListeners();
+  }
+
   String? custm;
   String? quotationto;
 

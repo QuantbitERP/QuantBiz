@@ -121,14 +121,14 @@ class UpdateLeadServices{
       );
 
       if (response.statusCode == 200) {
-   Logger().i(response.data["data"].toString());
+   Logger().i(response.data["message"].toString());
         return true;
       } else {
         Fluttertoast.showToast(msg: "UNABLE TO change status!");
         return false;
       }
     } on DioException catch (e) {
-      Fluttertoast.showToast(gravity:ToastGravity.BOTTOM,msg: 'Error: ${e.response!.data["exception"].toString().split(":").elementAt(1).trim()} ',textColor:Color(0xFFFFFFFF),backgroundColor: Color(0xFFBA1A1A),);
+      Fluttertoast.showToast(gravity:ToastGravity.BOTTOM,msg: 'Error: ${e.response!.data["message"].toString()} ',textColor:Color(0xFFFFFFFF),backgroundColor: Color(0xFFBA1A1A),);
       Logger().e(e);
     }
     return false;

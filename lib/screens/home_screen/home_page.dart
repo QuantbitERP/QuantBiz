@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/router.router.dart';
 import 'package:geolocation/widgets/full_screen_loader.dart';
-import 'package:geolocation/widgets/text_button.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:logger/logger.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -15,13 +14,11 @@ import 'home_view_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                 title:  Text(model.dashboard.company!=null?model.dashboard.company.toString() :model.employeeData.company.toString(),style: const TextStyle(fontSize: 17),),
               ),
               drawer: myDrawer(context, (model.dashboard.empName!=null?model.dashboard.empName.toString() :model.employeeData.empName.toString()),
-                  (model.dashboard.company!=null?model.dashboard.company.toString() :model.employeeData.company.toString()), (model.dashboard.employeeImage!=null?model.dashboard.employeeImage.toString() :model.employeeData.employeeImage.toString())),
+                  (model.dashboard.email!=null?model.dashboard.email.toString() :model.employeeData.email.toString()), (model.dashboard.employeeImage!=null?model.dashboard.employeeImage.toString() :model.employeeData.employeeImage.toString())),
               body: WillPopScope(
                 onWillPop: showExitPopup,
                 child: fullScreenLoader(
@@ -133,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                                   onPressed: () {
                                     String logtype= model.dashboard.lastLogType=="IN" ? "OUT" :"IN";
                                     Logger().i(logtype);
-                                    model.employeeLog(logtype);
+                                    model.employeeLog(logtype,context);
                                   },
                                   style: OutlinedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
@@ -175,6 +172,10 @@ class _HomePageState extends State<HomePage> {
                                     controller: ScrollController(keepScrollOffset: true),
                                     shrinkWrap: true,
                                     children: [
+                                      if(model.isFormAvailableForDoctype("Customer"))
+                                        buildButton("Customer", 'assets/images/customer.png', () {
+                                          Navigator.pushNamed(context, Routes.customerList);
+                                        },model),
                                       if(model.isFormAvailableForDoctype("Lead"))
                                       buildButton("Lead", 'assets/images/recruitment.png', () {
                                         Navigator.pushNamed(context, Routes.leadListScreen);

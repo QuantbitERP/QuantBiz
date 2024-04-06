@@ -34,7 +34,7 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
               : const Text('Create Invoice'),
           leading: IconButton.outlined(
             onPressed: () {
-              Navigator.popAndPushNamed(context, Routes.listInvoiceScreen);
+              Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back),
           ),
@@ -187,7 +187,7 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
                    const SizedBox(
                     height: 5,
                   ),
-                  Text('Item List',style: TextStyle(fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  const Text('Item List',style: TextStyle(fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
                    const SizedBox(
                     height: 10,
                   ),
@@ -245,7 +245,7 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
                             model.deleteitem(index); // Delete the item from the model
                           },
                           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
                                         color: Colors.white,
@@ -269,11 +269,11 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
                     width: 70, // Set width to twice the radius for a complete circle
                     height: 70,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
                     errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/image.png', scale: 5)),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 // Product Details
                 Expanded(
                   child: Column(
@@ -281,14 +281,14 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
                     children: [
                       Text(
                        'ID: ${selectedItem.itemCode}(${selectedItem.itemName})',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                        AutoSizeText(
                                         'Rate: ${selectedItem.rate.toString()}',
                                         style: const TextStyle(
@@ -308,7 +308,7 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Quantity"),
+                    const Text("Quantity"),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -347,7 +347,7 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
             ),
           ),
         );
-      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10,); },
+      }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 10,); },
     ),
                   const SizedBox(
                     height: 8,
@@ -356,52 +356,86 @@ class _AddInvoiceScreenState extends State<AddInvoiceScreen> {
                   const SizedBox(
                     height: 25,
                   ),
-                  // if(model.invoiceData.docstatus != 1)
+                invoiceStatus==2?Container():
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                    
-                          CtextButton(
-                        text: 'Cancel',
-                        onPressed: () => Navigator.pop(context,const MaterialRoute(page: ListInvoiceScreen)), buttonColor: Colors.red.shade400,
-                      ),
+                          Expanded(
+                            child: CtextButton(
+                                                    text: 'Cancel',
+                                                    onPressed:(){if(invoiceStatus==1){
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Are you want to cancel?"),
+                                  content: const Text("Permanently Cancelled quotation?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false); // Return false when cancel is pressed
+                                      },
+                                      child: const Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                        model.onCancelPressed(context); // Return true when confirm is pressed
+                                      },
+                                      child: const Text("Confirm"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                                                    }else{
+                            Navigator.of(context).pop();}}, buttonColor: Colors.red.shade400,
+                                                  ),
+                          ),
+                        const SizedBox(width: 20,),
+                        invoiceStatus==0||model.invoiceData.docstatus==null?
                       model.isSame==false ?
-                        CtextButton(
-                        text:  model.isEdit
-                                        ? 'Update Invoice'
-                                        : 'Create Invoice',
-                        onPressed: () =>  model.onSavePressed(context), buttonColor: Colors.blueAccent.shade400,
-                      )
+                        Expanded(
+                          child: CtextButton(
+                          text:  model.isEdit
+                                          ? 'Update Invoice'
+                                          : 'Create Invoice',
+                          onPressed: () =>  model.onSavePressed(context), buttonColor: Colors.blueAccent.shade400,
+                                                ),
+                        )
                      :
-                      CtextButton(
-                        text: 'Submit Invoice',
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Confirm"),
-                                content: Text("Permanently Submit invoice?"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop(false); // Return false when cancel is pressed
-                                    },
-                                    child: Text("Cancel"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      model.onSubmitPressed(context); // Return true when confirm is pressed
-                                    },
-                                    child: Text("Confirm"),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        buttonColor: Colors.blueAccent.shade400,
-                      )
+                      Expanded(
+                        child: CtextButton(
+                          text: 'Submit Invoice',
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Confirm Submit?"),
+                                  content: const Text("Permanently Submit invoice?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false); // Return false when cancel is pressed
+                                      },
+                                      child: const Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                        model.onSubmitPressed(context); // Return true when confirm is pressed
+                                      },
+                                      child: const Text("Confirm"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          buttonColor: Colors.blueAccent.shade400,
+                        ),
+                      ):Container()
 
                       ],
                     )

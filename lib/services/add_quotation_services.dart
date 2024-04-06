@@ -149,6 +149,7 @@ class AddQuotationServices {
       );
 
       if (response.statusCode == 200) {
+        quotationStatus=response.data["data"]["docstatus"];
         Fluttertoast.showToast(msg: "Quotation Submitted successfully");
         return true;
       } else {
@@ -161,6 +162,36 @@ class AddQuotationServices {
        return false;
     }
    
+  }
+  Future<bool> cancelOrder(AddQuotation quotationdetails) async {
+    baseurl =  await geturl();
+
+    Logger().i(quotationdetails.toString());
+    try {
+      var dio = Dio();
+      var response = await dio.request(
+        '$baseurl/api/resource/Quotation/${quotationdetails.name.toString()}',
+        options: Options(
+          method: 'PUT',
+          headers: {'Authorization': await getTocken()},
+        ),
+        data: quotationdetails.toJson(),
+      );
+
+      if (response.statusCode == 200) {
+        quotationStatus=response.data["data"]["docstatus"];
+        Fluttertoast.showToast(msg: "Quotation Cancelled successfully");
+        return true;
+      } else {
+        Fluttertoast.showToast(msg: "UNABLE TO update Order!");
+        return false;
+      }
+    } on DioException catch (e) {
+      Fluttertoast.showToast(gravity:ToastGravity.BOTTOM,msg: 'Error: ${e.response!.data["exception"].toString().split(":").elementAt(1).trim()} ',textColor:const Color(0xFFFFFFFF),backgroundColor: const Color(0xFFBA1A1A),);
+      Logger().e(e);
+      return false;
+    }
+
   }
 
   Future<String> addOrder(AddQuotation quotationdetails) async {
@@ -181,7 +212,8 @@ class AddQuotationServices {
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: response.data['message'].toString());
         Logger().i(response.data);
-        return response.data["data"].toString();
+        quotationStatus=response.data["data"]["docstatus"];
+        return response.data["data"]["name"].toString();
       } else {
         Fluttertoast.showToast(msg: "UNABLE TO Order!");
         return "";

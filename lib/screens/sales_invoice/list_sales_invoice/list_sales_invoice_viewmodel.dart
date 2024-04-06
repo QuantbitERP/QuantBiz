@@ -44,7 +44,7 @@ class ListInvoiceModel extends BaseViewModel {
   }
 
 Future<void> refresh() async {
-  invoiceList= await InvoiceListServices().fetchSaleInvoice();
+  filterInvoiceList= await InvoiceListServices().fetchSaleInvoice();
   notifyListeners();
 }
 
@@ -70,7 +70,9 @@ Future<void> refresh() async {
         return Colors.red; // Set the color for To Deliver status
        // Set the color for Completed status
       case 'Overdue and Discounted':
-        return Colors.red; // Set the color for Cancelled status
+        return Colors.red;
+      case 'Cancelled':
+        return Colors.red;  // Set the color for Cancelled status
 // Set the color for Closed status
       default:
         return Colors.grey; // Set a default color for unknown status

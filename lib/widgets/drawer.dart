@@ -26,9 +26,9 @@ Widget myDrawer(BuildContext context, String name, String email, String image) {
               ),
               accountEmail: AutoSizeText(
                 email,
-                maxLines: 1,
+                maxLines: 2,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 15,
                   color: Colors.white, // Adjust text color
                 ),
               ),

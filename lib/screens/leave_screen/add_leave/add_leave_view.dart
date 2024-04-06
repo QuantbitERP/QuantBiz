@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:geolocation/widgets/drop_down.dart';
 import 'package:geolocation/widgets/full_screen_loader.dart';
 import 'package:geolocation/widgets/text_button.dart';
@@ -24,7 +26,7 @@ class _AddLeaveScreenState extends State<AddLeaveScreen> {
         builder: (context, model, child)=>Scaffold(
 
           appBar:AppBar(title:  const Text('Create Leave',style: TextStyle(fontSize: 18),),
-            leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.listLeaveScreen), icon: const Icon(Icons.arrow_back)),actions: [
+            leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),actions: [
                IconButton.outlined(onPressed: ()=>model.onSavePressed(context), icon: const Icon(Icons.check))
             ],),
           body: fullScreenLoader(
@@ -176,8 +178,9 @@ CustomDropdownButton2(items:model.leavetype, hintText: 'select the leave type', 
                       const SizedBox(height: 25,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [CtextButton(onPressed: () => Navigator.of(context).pop(), text: 'Cancel', buttonColor: Colors.redAccent.shade400,),
-                          CtextButton(onPressed: ()=> model.onSavePressed(context), text:'Create Leave', buttonColor: Colors.blueAccent.shade400,)
+                        children: [Expanded(child: CtextButton(onPressed: () => Navigator.of(context).pop(), text: 'Cancel', buttonColor: Colors.redAccent.shade400,)),
+                          SizedBox(width: 20),
+                          Expanded(child: CtextButton(onPressed: ()=> model.onSavePressed(context), text:'Create Leave', buttonColor: Colors.blueAccent.shade400,))
               ]
                       )
                     ],

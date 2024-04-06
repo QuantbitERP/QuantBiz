@@ -35,7 +35,7 @@ class ListOrderScreen extends StatelessWidget {
               ),
               body: WillPopScope(
                 onWillPop: ()  async{
-                  Navigator.popAndPushNamed(context,Routes.homePage);
+                  Navigator.pop(context);
                   return true; },
                 child: fullScreenLoader(
                   child: Padding(
@@ -223,7 +223,7 @@ class ListOrderScreen extends StatelessWidget {
               ),
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, Routes.addOrderScreen,
+                  Navigator.pushNamed(context, Routes.addOrderScreen,
                       arguments: const AddOrderScreenArguments(orderid: ""));
                 },
                 label: const Text('Create Order'),

@@ -61,8 +61,8 @@ class _SplashScreenState extends State<SplashScreen> {
           decoration: const BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-                fit: BoxFit.fitWidth,
-                image: AssetImage('assets/images/splash.jpg')),
+                fit: BoxFit.cover,
+                image: AssetImage('assets/images/splash.png')),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'QuantBiz',
+                      '',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

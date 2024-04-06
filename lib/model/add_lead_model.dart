@@ -30,6 +30,7 @@ class AddLeadModel {
   String? qualificationStatus;
   String? company;
   String? language;
+  String? customCallStatus;
   String? image;
   String? title;
   int? disabled;
@@ -72,6 +73,7 @@ class AddLeadModel {
       this.language,
       this.image,
       this.title,
+        this.customCallStatus,
       this.disabled,
       this.unsubscribed,
       this.blogSubscriber,
@@ -110,6 +112,7 @@ class AddLeadModel {
     qualificationStatus = json['qualification_status'];
     company = json['company'];
     language = json['language'];
+    customCallStatus=json['custom_call_status'];
     image = json['image'];
     title = json['title'];
     disabled = json['disabled'];
@@ -159,6 +162,7 @@ class AddLeadModel {
     data['language'] = language;
     data['image'] = image;
     data['title'] = title;
+    data['custom_call_status']=customCallStatus;
     data['disabled'] = disabled;
     data['unsubscribed'] = unsubscribed;
     data['blog_subscriber'] = blogSubscriber;

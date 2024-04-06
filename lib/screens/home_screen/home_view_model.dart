@@ -67,8 +67,8 @@ class HomeViewModel extends BaseViewModel {
     availableDoctypes = await _fetchAvailableDoctypes();
     Logger().i(_loadCachedData().toJson());
     Logger().i(availableDoctypes.length);
-    if (_loadCachedData().company == null && availableDoctypes.isEmpty) {
-
+    if (_loadCachedData().company == null) {
+      await _fetchAvailableDoctypes();
       await fetchDashboard();
     }
     if (_cachedDashboard.empName == null) {
@@ -115,7 +115,7 @@ class HomeViewModel extends BaseViewModel {
     }
   }
 
-  void employeeLog(String logtype) async {
+  void employeeLog(String logtype,BuildContext context) async {
     setBusy(true);
     GeolocationService geolocationService = GeolocationService();
     try {
@@ -125,7 +125,8 @@ class HomeViewModel extends BaseViewModel {
         bool res = await HomeServices().employeeCheckin(logtype, location);
         Logger().i(res);
         if (res) {
-          dashboard = await HomeServices().dashboard() ?? DashBoard();
+          await fetchDashboard();
+          await initialize(context);
          setBusy(false);
         }
       } else {

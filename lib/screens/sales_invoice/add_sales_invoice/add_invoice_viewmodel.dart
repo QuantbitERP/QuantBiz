@@ -3,12 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocation/model/order_details_model.dart';
 import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
+import '../../../constants.dart';
 import '../../../model/add_invoice_model.dart';
 import '../../../router.router.dart';
 import '../../../services/add_invoice_services.dart';
 import 'package:intl/intl.dart';
 
 class AddInvoiceViewModel extends BaseViewModel {
+
   final formKey = GlobalKey<FormState>();
   DateTime? selectedtransactionDate;
   DateTime? selecteddeliveryDate;
@@ -36,6 +38,7 @@ class AddInvoiceViewModel extends BaseViewModel {
     searchcutomer = await AddInvoiceServices().fetchcustomer();
     warehouse = await AddInvoiceServices().fetchwarehouse();
     orderId = orderid;
+    invoiceStatus=0;
     //setting aleardy available data
     if (orderId != "") {
       invoiceData.items?.clear();
@@ -44,20 +47,22 @@ class AddInvoiceViewModel extends BaseViewModel {
       if(invoiceData==invoiceData){
         isSame=true;
       }
+      invoiceStatus=invoiceData.docstatus;
       updateStock=invoiceData.updateStock ==1 ?true :false;
       customercontroller.text = invoiceData.customer ?? "";
       deliverydatecontroller.text = invoiceData.dueDate ?? "";
       selectedItems.addAll(invoiceData.items?.toList() ?? []);
-      updateTextFieldValue();
+
       Logger().i(invoiceData.toJson());
     }
-
+    updateTextFieldValue();
     notifyListeners();
     setBusy(false);
   }
 
   void onSavePressed(BuildContext context) async {
-  if (invoiceData.docstatus == 1) {
+    Logger().i(invoiceStatus);
+  if (invoiceStatus == 1) {
     Fluttertoast.showToast(
       msg: 'You cannot edit the Submitted document',
       backgroundColor: Colors.redAccent,
@@ -78,7 +83,7 @@ class AddInvoiceViewModel extends BaseViewModel {
   }
 
   void handleEdit(BuildContext context) async {
-    name = await AddInvoiceServices().addOrder(invoiceData);
+    name = await AddInvoiceServices().addInvoice(invoiceData);
 
     if (name.isNotEmpty) {
       isSame = true;
@@ -87,7 +92,7 @@ class AddInvoiceViewModel extends BaseViewModel {
   }
 
   void handleNonEdit(BuildContext context) async {
-    name = await AddInvoiceServices().addOrder(invoiceData);
+    name = await AddInvoiceServices().addInvoice(invoiceData);
 
     if (name.isNotEmpty) {
       initialise(context, name);
@@ -97,7 +102,8 @@ class AddInvoiceViewModel extends BaseViewModel {
 
 
   void onSubmitPressed(BuildContext context) async {
-      if (invoiceData.docstatus == 1) {
+    Logger().i(invoiceStatus);
+      if (invoiceStatus == 1) {
     Fluttertoast.showToast(
       msg: 'You cannot submit the Submitted document',
       backgroundColor: Colors.redAccent,
@@ -117,7 +123,27 @@ class AddInvoiceViewModel extends BaseViewModel {
         if (context.mounted) {
           setBusy(false);
           setBusy(false);
-          Navigator.pushReplacementNamed(context, Routes.listInvoiceScreen);
+          Navigator.pop(context);
+        }
+      }
+
+    }
+    setBusy(false);
+  }
+
+  void onCancelPressed(BuildContext context) async {
+    setBusy(true);
+    if (formKey.currentState!.validate()) {
+      invoiceData.items = selectedItems;
+      invoiceData.docstatus=2;
+      bool res=false;
+      Logger().i(invoiceData.toJson());
+
+      res = await AddInvoiceServices().cancelInvoice(invoiceData);
+      if (res) {
+        if (context.mounted) {
+          setBusy(false);
+          Navigator.pop(context);
         }
       }
 
@@ -144,9 +170,11 @@ class AddInvoiceViewModel extends BaseViewModel {
 
     if (picked != null && picked != selecteddeliveryDate) {
       selecteddeliveryDate = picked;
+      isSame=false;
       deliverydatecontroller.text = DateFormat('yyyy-MM-dd').format(picked);
       invoiceData.dueDate = deliverydatecontroller.text;
     }
+    notifyListeners();
   }
 
   ///setvalues//

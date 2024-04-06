@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/screens/sales_order/list_sales_order/list_sales_order_screen.dart';
 import 'package:geolocation/widgets/full_screen_loader.dart';
@@ -35,7 +36,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
               : const Text('Create Order'),
           leading: IconButton.outlined(
             onPressed: () {
-              Navigator.popAndPushNamed(context, Routes.listOrderScreen);
+              Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back),
           ),
@@ -366,52 +367,86 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                   const SizedBox(
                     height: 25,
                   ),
-                 
+                 model.orderdata.docstatus==2?Container():
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                    
-                          CtextButton(
-                        text: 'Cancel',
-                        onPressed: () => Navigator.pop(context,const MaterialRoute(page: ListOrderScreen)), buttonColor: Colors.red.shade400,
-                      ),
-                      model.isSame==false ?
-                        CtextButton(
-                        text:  model.isEdit
-                                        ? 'Update Order'
-                                        : 'Create Order',
-                        onPressed: () =>  model.onSavePressed(context), buttonColor: Colors.blueAccent.shade400,
-                      )
-                     :
-                      CtextButton(
-                        text: 'Submit Order',
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Confirm"),
-                                content: Text("Permanently Submit order?"),
+                          Expanded(
+                            child: CtextButton(text: 'Cancel',
+                                                    onPressed: (){if(model.orderdata.docstatus==1){
+                                showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                return AlertDialog(
+                                title: Text("Are you want to cancel?"),
+                                content: Text("Permanently Cancelled Order?"),
                                 actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop(false); // Return false when cancel is pressed
-                                    },
-                                    child: Text("Cancel"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      model.onSubmitPressed(context); // Return true when confirm is pressed
-                                    },
-                                    child: Text("Confirm"),
-                                  ),
+                                TextButton(
+                                onPressed: () {
+                                Navigator.of(context).pop(false); // Return false when cancel is pressed
+                                },
+                                child: Text("Cancel"),
+                                ),
+                                TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                model.onCancelPressed(context); // Return true when confirm is pressed
+                                },
+                                child: Text("Confirm"),
+                                ),
                                 ],
-                              );
-                            },
-                          );
-                        },
-                        buttonColor: Colors.blueAccent.shade400,
-                      )
+                                );
+                                },
+                                );
+                                }else{
+                                Navigator.of(context).pop();}}, buttonColor: Colors.red.shade400,
+                                                  ),
+                          ),
+                        SizedBox(width: 20,),
+                        model.orderdata.docstatus==0||model.orderdata.docstatus==null?
+                      model.isSame==false ?
+                        Expanded(
+                          child: CtextButton(
+                          text:  model.isEdit
+                                          ? 'Update Order'
+                                          : 'Create Order',
+                          onPressed: () =>  model.onSavePressed(context), buttonColor: Colors.blueAccent.shade400,
+                                                ),
+                        )
+                     :
+                      Expanded(
+                        child: CtextButton(
+                          text: 'Submit Order',
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Confirm Submit?"),
+                                  content: Text("Permanently Submit order?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false); // Return false when cancel is pressed
+                                      },
+                                      child: Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                        model.onSubmitPressed(context);
+                                        // Return true when confirm is pressed
+                                      },
+                                      child: Text("Confirm"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          buttonColor: Colors.blueAccent.shade400,
+                        ),
+                      ):Container()
 
                       ],
                     )

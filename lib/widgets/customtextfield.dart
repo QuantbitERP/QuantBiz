@@ -11,6 +11,7 @@ class CustomSmallTextFormField extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextInputType? keyboardtype;
   final int? length;
+  final bool? readOnly;
    final int? linelength;
 
   const CustomSmallTextFormField({
@@ -19,13 +20,14 @@ class CustomSmallTextFormField extends StatelessWidget {
     required this.hintText,
     this.prefixIcon,
     this.validator,
+    this.readOnly,
     this.onChanged,this.keyboardtype,  this.length, this.linelength, this.suffixicon,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
+readOnly: readOnly ?? false,
   maxLines: linelength,
       controller: controller,
       onChanged: onChanged,

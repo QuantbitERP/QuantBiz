@@ -19,7 +19,7 @@ class ExpenseScreen extends StatelessWidget {
         builder: (context, model, child)=> Scaffold(
           backgroundColor: Colors.grey.shade200,
           appBar: AppBar(title: const Text('My Expenses'),
-            leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.homePage), icon: const Icon(Icons.arrow_back)),
+            leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
             bottom:  PreferredSize(preferredSize: const Size(20, 75), child:Container(
               padding: const EdgeInsets.all(8),
               color: Colors.white,
@@ -98,197 +98,200 @@ class ExpenseScreen extends StatelessWidget {
           ),
           body: WillPopScope(
             onWillPop: ()  async{
-                  Navigator.popAndPushNamed(context,Routes.homePage);
+              Navigator.pop(context);
                   return true; },
             child: fullScreenLoader(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            // spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: const Row(
-            
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.drafts,color: Colors.grey,)
-                          ,AutoSizeText('Draft'),
-                          Icon(Icons.check_circle,color: Colors.green,)
-                          ,AutoSizeText('Approved'),
-                          Icon(Icons.close,color: Colors.red,)
-                          ,AutoSizeText('Rejected')
-                        ],
-                      ),
-                    ),
-                const SizedBox(height: 10,),
-                model.expenselist.isNotEmpty
-                ? Expanded(
-                child: ListView.separated(
-                    itemBuilder: (builder, index) {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      // spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: ExpansionTile(
-                tilePadding: const EdgeInsets.all(8),
-                title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card(
-                    color: Colors.blue,
-                    shape:
-                    RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(
-                          20.0),
-                       // Set border color and width
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: AutoSizeText("${model.expenselist[index].expenseType.toString()} Expense",  textAlign:
-                      TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight:
-                          FontWeight.w500,
-                        ),),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: RefreshIndicator(
+                onRefresh: ()=>model.refresh(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AutoSizeText("Date:- ${model.expenselist[index].postingDate?.toString() ?? ""}", style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
-                      AutoSizeText("Amount:- ${model.expenselist[index].totalClaimedAmount?.toString() ?? "0.0"}", style: const TextStyle(fontSize: 15, color: Colors.green,fontWeight: FontWeight.w700)),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              // spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: const Row(
+
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(Icons.drafts,color: Colors.grey,)
+                            ,AutoSizeText('Draft'),
+                            Icon(Icons.check_circle,color: Colors.green,)
+                            ,AutoSizeText('Approved'),
+                            Icon(Icons.close,color: Colors.red,)
+                            ,AutoSizeText('Rejected')
+                          ],
+                        ),
+                      ),
+                  const SizedBox(height: 10,),
+                  model.expenselist.isNotEmpty
+                  ? Expanded(
+                  child: ListView.separated(
+                      itemBuilder: (builder, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        // spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3),
+                      ),
                     ],
                   ),
-            CircleAvatar(radius: 15,backgroundColor:model.getColorForStatus(model.expenselist[index].approvalStatus ?? ""),child: Icon(model.getIconForStatus(model.expenselist[index].approvalStatus ?? ""),color: Colors.white,))
-                ],
-                ),
-                children: [
-                Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                const AutoSizeText("Sanction Amount :-", style: TextStyle(fontSize: 15)),
-                AutoSizeText(model.expenselist[index].totalSanctionedAmount?.toString() ?? "0.0", style: const TextStyle(fontSize: 15, color: Colors.green,fontWeight: FontWeight.w700)),
-                ],
-                ),
-                Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                const AutoSizeText("Claimed Amount :-", style: TextStyle(fontSize: 15)),
-                AutoSizeText(model.expenselist[index].totalClaimedAmount?.toString() ?? "0.0", style: const TextStyle(fontSize: 15, color: Colors.green,fontWeight: FontWeight.w700)),
-                ],
-                ),
-                ],
-                ),
-                const SizedBox(height: 10),
-                Row(
+                  child: ExpansionTile(
+                  tilePadding: const EdgeInsets.all(8),
+                  title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            
                   children: [
-                    _buildSubtitle("posting Date :- ${model.expenselist[index].expenseDate ?? ""}"),
-                    Card(color: model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
+                    Card(
+                      color: Colors.blue,
                       shape:
                       RoundedRectangleBorder(
                         borderRadius:
                         BorderRadius.circular(
-                            15.0),
-                        // Set border color and width
+                            20.0),
+                         // Set border color and width
                       ),
-                      // color:model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: AutoSizeText(model.expenselist[index].approvalStatus ?? "",  textAlign:
+                        child: AutoSizeText("${model.expenselist[index].expenseType.toString()} Expense",  textAlign:
                         TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight:
-                            FontWeight.bold,
+                            FontWeight.w500,
                           ),),
                       ),
-                    )
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText("Date:- ${model.expenselist[index].postingDate?.toString() ?? ""}", style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
+                        AutoSizeText("Amount:- ${model.expenselist[index].totalClaimedAmount?.toString() ?? "0.0"}", style: const TextStyle(fontSize: 15, color: Colors.green,fontWeight: FontWeight.w700)),
+                      ],
+                    ),
+                            CircleAvatar(radius: 15,backgroundColor:model.getColorForStatus(model.expenselist[index].approvalStatus ?? ""),child: Icon(model.getIconForStatus(model.expenselist[index].approvalStatus ?? ""),color: Colors.white,))
                   ],
-                ),
-                const SizedBox(height: 10),
-                _buildSubtitle("Description :- ${model.expenselist[index].expenseDescription ?? ""}"),
-            if (model.expenselist[index].attachments?.isNotEmpty == true)
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => ViewImageInternet(
-                          url: model.expenselist[index].attachments![0].fileUrl ?? "",
+                  ),
+                  children: [
+                  Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  const AutoSizeText("Sanction Amount :-", style: TextStyle(fontSize: 15)),
+                  AutoSizeText(model.expenselist[index].totalSanctionedAmount?.toString() ?? "0.0", style: const TextStyle(fontSize: 15, color: Colors.green,fontWeight: FontWeight.w700)),
+                  ],
+                  ),
+                  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  const AutoSizeText("Claimed Amount :-", style: TextStyle(fontSize: 15)),
+                  AutoSizeText(model.expenselist[index].totalClaimedAmount?.toString() ?? "0.0", style: const TextStyle(fontSize: 15, color: Colors.green,fontWeight: FontWeight.w700)),
+                  ],
+                  ),
+                  ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    children: [
+                      _buildSubtitle("posting Date :- ${model.expenselist[index].expenseDate ?? ""}"),
+                      Card(color: model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
+                        shape:
+                        RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.circular(
+                              15.0),
+                          // Set border color and width
                         ),
-                      ),
+                        // color:model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: AutoSizeText(model.expenselist[index].approvalStatus ?? "",  textAlign:
+                          TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight:
+                              FontWeight.bold,
+                            ),),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  _buildSubtitle("Description :- ${model.expenselist[index].expenseDescription ?? ""}"),
+                            if (model.expenselist[index].attachments?.isNotEmpty == true)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => ViewImageInternet(
+                            url: model.expenselist[index].attachments![0].fileUrl ?? "",
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text("Image: ${model.expenselist[index].attachments![0].fileUrl?.split("/").last ?? ""}"),
+                  )
+
+                        ],
+                  ),
+                  ),
+                  ],
+                  ),
+                );
+                },
+                  separatorBuilder: (context, builder) {
+                    return const Divider(
+                      thickness: 1,
                     );
                   },
-                  child: Text("Image: ${model.expenselist[index].attachments![0].fileUrl?.split("/").last ?? ""}"),
-                )
-            
-                      ],
+                  itemCount: model.expenselist.length,
                 ),
-                ),
-                ],
-                ),
-              );
-              },
-                separatorBuilder: (context, builder) {
-                  return const Divider(
-                    thickness: 1,
-                  );
-                },
-                itemCount: model.expenselist.length,
-              ),
-            )
-                  : Container(
-                    decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3),
-                    ),
+                            )
+                    : Container(
+                      decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  height: 100,
+                  child: const Center(child: Text('No attendance found for this year and month')),
+                  )
+
                   ],
-                ),
-                height: 100,
-                child: const Center(child: Text('No attendance found for this year and month')),
-                )
-            
-                ],
+                  ),
                 ),
               ),
               loader: model.isBusy,

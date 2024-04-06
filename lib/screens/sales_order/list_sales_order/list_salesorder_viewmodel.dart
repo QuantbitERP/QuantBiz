@@ -45,7 +45,7 @@ class ListOrderModel extends BaseViewModel {
   }
 
 Future<void> refresh() async {
-  orderlist= await OrderServices().fetchsalesorder();
+  filterorderlist= await OrderServices().fetchsalesorder();
   notifyListeners();
 }
 

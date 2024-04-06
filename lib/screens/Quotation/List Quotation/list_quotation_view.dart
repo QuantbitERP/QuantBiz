@@ -28,10 +28,10 @@ class ListQuotationScreen extends StatelessWidget {
                 },
               ),
             ],
-            leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.homePage), icon: const Icon(Icons.arrow_back)),),
+            leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),),
           body: WillPopScope(
             onWillPop: ()  async{
-                  Navigator.popAndPushNamed(context,Routes.homePage);
+              Navigator.pop(context);
                   return true; },
             child: fullScreenLoader(
               child: Padding(
@@ -40,180 +40,182 @@ class ListQuotationScreen extends StatelessWidget {
                   children: [
                     model.filterquotationlist.isNotEmpty
                         ? Expanded(
-                      child: ListView.separated(
-                          itemBuilder: (builder, index) {
-                            return  Container(
-                                          decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5), // Customize the shadow color and opacity
-                                            // spreadRadius: 5,
-                                             blurRadius: 7,
-                                            // offset: const Offset(0, 3), // Customize the shadow offset
-                                          ),
-                                        ],
-                                      ),
-                              child: MaterialButton(
-                                onPressed: () => model.onRowClick(
-                                     context, model.filterquotationlist[index]),
-            
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.stretch,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              Text(
-                                                model.filterquotationlist[index]
-                                                    .name ??
-                                                    "",
-                                                style: const TextStyle(
-                                                  fontSize: 14.0,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text(
-                                                model.filterquotationlist[index]
-                                                    .transactionDate ??
-                                                    "",
-                                                style: const TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Card(
-                                            shape:
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  20.0),
-                                              // Set border color and width
+                      child: RefreshIndicator(
+                        onRefresh: ()=>model.refresh(),
+                        child: ListView.separated(
+                            itemBuilder: (builder, index) {
+                              return  Container(
+                                            decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.5), // Customize the shadow color and opacity
+                                              // spreadRadius: 5,
+                                               blurRadius: 7,
+                                              // offset: const Offset(0, 3), // Customize the shadow offset
                                             ),
-                                            color: model
-                                                .getColorForStatus(model
-                                                .filterquotationlist[
-                                            index]
-                                                .status ??
-                                                ""),
-                                            // Make the inside of the card hollow
-                                            child: Padding(
-                                              padding:
-                                              const EdgeInsets.all(
-                                                  10.0),
-                                              child: AutoSizeText(
-                                                model.filterquotationlist[index]
-                                                    .status ??
-                                                    "",
-                                                textAlign:
-                                                TextAlign.center,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight:
-                                                  FontWeight.bold,
+                                          ],
+                                        ),
+                                child: MaterialButton(
+                                  onPressed: () => model.onRowClick(
+                                       context, model.filterquotationlist[index]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                Text(
+                                                  model.filterquotationlist[index]
+                                                      .name ??
+                                                      "",
+                                                  style: const TextStyle(
+                                                    fontSize: 14.0,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  model.filterquotationlist[index]
+                                                      .transactionDate ??
+                                                      "",
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Card(
+                                              shape:
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    20.0),
+                                                // Set border color and width
+                                              ),
+                                              color: model
+                                                  .getColorForStatus(model
+                                                  .filterquotationlist[
+                                              index]
+                                                  .status ??
+                                                  ""),
+                                              // Make the inside of the card hollow
+                                              child: Padding(
+                                                padding:
+                                                const EdgeInsets.all(
+                                                    10.0),
+                                                child: AutoSizeText(
+                                                  model.filterquotationlist[index]
+                                                      .status ??
+                                                      "",
+                                                  textAlign:
+                                                  TextAlign.center,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 15.0),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              const Text(
-                                                'Customer name',
-                                                style: TextStyle(
-                                                  fontWeight:
-                                                  FontWeight.bold,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 15.0),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                const Text(
+                                                  'Customer name',
+                                                  style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                model.filterquotationlist[index]
-                                                    .customerName ??
-                                                    "",
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              const Text(
-                                                'Items',
-                                                style: TextStyle(
-                                                  fontWeight:
-                                                  FontWeight.bold,
+                                                Text(
+                                                  model.filterquotationlist[index]
+                                                      .customerName ??
+                                                      "",
                                                 ),
-                                              ),
-                                              Text(
-                                                model.filterquotationlist[index]
-                                                    .totalQty
-                                                    ?.toString() ??
-                                                    "0.0",
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              const Text(
-                                                "Amount",
-                                                style: TextStyle(
-                                                  fontWeight:
-                                                  FontWeight.bold,
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                const Text(
+                                                  'Items',
+                                                  style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                '${model.filterquotationlist[index].grandTotal?.toString() ?? "0.0"}',
-                                                style: const TextStyle(
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                  color: Colors
-                                                      .green, // You can change the color
+                                                Text(
+                                                  model.filterquotationlist[index]
+                                                      .totalQty
+                                                      ?.toString() ??
+                                                      "0.0",
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                const Text(
+                                                  "Amount",
+                                                  style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${model.filterquotationlist[index].grandTotal?.toString() ?? "0.0"}',
+                                                  style: const TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                    color: Colors
+                                                        .green, // You can change the color
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, builder) {
-                            return const SizedBox(
-                              height: 10,
-                            );
-                          },
-                          itemCount: model.filterquotationlist.length),
+                              );
+                            },
+                            separatorBuilder: (context, builder) {
+                              return const SizedBox(
+                                height: 10,
+                              );
+                            },
+                            itemCount: model.filterquotationlist.length),
+                      ),
                     )
                         : Center(
                       child: Container(
@@ -230,7 +232,7 @@ class ListQuotationScreen extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, Routes.addQuotationView, arguments: const AddQuotationViewArguments(quotationid: "")
+              Navigator.pushNamed(context, Routes.addQuotationView, arguments: const AddQuotationViewArguments(quotationid: "")
                  );
             },
           label: const Text('Create Quote'),

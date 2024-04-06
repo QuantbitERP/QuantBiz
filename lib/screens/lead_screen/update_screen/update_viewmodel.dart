@@ -13,15 +13,14 @@ class UpdateLeadModel extends BaseViewModel{
   final CallsAndMessagesService service = CallsAndMessagesService();
 String? note;
 TextEditingController controller=TextEditingController();
-List<String> status=["Lead",
-"Open",
-"Replied",
-"Opportunity",
-"Quotation",
-"Lost Quotation",
-"Interested",
-"Converted",
-"Do Not Contact"];
+List<String> status=["Not Interested",
+  "Call Back",
+  "Converted For Demo",
+  "Details Shared",
+  "Ringing",
+  "Call Back",
+  "Busy",
+  "Switch Off"];
 
   AddLeadModel leaddata =AddLeadModel();
 bool res=false;
@@ -84,7 +83,7 @@ notifyListeners();
 void changestatus(String? lead,String? type)async{
   if(lead!.isNotEmpty && type!.isNotEmpty){
   await UpdateLeadServices().changestatus(lead,type);
-  leaddata.status=type;}
+  leaddata.customCallStatus=type;}
   notifyListeners();
 }
 }

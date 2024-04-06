@@ -39,7 +39,7 @@ bool isSwitched=false;
         if (res) {
           if (context.mounted) {
             setBusy(false);
-            Navigator.pushReplacementNamed(context, Routes.listLeaveScreen);
+            Navigator.pop(context);
           }}
     }
     setBusy(false);
@@ -152,6 +152,7 @@ bool isSwitched=false;
     }
     return null;
   }
+
   String? validatedescription(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please Enter description';

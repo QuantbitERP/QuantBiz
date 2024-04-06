@@ -27,7 +27,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             style: TextStyle(fontSize: 18, ),
           ),
           leading: IconButton.outlined(
-            onPressed: () => Navigator.popAndPushNamed(context, Routes.profileScreen),
+            onPressed: () =>  Navigator.pop(context),
             icon:  const Icon(Icons.arrow_back, ),
           ),
         ),

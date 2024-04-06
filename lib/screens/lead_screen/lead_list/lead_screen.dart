@@ -32,10 +32,10 @@ appBar: AppBar(title: const Text('Lead'),
       },
     ),
   ],
-leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.homePage), icon: const Icon(Icons.arrow_back)),),
+leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),),
 body: WillPopScope(
   onWillPop: ()  async{
-                  Navigator.popAndPushNamed(context,Routes.homePage);
+    Navigator.pop(context);
                   return true; },
   child: fullScreenLoader(
                   child: Padding(

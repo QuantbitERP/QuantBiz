@@ -25,7 +25,7 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
       builder: (context, model, child)=>Scaffold(
        
       appBar:AppBar(title:  Text(model.isEdit ?model.leaddata.name.toString() :'Create Lead',style: const TextStyle(fontSize: 18),),
-leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, Routes.leadListScreen), icon: const Icon(Icons.arrow_back)),actions: [
+leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),actions: [
   IconButton.outlined(onPressed: ()=>model.onSavePressed(context), icon: const Icon(Icons.check))
 ],),
     body: fullScreenLoader(
@@ -80,8 +80,8 @@ leading: IconButton.outlined(onPressed: ()=>Navigator.popAndPushNamed(context, R
                           const SizedBox(height: 25,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [CtextButton(onPressed: () => Navigator.of(context).pop(), text: 'Cancel', buttonColor: Colors.red.shade500,),
-                            CtextButton(onPressed: ()=> model.onSavePressed(context), text:model.isEdit?'Update Lead' : 'Create Lead', buttonColor: Colors.blueAccent.shade400,)],
+                            children: [Expanded(child: CtextButton(onPressed: () => Navigator.of(context).pop(), text: 'Cancel', buttonColor: Colors.red.shade500,)),
+                           SizedBox(width: 20), Expanded(child: CtextButton(onPressed: ()=> model.onSavePressed(context), text:model.isEdit?'Update Lead' : 'Create Lead', buttonColor: Colors.blueAccent.shade400,))],
                           )
               ],
             ),

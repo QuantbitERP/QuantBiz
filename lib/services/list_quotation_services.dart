@@ -14,7 +14,7 @@ class QuotationServices {
       var dio = Dio();
       var response = await dio.request(
 
-        '$baseurl/api/resource/Quotation?order_by=creation desc&fields=["name","customer_name","transaction_date","grand_total","status","total_qty"]',
+        '$baseurl/api/resource/Quotation?order_by=modified desc&fields=["name","customer_name","transaction_date","grand_total","status","total_qty"]',
         options: Options(
           method: 'GET',
           headers: {'Authorization': await getTocken()},
@@ -49,7 +49,7 @@ class QuotationServices {
 
       // Construct the base URL
       String apiUrl =
-          '$baseurl/api/resource/Quotation?order_by=creation desc&fields=["name","customer_name","transaction_date","grand_total","status","total_qty"]';
+          '$baseurl/api/resource/Quotation?order_by=modified desc&fields=["name","customer_name","transaction_date","grand_total","status","total_qty"]';
 
       if(customerName.isNotEmpty && quotaionto.isNotEmpty){
         apiUrl += '&filters=[["customer_name", "=", "$customerName"],["quotation_to", "=", "$quotaionto"]]';
