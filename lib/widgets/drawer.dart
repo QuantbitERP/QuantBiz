@@ -74,16 +74,16 @@ Widget myDrawer(BuildContext context, String name, String email, String image) {
               Navigator.popAndPushNamed(context, Routes.profileScreen);
             },
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.location_on, color: Colors.black),
-          //   title: const Text(
-          //     'Geolocation',
-          //     style: TextStyle(fontWeight: FontWeight.w300),
-          //   ),
-          //   onTap: () {
-          //     Navigator.popAndPushNamed(context, Routes.geolocation);
-          //   },
-          // ),
+          ListTile(
+            leading: const Icon(Icons.location_on, color: Colors.black),
+            title: const Text(
+              'Geolocation',
+              style: TextStyle(fontWeight: FontWeight.w300),
+            ),
+            onTap: () {
+              Navigator.popAndPushNamed(context, Routes.geolocation);
+            },
+          ),
 
           const Divider(thickness: 1),
           ListTile(

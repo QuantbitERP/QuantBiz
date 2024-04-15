@@ -120,67 +120,67 @@ class Geolocation extends StatelessWidget {
                               );
                             }).toList(),
                           ),
-                          MarkerLayer(
-                            markers: model.parsedLocationTables.asMap().entries.map((entry) {
-                              final int index = entry.key;
-                              final LatLng latLng = LatLng(
-                                double.parse(entry.value.latitude ?? ""),
-                                double.parse(entry.value.longitude ?? ""),
-                              );
-
-                              return Marker(
-                                point: latLng,
-                                builder: (ctx) {
-                                  return Stack(
-                                    children: [
-                                      const Icon(Icons.location_on, size: 50),
-                                      Positioned(
-                                        left: 5,
-                                        top: 0,
-                                        right: 0,
-                                        child: Container(
-                                          padding: const EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                            BorderRadius.circular(20),
-                                          ),
-                                          child: Text(
-                                            (index + 1).toString(),
-                                            // Display the marker number
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }).toList(),
-                          ),
+                          // MarkerLayer(
+                          //   markers: model.parsedLocationTables.asMap().entries.map((entry) {
+                          //     final int index = entry.key;
+                          //     final LatLng latLng = LatLng(
+                          //       double.parse(entry.value.latitude ?? ""),
+                          //       double.parse(entry.value.longitude ?? ""),
+                          //     );
+                          //
+                          //     return Marker(
+                          //       point: latLng,
+                          //       builder: (ctx) {
+                          //         return Stack(
+                          //           children: [
+                          //             const Icon(Icons.location_on, size: 50),
+                          //             Positioned(
+                          //               left: 5,
+                          //               top: 0,
+                          //               right: 0,
+                          //               child: Container(
+                          //                 padding: const EdgeInsets.all(4),
+                          //                 decoration: BoxDecoration(
+                          //                   color: Colors.white,
+                          //                   borderRadius:
+                          //                   BorderRadius.circular(20),
+                          //                 ),
+                          //                 child: Text(
+                          //                   (index + 1).toString(),
+                          //                   // Display the marker number
+                          //                   style: const TextStyle(
+                          //                     color: Colors.black,
+                          //                     fontWeight: FontWeight.bold,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         );
+                          //       },
+                          //     );
+                          //   }).toList(),
+                          // ),
                           PolylineLayer(
                             polylineCulling: true,
                             polylines: [
                               Polyline(
-                              isDotted:true,
+
                                   points:
-                                   // model.points,
-                                  model.locations.map((e) {
-                                    return LatLng(double.parse(e.latitude ?? ""), double.parse(e.longitude ?? ""));
-                                  }).toList(),
+                                   model.points,
+                                  // model.locations.map((e) {
+                                  //   return LatLng(double.parse(e.latitude ?? ""), double.parse(e.longitude ?? ""));
+                                  // }).toList(),
                                   color: Colors.blueAccent,
-                                  strokeWidth: 12),
-                              Polyline(
-                                  points:
-                                  // model.points,
-                                  model.parsedLocationTables.map((e) {
-                                    return LatLng(double.parse(e.latitude ?? ""), double.parse(e.longitude ?? ""));
-                                  }).toList(),
-                                  color: Colors.yellowAccent,
-                                  strokeWidth: 5),
+                                  strokeWidth: 8),
+                              // Polyline(
+                              //     points:
+                              //     // model.points,
+                              //     model.parsedLocationTables.map((e) {
+                              //       return LatLng(double.parse(e.latitude ?? ""), double.parse(e.longitude ?? ""));
+                              //     }).toList(),
+                              //     color: Colors.yellowAccent,
+                              //     strokeWidth: 5),
                             ],
                           ),
                         ],
