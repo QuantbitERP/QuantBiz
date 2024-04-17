@@ -15,6 +15,7 @@ import 'package:geolocation/screens/lead_screen/add_lead_screen/add_lead_screen.
 import 'package:geolocation/screens/lead_screen/update_screen/update_screen.dart';
 import 'package:geolocation/screens/leave_screen/add_leave/add_leave_view.dart';
 import 'package:geolocation/screens/leave_screen/list_leave/list_leave_view.dart';
+import 'package:geolocation/screens/location_tracking/location_tracker.dart';
 import 'package:geolocation/screens/login/login_view.dart';
 import 'package:geolocation/screens/profile_screen/profile_screen.dart';
 import 'package:geolocation/screens/sales_invoice/add_sales_invoice/add_invoice_screen.dart';
@@ -35,6 +36,7 @@ import 'screens/lead_screen/lead_list/lead_screen.dart';
     MaterialRoute(page: HomePage),
     MaterialRoute(page: LoginViewScreen),
     MaterialRoute(page: Geolocation),
+    MaterialRoute(page: LocationTracker),
     MaterialRoute(page: ListOrderScreen),
     MaterialRoute(page: AddOrderScreen),
     MaterialRoute(page: ItemScreen),

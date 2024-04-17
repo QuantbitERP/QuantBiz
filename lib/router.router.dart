@@ -59,6 +59,7 @@ import 'package:geolocation/screens/sales_order/list_sales_order/list_sales_orde
 import 'package:geolocation/screens/splash_screen/splash_screen.dart' as _i2;
 import 'package:stacked/stacked.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i33;
+import 'package:geolocation/screens/location_tracking/location_tracker.dart' as _i111;
 
 class Routes {
   static const splashScreen = '/';
@@ -115,11 +116,14 @@ class Routes {
 
   static const updateCustomer = '/update-customer';
 
+  static const locationTracker = '/location_tracker';
+
   static const all = <String>{
     splashScreen,
     homePage,
     loginViewScreen,
     geolocation,
+    locationTracker,
     listOrderScreen,
     addOrderScreen,
     itemScreen,
@@ -255,6 +259,10 @@ class StackedRouter extends _i1.RouterBase {
     _i1.RouteDef(
       Routes.updateCustomer,
       page: _i28.UpdateCustomer,
+    ),
+    _i1.RouteDef(
+      Routes.locationTracker,
+      page: _i111.LocationTracker,
     ),
   ];
 
@@ -438,6 +446,12 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<UpdateCustomerArguments>(nullOk: false);
       return _i29.MaterialPageRoute<dynamic>(
         builder: (context) => _i28.UpdateCustomer(key: args.key, id: args.id),
+        settings: data,
+      );
+    },
+    _i111.LocationTracker: (data) {
+      return _i29.MaterialPageRoute<dynamic>(
+        builder: (context) => _i111.LocationTracker(),
         settings: data,
       );
     },
@@ -781,6 +795,20 @@ extension NavigatorStateExtension on _i33.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.geolocation,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToLocationTracker([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+    transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.locationTracker,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

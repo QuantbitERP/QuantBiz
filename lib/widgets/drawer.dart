@@ -85,6 +85,17 @@ Widget myDrawer(BuildContext context, String name, String email, String image) {
             },
           ),
 
+          ListTile(
+            leading: const Icon(Icons.location_on, color: Colors.black),
+            title: const Text(
+              'Location Tracker',
+              style: TextStyle(fontWeight: FontWeight.w300),
+            ),
+            onTap: () {
+              Navigator.popAndPushNamed(context, Routes.locationTracker);
+            },
+          ),
+
           const Divider(thickness: 1),
           ListTile(
             leading: const Icon(Icons.policy, color: Colors.black),
