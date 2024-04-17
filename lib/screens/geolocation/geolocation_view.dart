@@ -16,7 +16,6 @@ class Geolocation extends StatelessWidget {
       viewModelBuilder: () => GeolocationViewModel(),
       onViewModelReady: (model) => model.initialise(context),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: Colors.grey,
         appBar: AppBar(
           title: const AutoSizeText('Route details'),
           centerTitle: true,
@@ -25,40 +24,32 @@ class Geolocation extends StatelessWidget {
           child: Column(
 
             children: [
-              const SizedBox(height: 10,),
-              // Expanded(
-              //   flex: 1,
-              //   child: Container(
-              //     padding: const EdgeInsets.all(8),
-              //
-              //     decoration: BoxDecoration(
-              //       color: Colors.white,
-              //       borderRadius: BorderRadius.circular(18),
-              //       boxShadow: const [
-              //         BoxShadow(
-              //           color: Colors.grey,
-              //           blurRadius: 3,
-              //           offset: Offset(0, 2),
-              //         ),
-              //       ],
-              //     ),
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //
-              //         Text(
-              //           'Name: ${model.geolocationdata.user ?? ""}',
-              //         ),
-              //         Text(
-              //           'Date:  ${model.geolocationdata.date}',
-              //         ),
-              //         // Text(
-              //         //   'Distance: ${model.geolocationdata.distance ?? 0.0}',
-              //         // ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              Card(
+                color: Colors.purple.shade50,
+                elevation: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+
+                      Text(
+                        'User: ${model.geolocationdata.user ?? ""}',
+                      ),
+                      Text(
+                        'Date:  ${model.geolocationdata.date}',
+                      ),
+                      Text(
+                        'Device Id:  ${model.geolocationdata.deviceId}',
+                      ),
+                      // Text(
+                      //   'Distance: ${model.geolocationdata.distance ?? 0.0}',
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
               Expanded(
                 flex: 8,
                 child: model.locations.isNotEmpty
@@ -167,10 +158,10 @@ class Geolocation extends StatelessWidget {
                               Polyline(
 
                                   points:
-                                   model.points,
-                                  // model.locations.map((e) {
-                                  //   return LatLng(double.parse(e.latitude ?? ""), double.parse(e.longitude ?? ""));
-                                  // }).toList(),
+                                   // model.points,
+                                  model.locations.map((e) {
+                                    return LatLng(double.parse(e.latitude ?? ""), double.parse(e.longitude ?? ""));
+                                  }).toList(),
                                   color: Colors.blueAccent,
                                   strokeWidth: 8),
                               // Polyline(

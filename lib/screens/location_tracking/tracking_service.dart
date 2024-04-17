@@ -1,11 +1,13 @@
 import 'package:flutter/services.dart';
+import 'package:geolocation/constants.dart';
 
 class TrackingService {
   static const platform = MethodChannel('tracking_service');
 
   static Future<void> startTracking() async {
     try {
-      await platform.invokeMethod('startTracking', {'token': 'token 34dfee02f204abe:fb6cdb885da0ff9'});
+      var token = await getTocken();
+      await platform.invokeMethod('startTracking', {'token': token});
 
     } on PlatformException catch (e) {
       print("Failed to start tracking: '${e.message}'.");

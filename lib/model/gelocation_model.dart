@@ -7,6 +7,8 @@ class GeolocationModel {
   String? user;
   String? date;
   String? myLocation;
+  String? deviceId;
+
   String? checkData;
   String? doctype;
   double? distance;
@@ -20,10 +22,11 @@ class GeolocationModel {
       this.idx,
       this.user,
       this.date,
+      this.deviceId,
       this.myLocation,
       this.checkData,
       this.doctype,
-        this.distance,
+      this.distance,
       this.locationTable});
 
   GeolocationModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +37,7 @@ class GeolocationModel {
     idx = json['idx'];
     user = json['user'];
     date = json['date'];
+    deviceId=json['device_id'];
     myLocation = json['my_location'];
     checkData = json['check_data'];
     distance=json['distance'];
@@ -55,6 +59,7 @@ class GeolocationModel {
     data['idx'] = idx;
     data['user'] = user;
     data['date'] = date;
+    data['device_id']=deviceId;
     data['my_location'] = myLocation;
     data['check_data'] = checkData;
     data['distance']=distance;

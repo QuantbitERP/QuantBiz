@@ -1,6 +1,7 @@
 package com.example.geolocation
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,6 +13,7 @@ import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -32,6 +34,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okio.IOException
 import org.json.JSONObject
@@ -101,18 +104,20 @@ class LocationTrackingService: Service() {
         }
     }
 
+
+    @SuppressLint("HardwareIds")
     fun uploadLocationToServer(location: Location) {
         val url = "https://mobilecrm.erpdata.in/api/method/mobile.mobile_env.location.user_location"
-
+        val mId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
         // Create JSON object with location data
         val jsonLocation = JSONObject()
         jsonLocation.put("latitude", location.latitude)
         jsonLocation.put("longitude", location.longitude)
-        jsonLocation.put("device_id", "ABC123")
+        jsonLocation.put("device_id", mId)
 
         // Create HTTP request body with JSON data
         val body =
-            RequestBody.create("application/json".toMediaTypeOrNull(), jsonLocation.toString())
+            jsonLocation.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
         // Create HTTP request
         val request = Request.Builder()

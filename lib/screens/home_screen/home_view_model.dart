@@ -13,6 +13,7 @@ import 'package:stacked/stacked.dart';
 import '../../router.router.dart';
 import '../../services/geolocation_services.dart';
 import '../../services/platform_repository.dart';
+import '../location_tracking/tracking_service.dart';
 
 class HomeViewModel extends BaseViewModel {
   late SharedPreferences prefs;
@@ -123,6 +124,11 @@ class HomeViewModel extends BaseViewModel {
       if (position != null) {
         String location = "${position.latitude},${position.longitude}";
         bool res = await HomeServices().employeeCheckin(logtype, location);
+        if(logtype== "IN"){
+          TrackingService.startTracking();
+        }else{
+          TrackingService.stopTracking();
+        }
         Logger().i(res);
         if (res) {
           await fetchDashboard();
