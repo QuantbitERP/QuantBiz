@@ -77,7 +77,7 @@ Widget myDrawer(BuildContext context, String name, String email, String image) {
           ListTile(
             leading: const Icon(Icons.location_on, color: Colors.black),
             title: const Text(
-              'Geolocation',
+              'Route Details',
               style: TextStyle(fontWeight: FontWeight.w300),
             ),
             onTap: () {
