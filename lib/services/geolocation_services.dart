@@ -25,6 +25,12 @@ class GeolocationService {
         throw Exception('Location permissions are denied.');
       }
 
+      var notificationStatus = await Permission.notification.request();
+      if (notificationStatus != PermissionStatus.granted) {
+        throw Exception('Notification permissions are denied.');
+      }
+
+
       // Check if locationAlways permission is denied and request it
       var alwaysStatus = await Permission.locationAlways.isDenied;
       if (alwaysStatus) {
