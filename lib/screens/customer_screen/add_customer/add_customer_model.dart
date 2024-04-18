@@ -47,8 +47,8 @@ bool isEdit=false;
       gstIn.text = customerData.gstin ?? "";
       billing=customerData.billing ?? Billing();
       shipping=customerData.shipping ?? Shipping();
-      Logger().i(billing.country);
-      Logger().i(shipping.country);
+      Logger().i(customerData.toJson());
+
     }
 
     setBusy(false);

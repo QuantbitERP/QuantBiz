@@ -159,7 +159,7 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                                             const Icon(Icons.phone_outlined),
                                             const SizedBox(width: 16.0),
                                             Text(
-                                              model.customerData.mobileNo ?? "",
+                                              model.customerData.mobileNo ?? "N/A",
                                               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                                             ),
                                           ],
@@ -169,7 +169,7 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                                             const Icon(Icons.email_outlined),
                                             const SizedBox(width: 16.0),
                                             Text(
-                                              model.customerData.emailId ?? "",
+                                              model.customerData.emailId ?? "N/A",
                                               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                                             ),
                                           ],
@@ -182,17 +182,23 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
                                             CustomButton(
                                               icon: Icons.phone_outlined,
                                               text: 'Mobile',
-                                              onPressed: () => model.service.call(model.customerData.mobileNo ?? ""),
+                                              onPressed: () {
+                                                if(model.customerData.mobileNo!.isNotEmpty){
+                                                model.service.call(model.customerData.mobileNo ?? "");}},
                                             ),
                                             CustomButton(
                                               icon: Icons.sms_outlined,
                                               text: 'SMS',
-                                              onPressed: () => model.service.sendSms(model.customerData.mobileNo ?? ""),
+                                              onPressed: () { if(model.customerData.mobileNo!.isNotEmpty){
+                                                model.service.sendSms(model.customerData.mobileNo ?? "");}}
                                             ),
                                             CustomButton(
                                               icon: Icons.email_outlined,
                                               text: 'Email',
-                                              onPressed: () => model.service.sendEmail(model.customerData.emailId ?? ""),
+                                              onPressed: () {
+                                                if(model.customerData.emailId!.isNotEmpty){
+    model.service.sendEmail(model.customerData.emailId ?? "");}
+                                                }
                                             ),
                                           ],
                                         ),
@@ -235,20 +241,22 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
             itemCount: model.comments.length,
             itemBuilder: (context, index) {
               final comment = model.comments[index];
-              return ListTile(
-                leading: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: comment.userImage ?? '',
-                    width: 40,
-                    matchTextDirection: true,
-                    height: 40,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
-                    errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/profile.png', scale: 5)),
+              return Card(
+                child: ListTile(
+                  leading: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: comment.userImage ?? '',
+                      width: 40,
+                      matchTextDirection: true,
+                      height: 40,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
+                      errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/profile.png', scale: 5)),
+                    ),
                   ),
+                  title: Html(data: comment.comment.toString(),shrinkWrap: true,),
+                  subtitle: Text("${comment.commentBy} | ${comment.creation}",style: TextStyle(fontWeight: FontWeight.bold),),
                 ),
-                title: Html(data: comment.comment.toString()),
-                subtitle: Text("${comment.commentBy} | ${comment.creation}",style: TextStyle(fontWeight: FontWeight.bold),),
               );
             },
           )

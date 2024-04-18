@@ -5,10 +5,13 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../constants.dart';
 
 class GeolocationService {
+
+
   Future<Position?> determinePosition() async {
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -16,17 +19,19 @@ class GeolocationService {
         throw Exception('Location services are disabled.');
       }
 
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-
-        if (permission == LocationPermission.denied) {
-          throw Exception('Location permissions are denied.');
-        }
+      // Request location permission
+      var status = await Permission.location.request();
+      if (status != PermissionStatus.granted) {
+        throw Exception('Location permissions are denied.');
       }
 
-      if (permission == LocationPermission.deniedForever) {
-        throw Exception('Location permissions are permanently denied.');
+      // Check if locationAlways permission is denied and request it
+      var alwaysStatus = await Permission.locationAlways.isDenied;
+      if (alwaysStatus) {
+        await Permission.locationAlways.request();
+      }
+      else{
+        throw Exception('Please set the location Permission to Allow all the time.');
       }
 
       return await Geolocator.getCurrentPosition(
@@ -36,6 +41,7 @@ class GeolocationService {
       return null;
     }
   }
+
 
 
   Future<Placemark?> getPlacemarks(Position? position) async {

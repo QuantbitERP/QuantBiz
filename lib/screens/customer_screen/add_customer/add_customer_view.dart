@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/model/create_customer_model.dart';
 import 'package:geolocation/screens/customer_screen/address/address_screen.dart';
@@ -123,6 +124,7 @@ class _AddCustomerState extends State<AddCustomer> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
+            flex: 5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -166,6 +168,7 @@ class _AddCustomerState extends State<AddCustomer> {
             endIndent : 10,
           ),
           Expanded(
+            flex: 5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -201,24 +204,27 @@ class _AddCustomerState extends State<AddCustomer> {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddressScreen(billing: model.billing, shipping: model.shipping),
-                ),
-              );
-            },
-            icon: Icon(Icons.edit),
-            color: Colors.blue,
-            iconSize: 30,
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddressScreen(billing: model.billing, shipping: model.shipping),
+                  ),
+                );
+              },
+              icon: Icon(Icons.edit),
+              color: Colors.blue,
+              iconSize: 30,
+            ),
           )
         ],
       ),
     ),
 
-        if(model.billing.country!=null && model.shipping.country!=null)
+        if(model.billing.billingId!=null && model.shipping.shippingId!=null)
         const SizedBox(
               height: 15,
             ),

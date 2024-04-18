@@ -88,7 +88,7 @@ class ItemScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 5),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 AutoSizeText(
                                   'Rate\n ${selectedItem.rate.toString()}',
@@ -96,7 +96,7 @@ class ItemScreen extends StatelessWidget {
                                       color: Colors.green,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                const SizedBox(width: 40,),
+
                                 AutoSizeText(
                                   'Actual Qty\n ${selectedItem.actualQty}',
                                   style: const TextStyle(
