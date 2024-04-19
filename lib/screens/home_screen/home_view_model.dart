@@ -8,6 +8,7 @@ import 'package:geolocation/model/emp_data.dart';
 import 'package:geolocation/services/home_services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import '../../router.router.dart';
@@ -116,7 +117,7 @@ class HomeViewModel extends BaseViewModel {
     }
   }
 
-  void employeeLog(String logtype,BuildContext context) async {
+  void employeeLog(String logtype, BuildContext context) async {
     setBusy(true);
     GeolocationService geolocationService = GeolocationService();
     try {
@@ -124,20 +125,27 @@ class HomeViewModel extends BaseViewModel {
       if (position != null) {
         String location = "${position.latitude},${position.longitude}";
         bool res = await HomeServices().employeeCheckin(logtype, location);
-        if(logtype== "IN"){
+        if (logtype == "IN") {
           TrackingService.startTracking();
-        }else{
+        } else {
           TrackingService.stopTracking();
         }
         Logger().i(res);
         if (res) {
           await fetchDashboard();
           await initialize(context);
-         setBusy(false);
+          setBusy(false);
         }
       } else {
-        Fluttertoast.showToast(msg: 'Failed to get location');
-        setBusy(false);
+        // Failed to get location, check for permission
+        var status = await Permission.location.request();
+        if (status != PermissionStatus.granted) {
+          throw Exception('Location permissions are denied.');
+
+        } else {
+          Fluttertoast.showToast(msg: 'Failed to get location');
+          setBusy(false);
+        }
       }
     } catch (e) {
       Fluttertoast.showToast(msg: '$e');
@@ -146,6 +154,7 @@ class HomeViewModel extends BaseViewModel {
     }
     notifyListeners();
   }
+
 
   void handleGreeting() {
     final now = DateTime.now();

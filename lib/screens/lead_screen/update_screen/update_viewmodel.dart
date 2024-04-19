@@ -18,7 +18,6 @@ List<String> status=["Not Interested",
   "Converted For Demo",
   "Details Shared",
   "Ringing",
-  "Call Back",
   "Busy",
   "Switch Off"];
 
@@ -30,6 +29,7 @@ List<NotesList> notes=[];
     if(leadId !=""){
  leaddata= await AddLeadServices().getlead(leadId) ?? AddLeadModel();
  notes=await UpdateLeadServices().getnotes(leadId);
+ Logger().i(leaddata.toJson());
  Logger().i(notes.length);
  notifyListeners();
     }

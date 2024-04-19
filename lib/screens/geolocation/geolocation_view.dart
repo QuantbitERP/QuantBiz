@@ -79,6 +79,7 @@ class Geolocation extends StatelessWidget {
                               );
 
                               return Marker(
+
                                 point: latLng,
                                 builder: (ctx) {
                                   return Stack(

@@ -20,25 +20,19 @@ class GeolocationService {
       }
 
       // Request location permission
-      var status = await Permission.location.request();
-      if (status != PermissionStatus.granted) {
+      var locationPermissionStatus = await Permission.location.request();
+      if (locationPermissionStatus != PermissionStatus.granted) {
         throw Exception('Location permissions are denied.');
       }
 
-      var notificationStatus = await Permission.notification.request();
-      if (notificationStatus != PermissionStatus.granted) {
+      // Request notification permission
+      var notificationPermissionStatus = await Permission.notification.request();
+      if (notificationPermissionStatus != PermissionStatus.granted) {
         throw Exception('Notification permissions are denied.');
       }
 
+      // Check and request locationAlways permission if necessary
 
-      // Check if locationAlways permission is denied and request it
-      var alwaysStatus = await Permission.locationAlways.isDenied;
-      if (alwaysStatus) {
-        await Permission.locationAlways.request();
-      }
-      else{
-        throw Exception('Please set the location Permission to Allow all the time.');
-      }
 
       return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
@@ -47,6 +41,7 @@ class GeolocationService {
       return null;
     }
   }
+
 
 
 
