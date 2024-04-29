@@ -5,61 +5,66 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:flutter/material.dart' as _i32;
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as _i29;
-import 'package:geolocation/model/add_invoice_model.dart' as _i32;
-import 'package:geolocation/model/add_order_model.dart' as _i30;
-import 'package:geolocation/model/addquotation_model.dart' as _i31;
+import 'package:geolocation/model/add_invoice_model.dart' as _i35;
+import 'package:geolocation/model/add_order_model.dart' as _i33;
+import 'package:geolocation/model/addquotation_model.dart' as _i34;
 import 'package:geolocation/screens/attendence_screen/attendence_view.dart'
-    as _i16;
-import 'package:geolocation/screens/change_password/change_password_screen.dart'
-    as _i22;
-import 'package:geolocation/screens/customer_screen/add_customer/add_customer_view.dart'
-    as _i27;
-import 'package:geolocation/screens/customer_screen/customer_list/customer_list_screen.dart'
-    as _i26;
-import 'package:geolocation/screens/customer_screen/Update_Customer/update_customer_screen.dart'
-    as _i28;
-import 'package:geolocation/screens/expense_screen/add_expense/add_expense_view.dart'
-    as _i18;
-import 'package:geolocation/screens/expense_screen/list_expense/list_expense_view.dart'
     as _i17;
+import 'package:geolocation/screens/change_password/change_password_screen.dart'
+    as _i23;
+import 'package:geolocation/screens/customer_screen/add_customer/add_customer_view.dart'
+    as _i28;
+import 'package:geolocation/screens/customer_screen/customer_list/customer_list_screen.dart'
+    as _i27;
+import 'package:geolocation/screens/customer_screen/Update_Customer/update_customer_screen.dart'
+    as _i29;
+import 'package:geolocation/screens/expense_screen/add_expense/add_expense_view.dart'
+    as _i19;
+import 'package:geolocation/screens/expense_screen/list_expense/list_expense_view.dart'
+    as _i18;
 import 'package:geolocation/screens/geolocation/geolocation_view.dart' as _i5;
-import 'package:geolocation/screens/holiday_screen/holiday_view.dart' as _i15;
+import 'package:geolocation/screens/holiday_screen/holiday_view.dart' as _i16;
 import 'package:geolocation/screens/home_screen/home_page.dart' as _i3;
 import 'package:geolocation/screens/lead_screen/add_lead_screen/add_lead_screen.dart'
-    as _i10;
-import 'package:geolocation/screens/lead_screen/lead_list/lead_screen.dart'
-    as _i9;
-import 'package:geolocation/screens/lead_screen/update_screen/update_screen.dart'
     as _i11;
-import 'package:geolocation/screens/leave_screen/add_leave/add_leave_view.dart'
-    as _i20;
-import 'package:geolocation/screens/leave_screen/list_leave/list_leave_view.dart'
-    as _i19;
-import 'package:geolocation/screens/login/login_view.dart' as _i4;
-import 'package:geolocation/screens/profile_screen/profile_screen.dart' as _i21;
-import 'package:geolocation/screens/Quotation/Add%20Quotation/add_quotation_screen.dart'
+import 'package:geolocation/screens/lead_screen/lead_list/lead_screen.dart'
+    as _i10;
+import 'package:geolocation/screens/lead_screen/update_screen/update_screen.dart'
     as _i12;
-import 'package:geolocation/screens/Quotation/Items/items_screen.dart' as _i14;
-import 'package:geolocation/screens/Quotation/List%20Quotation/list_quotation_view.dart'
-    as _i13;
-import 'package:geolocation/screens/sales_invoice/add_sales_invoice/add_invoice_screen.dart'
-    as _i23;
-import 'package:geolocation/screens/sales_invoice/items/add_items_screen.dart'
-    as _i24;
-import 'package:geolocation/screens/sales_invoice/list_sales_invoice/list_sales_invoice_screen.dart'
-    as _i25;
-import 'package:geolocation/screens/sales_order/add_sales_order/add_order_screen.dart'
-    as _i7;
-import 'package:geolocation/screens/sales_order/items/add_items_screen.dart'
-    as _i8;
-import 'package:geolocation/screens/sales_order/list_sales_order/list_sales_order_screen.dart'
+import 'package:geolocation/screens/leave_screen/add_leave/add_leave_view.dart'
+    as _i21;
+import 'package:geolocation/screens/leave_screen/list_leave/list_leave_view.dart'
+    as _i20;
+import 'package:geolocation/screens/location_tracking/location_tracker.dart'
     as _i6;
+import 'package:geolocation/screens/login/login_view.dart' as _i4;
+import 'package:geolocation/screens/profile_screen/profile_screen.dart' as _i22;
+import 'package:geolocation/screens/Quotation/Add%20Quotation/add_quotation_screen.dart'
+    as _i13;
+import 'package:geolocation/screens/Quotation/Items/items_screen.dart' as _i15;
+import 'package:geolocation/screens/Quotation/List%20Quotation/list_quotation_view.dart'
+    as _i14;
+import 'package:geolocation/screens/sales_invoice/add_sales_invoice/add_invoice_screen.dart'
+    as _i24;
+import 'package:geolocation/screens/sales_invoice/items/add_items_screen.dart'
+    as _i25;
+import 'package:geolocation/screens/sales_invoice/list_sales_invoice/list_sales_invoice_screen.dart'
+    as _i26;
+import 'package:geolocation/screens/sales_order/add_sales_order/add_order_screen.dart'
+    as _i8;
+import 'package:geolocation/screens/sales_order/items/add_items_screen.dart'
+    as _i9;
+import 'package:geolocation/screens/sales_order/list_sales_order/list_sales_order_screen.dart'
+    as _i7;
 import 'package:geolocation/screens/splash_screen/splash_screen.dart' as _i2;
+import 'package:geolocation/screens/visit_screens/add_visit/add_visit_view.dart'
+    as _i31;
+import 'package:geolocation/screens/visit_screens/visit_List/visit_list_screen.dart'
+    as _i30;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i33;
-import 'package:geolocation/screens/location_tracking/location_tracker.dart' as _i111;
+import 'package:stacked_services/stacked_services.dart' as _i36;
 
 class Routes {
   static const splashScreen = '/';
@@ -69,6 +74,8 @@ class Routes {
   static const loginViewScreen = '/login-view-screen';
 
   static const geolocation = '/Geolocation';
+
+  static const locationTracker = '/location-tracker';
 
   static const listOrderScreen = '/list-order-screen';
 
@@ -116,7 +123,9 @@ class Routes {
 
   static const updateCustomer = '/update-customer';
 
-  static const locationTracker = '/location_tracker';
+  static const visitScreen = '/visit-screen';
+
+  static const addVisitScreen = '/add-visit-screen';
 
   static const all = <String>{
     splashScreen,
@@ -147,6 +156,8 @@ class Routes {
     customerList,
     addCustomer,
     updateCustomer,
+    visitScreen,
+    addVisitScreen,
   };
 }
 
@@ -169,289 +180,311 @@ class StackedRouter extends _i1.RouterBase {
       page: _i5.Geolocation,
     ),
     _i1.RouteDef(
+      Routes.locationTracker,
+      page: _i6.LocationTracker,
+    ),
+    _i1.RouteDef(
       Routes.listOrderScreen,
-      page: _i6.ListOrderScreen,
+      page: _i7.ListOrderScreen,
     ),
     _i1.RouteDef(
       Routes.addOrderScreen,
-      page: _i7.AddOrderScreen,
+      page: _i8.AddOrderScreen,
     ),
     _i1.RouteDef(
       Routes.itemScreen,
-      page: _i8.ItemScreen,
+      page: _i9.ItemScreen,
     ),
     _i1.RouteDef(
       Routes.leadListScreen,
-      page: _i9.LeadListScreen,
+      page: _i10.LeadListScreen,
     ),
     _i1.RouteDef(
       Routes.addLeadScreen,
-      page: _i10.AddLeadScreen,
+      page: _i11.AddLeadScreen,
     ),
     _i1.RouteDef(
       Routes.updateLeadScreen,
-      page: _i11.UpdateLeadScreen,
+      page: _i12.UpdateLeadScreen,
     ),
     _i1.RouteDef(
       Routes.addQuotationView,
-      page: _i12.AddQuotationView,
+      page: _i13.AddQuotationView,
     ),
     _i1.RouteDef(
       Routes.listQuotationScreen,
-      page: _i13.ListQuotationScreen,
+      page: _i14.ListQuotationScreen,
     ),
     _i1.RouteDef(
       Routes.quotationItemScreen,
-      page: _i14.QuotationItemScreen,
+      page: _i15.QuotationItemScreen,
     ),
     _i1.RouteDef(
       Routes.holidayScreen,
-      page: _i15.HolidayScreen,
+      page: _i16.HolidayScreen,
     ),
     _i1.RouteDef(
       Routes.attendanceScreen,
-      page: _i16.AttendanceScreen,
+      page: _i17.AttendanceScreen,
     ),
     _i1.RouteDef(
       Routes.expenseScreen,
-      page: _i17.ExpenseScreen,
+      page: _i18.ExpenseScreen,
     ),
     _i1.RouteDef(
       Routes.addExpenseScreen,
-      page: _i18.AddExpenseScreen,
+      page: _i19.AddExpenseScreen,
     ),
     _i1.RouteDef(
       Routes.listLeaveScreen,
-      page: _i19.ListLeaveScreen,
+      page: _i20.ListLeaveScreen,
     ),
     _i1.RouteDef(
       Routes.addLeaveScreen,
-      page: _i20.AddLeaveScreen,
+      page: _i21.AddLeaveScreen,
     ),
     _i1.RouteDef(
       Routes.profileScreen,
-      page: _i21.ProfileScreen,
+      page: _i22.ProfileScreen,
     ),
     _i1.RouteDef(
       Routes.changePasswordScreen,
-      page: _i22.ChangePasswordScreen,
+      page: _i23.ChangePasswordScreen,
     ),
     _i1.RouteDef(
       Routes.addInvoiceScreen,
-      page: _i23.AddInvoiceScreen,
+      page: _i24.AddInvoiceScreen,
     ),
     _i1.RouteDef(
       Routes.invoiceItemScreen,
-      page: _i24.InvoiceItemScreen,
+      page: _i25.InvoiceItemScreen,
     ),
     _i1.RouteDef(
       Routes.listInvoiceScreen,
-      page: _i25.ListInvoiceScreen,
+      page: _i26.ListInvoiceScreen,
     ),
     _i1.RouteDef(
       Routes.customerList,
-      page: _i26.CustomerList,
+      page: _i27.CustomerList,
     ),
     _i1.RouteDef(
       Routes.addCustomer,
-      page: _i27.AddCustomer,
+      page: _i28.AddCustomer,
     ),
     _i1.RouteDef(
       Routes.updateCustomer,
-      page: _i28.UpdateCustomer,
+      page: _i29.UpdateCustomer,
     ),
     _i1.RouteDef(
-      Routes.locationTracker,
-      page: _i111.LocationTracker,
+      Routes.visitScreen,
+      page: _i30.VisitScreen,
+    ),
+    _i1.RouteDef(
+      Routes.addVisitScreen,
+      page: _i31.AddVisitScreen,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.SplashScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.SplashScreen(),
         settings: data,
       );
     },
     _i3.HomePage: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.HomePage(),
         settings: data,
       );
     },
     _i4.LoginViewScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.LoginViewScreen(),
         settings: data,
       );
     },
     _i5.Geolocation: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.Geolocation(),
         settings: data,
       );
     },
-    _i6.ListOrderScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i6.ListOrderScreen(),
+    _i6.LocationTracker: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => _i6.LocationTracker(),
         settings: data,
       );
     },
-    _i7.AddOrderScreen: (data) {
+    _i7.ListOrderScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i7.ListOrderScreen(),
+        settings: data,
+      );
+    },
+    _i8.AddOrderScreen: (data) {
       final args = data.getArgs<AddOrderScreenArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) =>
-            _i7.AddOrderScreen(key: args.key, orderid: args.orderid),
+            _i8.AddOrderScreen(key: args.key, orderid: args.orderid),
         settings: data,
       );
     },
-    _i8.ItemScreen: (data) {
+    _i9.ItemScreen: (data) {
       final args = data.getArgs<ItemScreenArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => _i8.ItemScreen(
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => _i9.ItemScreen(
             key: args.key, warehouse: args.warehouse, items: args.items),
         settings: data,
       );
     },
-    _i9.LeadListScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i9.LeadListScreen(),
+    _i10.LeadListScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i10.LeadListScreen(),
         settings: data,
       );
     },
-    _i10.AddLeadScreen: (data) {
+    _i11.AddLeadScreen: (data) {
       final args = data.getArgs<AddLeadScreenArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) =>
-            _i10.AddLeadScreen(key: args.key, leadid: args.leadid),
+            _i11.AddLeadScreen(key: args.key, leadid: args.leadid),
         settings: data,
       );
     },
-    _i11.UpdateLeadScreen: (data) {
+    _i12.UpdateLeadScreen: (data) {
       final args = data.getArgs<UpdateLeadScreenArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) =>
-            _i11.UpdateLeadScreen(key: args.key, updateId: args.updateId),
+            _i12.UpdateLeadScreen(key: args.key, updateId: args.updateId),
         settings: data,
       );
     },
-    _i12.AddQuotationView: (data) {
+    _i13.AddQuotationView: (data) {
       final args = data.getArgs<AddQuotationViewArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) =>
-            _i12.AddQuotationView(key: args.key, quotationid: args.quotationid),
+            _i13.AddQuotationView(key: args.key, quotationid: args.quotationid),
         settings: data,
       );
     },
-    _i13.ListQuotationScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i13.ListQuotationScreen(),
+    _i14.ListQuotationScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i14.ListQuotationScreen(),
         settings: data,
       );
     },
-    _i14.QuotationItemScreen: (data) {
+    _i15.QuotationItemScreen: (data) {
       final args = data.getArgs<QuotationItemScreenArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) =>
-            _i14.QuotationItemScreen(key: args.key, items: args.items),
+            _i15.QuotationItemScreen(key: args.key, items: args.items),
         settings: data,
       );
     },
-    _i15.HolidayScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i15.HolidayScreen(),
+    _i16.HolidayScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i16.HolidayScreen(),
         settings: data,
       );
     },
-    _i16.AttendanceScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i16.AttendanceScreen(),
+    _i17.AttendanceScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i17.AttendanceScreen(),
         settings: data,
       );
     },
-    _i17.ExpenseScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i17.ExpenseScreen(),
+    _i18.ExpenseScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i18.ExpenseScreen(),
         settings: data,
       );
     },
-    _i18.AddExpenseScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i18.AddExpenseScreen(),
+    _i19.AddExpenseScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i19.AddExpenseScreen(),
         settings: data,
       );
     },
-    _i19.ListLeaveScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i19.ListLeaveScreen(),
+    _i20.ListLeaveScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i20.ListLeaveScreen(),
         settings: data,
       );
     },
-    _i20.AddLeaveScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i20.AddLeaveScreen(),
+    _i21.AddLeaveScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i21.AddLeaveScreen(),
         settings: data,
       );
     },
-    _i21.ProfileScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i21.ProfileScreen(),
+    _i22.ProfileScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i22.ProfileScreen(),
         settings: data,
       );
     },
-    _i22.ChangePasswordScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i22.ChangePasswordScreen(),
+    _i23.ChangePasswordScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i23.ChangePasswordScreen(),
         settings: data,
       );
     },
-    _i23.AddInvoiceScreen: (data) {
+    _i24.AddInvoiceScreen: (data) {
       final args = data.getArgs<AddInvoiceScreenArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
+      return _i32.MaterialPageRoute<dynamic>(
         builder: (context) =>
-            _i23.AddInvoiceScreen(key: args.key, invoiceid: args.invoiceid),
+            _i24.AddInvoiceScreen(key: args.key, invoiceid: args.invoiceid),
         settings: data,
       );
     },
-    _i24.InvoiceItemScreen: (data) {
+    _i25.InvoiceItemScreen: (data) {
       final args = data.getArgs<InvoiceItemScreenArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => _i24.InvoiceItemScreen(
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => _i25.InvoiceItemScreen(
             key: args.key,
             invoiceItems: args.invoiceItems,
             warehouse: args.warehouse),
         settings: data,
       );
     },
-    _i25.ListInvoiceScreen: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i25.ListInvoiceScreen(),
+    _i26.ListInvoiceScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i26.ListInvoiceScreen(),
         settings: data,
       );
     },
-    _i26.CustomerList: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i26.CustomerList(),
+    _i27.CustomerList: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i27.CustomerList(),
         settings: data,
       );
     },
-    _i27.AddCustomer: (data) {
+    _i28.AddCustomer: (data) {
       final args = data.getArgs<AddCustomerArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => _i27.AddCustomer(key: args.key, id: args.id),
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => _i28.AddCustomer(key: args.key, id: args.id),
         settings: data,
       );
     },
-    _i28.UpdateCustomer: (data) {
+    _i29.UpdateCustomer: (data) {
       final args = data.getArgs<UpdateCustomerArguments>(nullOk: false);
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => _i28.UpdateCustomer(key: args.key, id: args.id),
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => _i29.UpdateCustomer(key: args.key, id: args.id),
         settings: data,
       );
     },
-    _i111.LocationTracker: (data) {
-      return _i29.MaterialPageRoute<dynamic>(
-        builder: (context) => _i111.LocationTracker(),
+    _i30.VisitScreen: (data) {
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i30.VisitScreen(),
+        settings: data,
+      );
+    },
+    _i31.AddVisitScreen: (data) {
+      final args = data.getArgs<AddVisitScreenArguments>(nullOk: false);
+      return _i32.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i31.AddVisitScreen(key: args.key, VisitId: args.VisitId),
         settings: data,
       );
     },
@@ -470,7 +503,7 @@ class AddOrderScreenArguments {
     required this.orderid,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String orderid;
 
@@ -498,11 +531,11 @@ class ItemScreenArguments {
     required this.items,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String warehouse;
 
-  final List<_i30.Items> items;
+  final List<_i33.Items> items;
 
   @override
   String toString() {
@@ -529,7 +562,7 @@ class AddLeadScreenArguments {
     required this.leadid,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String leadid;
 
@@ -556,7 +589,7 @@ class UpdateLeadScreenArguments {
     required this.updateId,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String updateId;
 
@@ -583,7 +616,7 @@ class AddQuotationViewArguments {
     required this.quotationid,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String quotationid;
 
@@ -610,9 +643,9 @@ class QuotationItemScreenArguments {
     required this.items,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
-  final List<_i31.Items> items;
+  final List<_i34.Items> items;
 
   @override
   String toString() {
@@ -637,7 +670,7 @@ class AddInvoiceScreenArguments {
     required this.invoiceid,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String invoiceid;
 
@@ -665,9 +698,9 @@ class InvoiceItemScreenArguments {
     required this.warehouse,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
-  final List<_i32.InvoiceItems> invoiceItems;
+  final List<_i35.InvoiceItems> invoiceItems;
 
   final String warehouse;
 
@@ -696,7 +729,7 @@ class AddCustomerArguments {
     required this.id,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String id;
 
@@ -723,7 +756,7 @@ class UpdateCustomerArguments {
     required this.id,
   });
 
-  final _i29.Key? key;
+  final _i32.Key? key;
 
   final String id;
 
@@ -744,7 +777,34 @@ class UpdateCustomerArguments {
   }
 }
 
-extension NavigatorStateExtension on _i33.NavigationService {
+class AddVisitScreenArguments {
+  const AddVisitScreenArguments({
+    this.key,
+    required this.VisitId,
+  });
+
+  final _i32.Key? key;
+
+  final String VisitId;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "VisitId": "$VisitId"}';
+  }
+
+  @override
+  bool operator ==(covariant AddVisitScreenArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.VisitId == VisitId;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ VisitId.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i36.NavigationService {
   Future<dynamic> navigateToSplashScreen([
     int? routerId,
     bool preventDuplicates = true,
@@ -806,7 +866,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-    transition,
+        transition,
   ]) async {
     return navigateTo<dynamic>(Routes.locationTracker,
         id: routerId,
@@ -830,7 +890,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToAddOrderScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String orderid,
     int? routerId,
     bool preventDuplicates = true,
@@ -847,9 +907,9 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToItemScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String warehouse,
-    required List<_i30.Items> items,
+    required List<_i33.Items> items,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -880,7 +940,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToAddLeadScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String leadid,
     int? routerId,
     bool preventDuplicates = true,
@@ -897,7 +957,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToUpdateLeadScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String updateId,
     int? routerId,
     bool preventDuplicates = true,
@@ -914,7 +974,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToAddQuotationView({
-    _i29.Key? key,
+    _i32.Key? key,
     required String quotationid,
     int? routerId,
     bool preventDuplicates = true,
@@ -946,8 +1006,8 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToQuotationItemScreen({
-    _i29.Key? key,
-    required List<_i31.Items> items,
+    _i32.Key? key,
+    required List<_i34.Items> items,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1075,7 +1135,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToAddInvoiceScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String invoiceid,
     int? routerId,
     bool preventDuplicates = true,
@@ -1092,8 +1152,8 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToInvoiceItemScreen({
-    _i29.Key? key,
-    required List<_i32.InvoiceItems> invoiceItems,
+    _i32.Key? key,
+    required List<_i35.InvoiceItems> invoiceItems,
     required String warehouse,
     int? routerId,
     bool preventDuplicates = true,
@@ -1139,7 +1199,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToAddCustomer({
-    _i29.Key? key,
+    _i32.Key? key,
     required String id,
     int? routerId,
     bool preventDuplicates = true,
@@ -1156,7 +1216,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> navigateToUpdateCustomer({
-    _i29.Key? key,
+    _i32.Key? key,
     required String id,
     int? routerId,
     bool preventDuplicates = true,
@@ -1166,6 +1226,37 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }) async {
     return navigateTo<dynamic>(Routes.updateCustomer,
         arguments: UpdateCustomerArguments(key: key, id: id),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToVisitScreen([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.visitScreen,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToAddVisitScreen({
+    _i32.Key? key,
+    required String VisitId,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.addVisitScreen,
+        arguments: AddVisitScreenArguments(key: key, VisitId: VisitId),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1228,6 +1319,20 @@ extension NavigatorStateExtension on _i33.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> replaceWithLocationTracker([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.locationTracker,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithListOrderScreen([
     int? routerId,
     bool preventDuplicates = true,
@@ -1243,7 +1348,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithAddOrderScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String orderid,
     int? routerId,
     bool preventDuplicates = true,
@@ -1260,9 +1365,9 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithItemScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String warehouse,
-    required List<_i30.Items> items,
+    required List<_i33.Items> items,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1293,7 +1398,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithAddLeadScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String leadid,
     int? routerId,
     bool preventDuplicates = true,
@@ -1310,7 +1415,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithUpdateLeadScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String updateId,
     int? routerId,
     bool preventDuplicates = true,
@@ -1327,7 +1432,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithAddQuotationView({
-    _i29.Key? key,
+    _i32.Key? key,
     required String quotationid,
     int? routerId,
     bool preventDuplicates = true,
@@ -1359,8 +1464,8 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithQuotationItemScreen({
-    _i29.Key? key,
-    required List<_i31.Items> items,
+    _i32.Key? key,
+    required List<_i34.Items> items,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1488,7 +1593,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithAddInvoiceScreen({
-    _i29.Key? key,
+    _i32.Key? key,
     required String invoiceid,
     int? routerId,
     bool preventDuplicates = true,
@@ -1505,8 +1610,8 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithInvoiceItemScreen({
-    _i29.Key? key,
-    required List<_i32.InvoiceItems> invoiceItems,
+    _i32.Key? key,
+    required List<_i35.InvoiceItems> invoiceItems,
     required String warehouse,
     int? routerId,
     bool preventDuplicates = true,
@@ -1552,7 +1657,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithAddCustomer({
-    _i29.Key? key,
+    _i32.Key? key,
     required String id,
     int? routerId,
     bool preventDuplicates = true,
@@ -1569,7 +1674,7 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }
 
   Future<dynamic> replaceWithUpdateCustomer({
-    _i29.Key? key,
+    _i32.Key? key,
     required String id,
     int? routerId,
     bool preventDuplicates = true,
@@ -1579,6 +1684,37 @@ extension NavigatorStateExtension on _i33.NavigationService {
   }) async {
     return replaceWith<dynamic>(Routes.updateCustomer,
         arguments: UpdateCustomerArguments(key: key, id: id),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithVisitScreen([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.visitScreen,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithAddVisitScreen({
+    _i32.Key? key,
+    required String VisitId,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.addVisitScreen,
+        arguments: AddVisitScreenArguments(key: key, VisitId: VisitId),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

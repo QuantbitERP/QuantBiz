@@ -25,7 +25,10 @@ class _HomePageState extends State<HomePage> {
     return ViewModelBuilder<HomeViewModel>.reactive(
         viewModelBuilder: () => HomeViewModel(),
         onViewModelReady: (model) => model.initialize(context),
-        builder: (context, model, child) => Scaffold(
+        builder: (context, model, child) => fullScreenLoader(
+          loader: model.isBusy,
+          context: context,
+          child:Scaffold(
           backgroundColor: Colors.white,
               appBar: AppBar(
                 title:  Text(model.dashboard.company!=null?model.dashboard.company.toString() :model.employeeData.company.toString(),style: const TextStyle(fontSize: 17),),
@@ -34,10 +37,7 @@ class _HomePageState extends State<HomePage> {
                   (model.dashboard.email!=null?model.dashboard.email.toString() :model.employeeData.email.toString()), (model.dashboard.employeeImage!=null?model.dashboard.employeeImage.toString() :model.employeeData.employeeImage.toString())),
               body: WillPopScope(
                 onWillPop: showExitPopup,
-                child: fullScreenLoader(
-                  loader: model.isBusy,
-                  context: context,
-                  child: RefreshIndicator(
+                child:  RefreshIndicator(
                     onRefresh: () =>model.onRefresh(context),
                     child: SafeArea(
                       child: SingleChildScrollView(
@@ -157,6 +157,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
+
                                 if(model.isHide==false)
                                 const SizedBox(height: 20,)
                               ,const Text('What would you like to do ?',textAlign: TextAlign.left,style:TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
@@ -208,6 +209,10 @@ class _HomePageState extends State<HomePage> {
                                       buildButton("Leaves", 'assets/images/flight.png', () {
                                         Navigator.pushNamed(context, Routes.listLeaveScreen);
                                       },model),
+                                      if(model.isFormAvailableForDoctype("Visit"))
+                                        buildButton("Visits", 'assets/images/visit.png', () {
+                                          Navigator.pushNamed(context, Routes.visitScreen);
+                                        },model),
                                     ],
                                   ),
                                 ),

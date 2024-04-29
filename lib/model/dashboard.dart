@@ -22,12 +22,12 @@ class DashBoard {
     if (json['leave_balance'] != null) {
       leaveBalance = <LeaveBalance>[];
       json['leave_balance'].forEach((v) {
-        leaveBalance!.add(new LeaveBalance.fromJson(v));
+        leaveBalance!.add(LeaveBalance.fromJson(v));
       });
     }
     lastLogType = json['last_log_type'];
     attendanceDetails = json['attendance_details'] != null
-        ? new AttendanceDetails.fromJson(json['attendance_details'])
+        ? AttendanceDetails.fromJson(json['attendance_details'])
         : null;
     empName = json['emp_name'];
     company = json['company'];
@@ -37,7 +37,7 @@ class DashBoard {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (leaveBalance != null) {
       data['leave_balance'] =
           leaveBalance!.map((v) => v.toJson()).toList();
@@ -90,7 +90,7 @@ class LeaveBalance {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['leave_type'] = leaveType;
     data['employee'] = employee;
     data['employee_name'] = employeeName;
@@ -130,7 +130,7 @@ class AttendanceDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['month_title'] = monthTitle;
     data['till_days'] = tillDays;
     data['total_days'] = totalDays;
