@@ -29,7 +29,7 @@ class ListOrderScreen extends StatelessWidget {
           ],
                 leading: IconButton.outlined(
                     onPressed: () {
-                      Navigator.popAndPushNamed(context, Routes.homePage);
+                      Navigator.pushNamed(context, Routes.homePage);
                     },
                     icon: const Icon(Icons.arrow_back)),
               ),

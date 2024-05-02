@@ -182,7 +182,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),child: ListTile(
-              onTap: () => Navigator.popAndPushNamed(context, Routes.changePasswordScreen),
+              onTap: () => Navigator.pushNamed(context, Routes.changePasswordScreen),
               leading: const Icon(Icons.lock_outlined),
               title: const Text('Change the Password',style: TextStyle(fontWeight: FontWeight.bold),),trailing: const Icon(Icons.arrow_forward_ios_outlined),
             )),

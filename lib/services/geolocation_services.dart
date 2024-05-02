@@ -110,4 +110,21 @@ class GeolocationService {
     }
     return false;
   }
+
+  Future<String?> getAddressFromCoordinates(
+      double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks =
+      await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks[0];
+        String address =
+            '${placemark.street},${placemark.subLocality}, ${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}, ${placemark.postalCode}';
+        return address;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Failed to get address from coordinates');
+    }
+    return null;
+  }
 }

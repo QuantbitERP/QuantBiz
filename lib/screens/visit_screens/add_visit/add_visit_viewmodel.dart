@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocation/model/add_visit_model.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
 import '../../../services/add_leave_services.dart';
 import '../../../services/add_visit_services.dart';
+import '../../../services/geolocation_services.dart';
 
 class AddVisitViewModel extends BaseViewModel{
   TextEditingController descriptoncontroller=TextEditingController();
@@ -32,12 +36,41 @@ class AddVisitViewModel extends BaseViewModel{
     if (formKey.currentState!.validate()) {
       Logger().i(visitdata.toJson());
       bool res = false;
+      GeolocationService geolocationService = GeolocationService();
+      try {
+        Position? position = await geolocationService.determinePosition();
+
+        if (position == null) {
+          Fluttertoast.showToast(msg: 'Failed to get location');
+          return setBusy(false);
+        }
+
+        Placemark? placemark = await geolocationService.getPlacemarks(position);
+        if (placemark == null) {
+          Fluttertoast.showToast(msg: 'Failed to get placemark');
+          return setBusy(false);
+        }
+
+        String formattedAddress =
+            await geolocationService.getAddressFromCoordinates(
+                position.latitude, position.longitude) ??
+                "";
+        visitdata.latitude = position.latitude.toString();
+        visitdata.longitude = position.longitude.toString();
+        visitdata.location = formattedAddress;
+
         res = await AddVisitServices().addVisit(visitdata);
         if (res) {
           if (context.mounted) {
             setBusy(false);
             Navigator.pop(context);
           }}
+      } catch (e) {
+        Fluttertoast.showToast(msg: '$e');
+      } finally {
+        setBusy(false);
+      }
+
     }
     setBusy(false);
   }

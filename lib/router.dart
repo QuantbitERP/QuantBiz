@@ -26,6 +26,7 @@ import 'package:geolocation/screens/sales_order/items/add_items_screen.dart';
 import 'package:geolocation/screens/sales_order/list_sales_order/list_sales_order_screen.dart';
 import 'package:geolocation/screens/splash_screen/splash_screen.dart';
 import 'package:geolocation/screens/visit_screens/add_visit/add_visit_view.dart';
+import 'package:geolocation/screens/visit_screens/update_visit/update_visit_view.dart';
 import 'package:geolocation/screens/visit_screens/visit_List/visit_list_screen.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -63,7 +64,8 @@ import 'screens/lead_screen/lead_list/lead_screen.dart';
     MaterialRoute(page: AddCustomer),
     MaterialRoute(page: UpdateCustomer),
     MaterialRoute(page: VisitScreen),
-    MaterialRoute(page: AddVisitScreen)
+    MaterialRoute(page: AddVisitScreen),
+    MaterialRoute(page: UpdateVisitScreen)
     // DetailedFarmerScreen
   ],
   dependencies: [

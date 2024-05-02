@@ -12,6 +12,9 @@ class AddVisitModel {
   String? description;
   String? employee;
   String? user;
+  String? latitude;
+  String? location;
+  String? longitude;
   String? doctype;
 
   AddVisitModel(
@@ -27,7 +30,10 @@ class AddVisitModel {
         this.visitType,
         this.description,
         this.employee,
+        this.location,
         this.user,
+        this.latitude,
+        this.longitude,
         this.doctype});
 
   AddVisitModel.fromJson(Map<String, dynamic> json) {
@@ -43,26 +49,32 @@ class AddVisitModel {
     visitType = json['visit_type'];
     description = json['description'];
     employee = json['employee'];
+    location=json['location'];
     user = json['user'];
+    longitude=json['longitude'];
+    latitude=json['latitude'];
     doctype = json['doctype'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['owner'] = this.owner;
-    data['modified_by'] = this.modifiedBy;
-    data['docstatus'] = this.docstatus;
-    data['idx'] = this.idx;
-    data['customer'] = this.customer;
-    data['customer_name'] = this.customerName;
-    data['date'] = this.date;
-    data['time'] = this.time;
-    data['visit_type'] = this.visitType;
-    data['description'] = this.description;
-    data['employee'] = this.employee;
-    data['user'] = this.user;
-    data['doctype'] = this.doctype;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['name'] = name;
+    data['owner'] = owner;
+    data['modified_by'] = modifiedBy;
+    data['docstatus'] = docstatus;
+    data['idx'] = idx;
+    data['customer'] = customer;
+    data['customer_name'] = customerName;
+    data['date'] = date;
+    data['time'] = time;
+    data['visit_type'] = visitType;
+    data['description'] = description;
+    data['location']=location;
+    data['employee'] = employee;
+    data['latitude']=latitude;
+    data['longitude']=longitude;
+    data['user'] = user;
+    data['doctype'] = doctype;
     return data;
   }
 }
