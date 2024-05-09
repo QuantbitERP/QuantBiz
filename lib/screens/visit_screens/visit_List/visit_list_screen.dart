@@ -35,7 +35,7 @@ class _VisitScreenState extends State<VisitScreen> {
                 scrollDirection: Axis.vertical,
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: model.visitList.isNotEmpty
                       ? ListView.separated(
                     controller: ScrollController(keepScrollOffset: false),
@@ -44,7 +44,7 @@ class _VisitScreenState extends State<VisitScreen> {
                     shrinkWrap: true,
                     itemBuilder: (builder, index) {
                       return Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
@@ -108,7 +108,7 @@ class _VisitScreenState extends State<VisitScreen> {
                     },
                     separatorBuilder: (context, builder) {
                       return  const SizedBox(
-                        height: 10,
+                        height: 20,
                       );
                     },
                     itemCount: model.visitList.length,

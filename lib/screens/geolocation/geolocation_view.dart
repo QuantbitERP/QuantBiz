@@ -38,14 +38,12 @@ class Geolocation extends StatelessWidget {
                         'User: ${model.geolocationdata.user ?? ""}',
                       ),
                       Text(
-                        'Date:  ${model.geolocationdata.date}',
+                        'Date:  ${model.geolocationdata.date ?? ""}',
                       ),
                       Text(
-                        'Device Id:  ${model.geolocationdata.deviceId}',
+                        'Device Id:  ${model.geolocationdata.deviceId ?? ""}',
                       ),
-                      // Text(
-                      //   'Distance: ${model.geolocationdata.distance ?? 0.0}',
-                      // ),
+
                     ],
                   ),
                 ),

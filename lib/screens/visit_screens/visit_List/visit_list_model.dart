@@ -22,8 +22,8 @@ visitList=await ListVisitServices().fetchVisit();
 void onRowClick(BuildContext context, VisitListModel? farmresList) {
   Navigator.pushNamed(
     context,
-    Routes.addVisitScreen,
-    arguments: AddVisitScreenArguments(VisitId: farmresList?.name ?? ""),
+    Routes.updateVisitScreen,
+    arguments: UpdateVisitScreenArguments(updateId: farmresList?.name ?? ""),
   );
 }
 }
