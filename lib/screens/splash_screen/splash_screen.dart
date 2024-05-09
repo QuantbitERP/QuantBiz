@@ -34,9 +34,9 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _performAsyncOperations().then((_) {
       if (isLoggedIn) {
-        Navigator.pushNamed(context, Routes.homePage);
+        Navigator.popAndPushNamed(context, Routes.homePage);
       } else {
-        Navigator.pushNamed(context, Routes.loginViewScreen);
+        Navigator.popAndPushNamed(context, Routes.loginViewScreen);
       }
     });
 

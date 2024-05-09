@@ -30,7 +30,7 @@ class LoginViewModel extends BaseViewModel {
     notifyListeners();
     if (res) {
       if (context.mounted) {
-        Navigator.pushNamed(context, Routes.homePage);
+        Navigator.popAndPushNamed(context, Routes.homePage);
       }
     } else {
       Logger().i('invalid credential');
@@ -54,7 +54,7 @@ class LoginViewModel extends BaseViewModel {
     notifyListeners();
     if (res) {
       if (context.mounted) {
-        Navigator.pushNamed(context, Routes.homePage);
+        Navigator.popAndPushNamed(context, Routes.homePage);
       }
     } else {
       Logger().i('invalid credential');

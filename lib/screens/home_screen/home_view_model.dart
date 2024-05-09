@@ -17,6 +17,8 @@ import '../../services/platform_repository.dart';
 import '../location_tracking/tracking_service.dart';
 
 class HomeViewModel extends BaseViewModel {
+  final PageController pageController = PageController(initialPage: 0);
+  late int selectedIndex = 0;
   late SharedPreferences prefs;
   DashBoard _cachedDashboard = DashBoard();
   List<String> availableDoctypes=[""];

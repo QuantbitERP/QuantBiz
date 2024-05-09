@@ -24,11 +24,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'My Profile',
-            style: TextStyle(fontSize: 18, ),
-          ),
-          leading: IconButton.outlined(
-            onPressed: () =>Navigator.pop(context),
-            icon:  Icon(Icons.arrow_back,),
+            style: TextStyle(fontSize: 20 ),
           ),
 
         ),
@@ -204,21 +200,21 @@ class ProfileScreen extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Logout'),
-                            content: const Text('Are you sure you want to log out?'),
+                            title: const Text('Logout',style: TextStyle(color: Colors.redAccent),),
+                            content: const Text('Are you sure you want to log out ?',style: TextStyle(fontSize: 18),),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
                                   // Close the dialog
                                   Navigator.of(context).pop();
                                 },
-                                child: const Text('Cancel'),
+                                child: const Text('Cancel',style: TextStyle(color: Colors.redAccent),),
                               ),
                               TextButton(
                                 onPressed: () {
                                   logout(context); // Close the dialog
                                 },
-                                child: const Text('Logout'),
+                                child: const Text('Yes',),
                               ),
                             ],
                           );
