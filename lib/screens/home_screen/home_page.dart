@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/router.router.dart';
+import 'package:geolocation/screens/task_screen/list_task_screen/list_task_screen.dart';
 import 'package:geolocation/widgets/full_screen_loader.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:logger/logger.dart';
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                   controller: model.pageController,
                   children:  <Widget>[
                     homePage(model),
-
+Center(child: TaskScreen(),),
                     Center(
                       child: Geolocation(),
                     ),
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             unselectedItemColor: Colors.grey,
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-
+              BottomNavigationBarItem(icon: Icon(Icons.task), label: "Tasks"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.location_on_outlined), label: "Routes"),
               BottomNavigationBarItem(

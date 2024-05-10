@@ -1,10 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:geolocation/screens/visit_screens/visit_List/visit_list_model.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../router.router.dart';
 import '../../../widgets/full_screen_loader.dart';
+import 'list_task_ViewModel.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -16,12 +19,12 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
-    return  ViewModelBuilder<VisitViewModel>.reactive(
-        viewModelBuilder: () => VisitViewModel(),
+    return  ViewModelBuilder<TaskListViewModel>.reactive(
+        viewModelBuilder: () => TaskListViewModel(),
         onViewModelReady: (model) => model.initialise(context),
         builder: (context, model, child)=> Scaffold(
           backgroundColor: Colors.grey.shade100,
-          appBar: AppBar(title: const Text('My Visits'),
+          appBar: AppBar(title: const Text('My Tasks'),
             leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
 
           ),
@@ -36,7 +39,7 @@ class _TaskScreenState extends State<TaskScreen> {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: model.visitList.isNotEmpty
+                  child: model.taskList.isNotEmpty
                       ? ListView.separated(
                     controller: ScrollController(keepScrollOffset: false),
 
@@ -44,9 +47,9 @@ class _TaskScreenState extends State<TaskScreen> {
                     shrinkWrap: true,
                     itemBuilder: (builder, index) {
                       return Container(
-                        padding: EdgeInsets.all(8),
+
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
@@ -59,37 +62,50 @@ class _TaskScreenState extends State<TaskScreen> {
                         ),
                         child: MaterialButton(
                           onPressed: () => model.onRowClick(
-                              context, model.visitList[index]),
+                              context, model.taskList[index]),
 
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              SizedBox(height: 10,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  AutoSizeText("${model.visitList[index].name.toString()}\n${model.visitList[index].date}-${model.visitList[index].time}",
-
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight:
-                                      FontWeight.w500,
-                                    ),),
-
-                                  Card( color: Colors.blue,
-                                    shape:
-                                    RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                          20.0),
-                                      // Set border color and width
+                                  Container(  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: model.getColorForPriority(model.taskList[index].priority.toString()),
                                     ),
+                                  ),
+
+
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 7),
+                                      child: AutoSizeText(model.taskList[index].priority ?? "",  textAlign:
+                                      TextAlign.center,
+                                        style:  TextStyle(
+                                          color: model.getColorForPriority(model.taskList[index].priority.toString()),
+                                          fontWeight:
+                                          FontWeight.bold,
+                                        ),),
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: model.getColorForStatus(model.taskList[index].status.toString()),
+                                    ),
+                                  ),
                                     // color:model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: AutoSizeText(model.visitList[index].visitType ?? "",  textAlign:
+                                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 7),
+                                      child: AutoSizeText(model.taskList[index].status ?? "",  textAlign:
                                       TextAlign.center,
-                                        style: const TextStyle(
-                                          color: Colors.white,
+                                        style:  TextStyle(
+                                          color: model.getColorForStatus(model.taskList[index].status.toString()),
                                           fontWeight:
                                           FontWeight.bold,
                                         ),),
@@ -97,10 +113,47 @@ class _TaskScreenState extends State<TaskScreen> {
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 10),
-                              Text( "Customer Name", style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w800)),
+                              SizedBox(height: 10,),
+                              AutoSizeText(model.taskList[index].projectName ?? "",
+                                minFontSize: 19,
+                                style: const TextStyle(
 
-                              Text(model.visitList[index].customerName.toString(), style: const TextStyle(fontSize: 15)),
+                                  fontWeight:
+                                  FontWeight.bold,
+                                ),),
+                              AutoSizeText(model.taskList[index].subject ?? "",
+                                minFontSize: 19,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+
+                                  fontWeight:
+                                  FontWeight.bold,
+                                ),),
+                              if(model.taskList[index].expEndDate != "")
+                              Row(
+                                children: [
+                                  Icon(Icons.timer),
+                                  SizedBox(width: 10,),
+                                  AutoSizeText(model.taskList[index].expEndDate ?? "",
+                                  minFontSize: 16,
+                                    style: const TextStyle(
+
+                                      fontWeight:
+                                      FontWeight.w500,
+                                    ),),
+                                ],
+                              ),
+                              Divider(),
+Row(
+
+  children: [
+  Icon(Icons.comment),
+  SizedBox(width: 12,),
+  Text("${model.taskList[index].numComments ?? 0}"),SizedBox(width: 8,),
+
+  Text(model.taskList[index].assignedBy?.user ?? "",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)
+],)
+                              ,SizedBox(height: 10,),
                             ],
                           ),
                         ),
@@ -111,8 +164,13 @@ class _TaskScreenState extends State<TaskScreen> {
                         height: 20,
                       );
                     },
-                    itemCount: model.visitList.length,
-                  ): _buildEmptyContainer('No upcoming leave found for this year and month'),
+                    itemCount: model.taskList.length,
+                  ): Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: const BoxDecoration(color: Colors.white,borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: const Text('Sorry, you got nothing!',textDirection: TextDirection.ltr,style: TextStyle(fontWeight: FontWeight.w700),),),
+                  )
                 ),
               ),
 
@@ -126,22 +184,5 @@ class _TaskScreenState extends State<TaskScreen> {
         ));
   }
 
-  Widget _buildEmptyContainer(String message) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      height: 100,
-      child: Center(child: Text(message)),
-    );
-  }
+
 }
