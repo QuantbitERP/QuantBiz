@@ -276,43 +276,41 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
           ),
         ),
         Container(
-          color: Colors.blueAccent.shade400,
+
           padding: const EdgeInsets.all(10),
-          height: 60,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 7,
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    controller: model.comment,
-                    decoration: InputDecoration(
-                      hintText: 'Enter a comment',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                    ),
+          height: 80,
+          child:TextFormField(
+            controller: model.comment,
+            decoration: InputDecoration(
+              hintText: 'Comment Here',
+              hintStyle: TextStyle(fontSize: 15),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(24),
+                borderSide: BorderSide(color: Colors.blue, width: 2),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(24),
+                borderSide: BorderSide(color: Colors.grey, width: 2),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(24),
+                borderSide: BorderSide(color: Colors.black45, width: 2),
+              ),
+              suffixIcon: Padding(
+                padding: EdgeInsets.only(right: 10.0),
+                child: TextButton(
+                  onPressed: () {
+                    if (model.comment.text.isNotEmpty) {
+                      model.addComment(model.customerData.name, model.comment.text);
+                    }
+                  },
+                  child: Text(
+                    'Send',
+                    style: TextStyle(fontSize: 14.0, color: Colors.black),
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  if (model.comment.text.isNotEmpty) {
-                    model.addComment(model.customerData.name, model.comment.text);
-                  }
-                },
-                icon: const Icon(Icons.send_outlined, size: 30, color: Colors.white),
-              )
-            ],
+            ),
           ),
         ),
       ],

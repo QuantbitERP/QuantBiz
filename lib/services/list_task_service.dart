@@ -26,16 +26,16 @@ class TaskListService{
         List<TaskList> caneList = List.from(jsonData['data'])
             .map<TaskList>((data) => TaskList.fromJson(data))
             .toList();
-        Logger().i(caneList.first.toJson());
+
         return caneList;
 
       } else {
         Fluttertoast.showToast(msg: "Unable to task List");
         return [];
       }
-    } catch (e) {
+    } on DioException catch (e) {
 
-      Logger().e(e);
+      Logger().e(e.response?.data['message'].toString());
       Fluttertoast.showToast(msg: "Unauthorized task List!");
       return [];
     }

@@ -1,8 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:geolocation/screens/visit_screens/visit_List/visit_list_model.dart';
+import 'package:geolocation/screens/home_screen/home_page.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../router.router.dart';
@@ -25,13 +24,11 @@ class _TaskScreenState extends State<TaskScreen> {
         builder: (context, model, child)=> Scaffold(
           backgroundColor: Colors.grey.shade100,
           appBar: AppBar(title: const Text('My Tasks'),
-            leading: IconButton.outlined(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
+            leading: IconButton.outlined(onPressed: ()=>HomePage(), icon: const Icon(Icons.arrow_back)),
 
           ),
-          body: WillPopScope(
-            onWillPop: ()  async{
-              Navigator.pop(context);
-              return true; },
+          body: RefreshIndicator(
+            onRefresh: ()=>model.refresh(),
             child: fullScreenLoader(
               child: SingleChildScrollView(
                 // controller: ScrollController(keepScrollOffset: false),
@@ -39,7 +36,7 @@ class _TaskScreenState extends State<TaskScreen> {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: model.taskList.isNotEmpty
+                  child: model.filterTaskList.isNotEmpty
                       ? ListView.separated(
                     controller: ScrollController(keepScrollOffset: false),
 
@@ -62,7 +59,7 @@ class _TaskScreenState extends State<TaskScreen> {
                         ),
                         child: MaterialButton(
                           onPressed: () => model.onRowClick(
-                              context, model.taskList[index]),
+                              context, model.filterTaskList[index]),
 
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,17 +72,17 @@ class _TaskScreenState extends State<TaskScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
                                       width: 1,
-                                      color: model.getColorForPriority(model.taskList[index].priority.toString()),
+                                      color: model.getColorForPriority(model.filterTaskList[index].priority.toString()),
                                     ),
                                   ),
 
 
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 7),
-                                      child: AutoSizeText(model.taskList[index].priority ?? "",  textAlign:
+                                      child: AutoSizeText(model.filterTaskList[index].priority ?? "",  textAlign:
                                       TextAlign.center,
                                         style:  TextStyle(
-                                          color: model.getColorForPriority(model.taskList[index].priority.toString()),
+                                          color: model.getColorForPriority(model.filterTaskList[index].priority.toString()),
                                           fontWeight:
                                           FontWeight.bold,
                                         ),),
@@ -96,16 +93,16 @@ class _TaskScreenState extends State<TaskScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
                                       width: 1,
-                                      color: model.getColorForStatus(model.taskList[index].status.toString()),
+                                      color: model.getColorForStatus(model.filterTaskList[index].status.toString()),
                                     ),
                                   ),
                                     // color:model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 7),
-                                      child: AutoSizeText(model.taskList[index].status ?? "",  textAlign:
+                                      child: AutoSizeText(model.filterTaskList[index].status ?? "",  textAlign:
                                       TextAlign.center,
                                         style:  TextStyle(
-                                          color: model.getColorForStatus(model.taskList[index].status.toString()),
+                                          color: model.getColorForStatus(model.filterTaskList[index].status.toString()),
                                           fontWeight:
                                           FontWeight.bold,
                                         ),),
@@ -114,27 +111,29 @@ class _TaskScreenState extends State<TaskScreen> {
                                 ],
                               ),
                               SizedBox(height: 10,),
-                              AutoSizeText(model.taskList[index].projectName ?? "",
+                              AutoSizeText(model.filterTaskList[index].projectName ?? "",
                                 minFontSize: 19,
                                 style: const TextStyle(
 
                                   fontWeight:
                                   FontWeight.bold,
                                 ),),
-                              AutoSizeText(model.taskList[index].subject ?? "",
-                                minFontSize: 19,
+                              SizedBox(height: 7,),
+                              AutoSizeText(model.filterTaskList[index].subject ?? "",
+                                minFontSize: 17,
                                 style: const TextStyle(
                                   color: Colors.grey,
 
                                   fontWeight:
                                   FontWeight.bold,
                                 ),),
-                              if(model.taskList[index].expEndDate != "")
+                              SizedBox(height: 7),
+                              if(model.filterTaskList[index].expEndDate != "")
                               Row(
                                 children: [
                                   Icon(Icons.timer),
                                   SizedBox(width: 10,),
-                                  AutoSizeText(model.taskList[index].expEndDate ?? "",
+                                  AutoSizeText(model.filterTaskList[index].expEndDate ?? "",
                                   minFontSize: 16,
                                     style: const TextStyle(
 
@@ -144,15 +143,15 @@ class _TaskScreenState extends State<TaskScreen> {
                                 ],
                               ),
                               Divider(),
-Row(
+                Row(
 
-  children: [
-  Icon(Icons.comment),
-  SizedBox(width: 12,),
-  Text("${model.taskList[index].numComments ?? 0}"),SizedBox(width: 8,),
+                  children: [
+                  Icon(Icons.comment),
+                  SizedBox(width: 12,),
+                  Text("${model.filterTaskList[index].numComments ?? 0}"),SizedBox(width: 8,),
 
-  Text(model.taskList[index].assignedBy?.user ?? "",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)
-],)
+                  Text(model.filterTaskList[index].assignedBy?.user ?? "",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)
+                ],)
                               ,SizedBox(height: 10,),
                             ],
                           ),
@@ -164,7 +163,7 @@ Row(
                         height: 20,
                       );
                     },
-                    itemCount: model.taskList.length,
+                    itemCount: model.filterTaskList.length,
                   ): Center(
                     child: Container(
                       padding: const EdgeInsets.all(16),
@@ -179,8 +178,8 @@ Row(
               context: context,
             ),
           ),
-          floatingActionButton: FloatingActionButton.extended(onPressed: ()=>Navigator.pushNamed(context, Routes.addVisitScreen,arguments: AddVisitScreenArguments(VisitId: "")),
-            label: const Text('Create Visit'),),
+          floatingActionButton: FloatingActionButton.extended(onPressed: ()=>Navigator.pushNamed(context, Routes.addTaskScreen,arguments: const AddTaskScreenArguments(taskId: "")),
+            label: const Text('Create Task'),),
         ));
   }
 

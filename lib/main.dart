@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             // colorScheme: lightScheme,
             // extensions: [lightCustomColors],
-              primarySwatch: Colors.green
+              primarySwatch: Colors.blue
           ),
 
           debugShowCheckedModeBanner: false,

@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocation/model/list_task_model.dart';
+import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../../router.router.dart';
-import '../../../services/list_task_service.dart';
+import '../../../model/add_task_model.dart';
+import '../../../services/add_task_services.dart';
 
-class TaskListViewModel extends BaseViewModel{
-  List<TaskList> taskList = [];
-  List<TaskList> filterTaskList = [];
-
-
-
-  initialise(BuildContext context) async {
+class UpdateTaskViewModel extends BaseViewModel{
+  AddTaskModel taskData= AddTaskModel();
+  List<Comments> comments=[];
+  TextEditingController comment =TextEditingController();
+  bool res=false;
+  initialise(BuildContext context,String Id) async {
     setBusy(true);
-    taskList = await TaskListService().fetchTask();
-    filterTaskList=taskList;
+    if(Id!= ""){
 
+      taskData=await AddTaskServices().getTask(Id) ?? AddTaskModel();
+comments.addAll(taskData.comments?.toList() ?? []);
+    }
     setBusy(false);
   }
 
@@ -30,7 +31,7 @@ class TaskListViewModel extends BaseViewModel{
         return Colors.red; // Set the color for To Deliver and Bill status
       case 'Urgent':
         return Colors.redAccent.shade400; // Set the color for To Bill status
-      // Set the color for Closed status
+    // Set the color for Closed status
       default:
         return Colors.grey; // Set a default color for unknown status
     }
@@ -54,20 +55,21 @@ class TaskListViewModel extends BaseViewModel{
         return Colors.green; // Set the color for Completed status
       case 'Cancelled':
         return Colors.grey; // Set the color for Cancelled status
-   // Set the color for Closed status
+    // Set the color for Closed status
       default:
         return Colors.grey; // Set a default color for unknown status
     }
   }
-  Future<void> refresh() async {
-    filterTaskList= await TaskListService().fetchTask();
+  void addComment(String? id,dynamic content)async{
+
+    if(id!.isNotEmpty){
+      res=await AddTaskServices().addComment(id,content);}
+    if(res){
+      taskData=await AddTaskServices().getTask(id) ?? AddTaskModel();
+      comments.addAll(taskData.comments?.toList() ?? []);
+    }
+    comment.clear();
     notifyListeners();
   }
-  void onRowClick(BuildContext context, TaskList? farmresList) {
-    Navigator.pushNamed(
-      context,
-      Routes.updateTaskScreen,
-      arguments: UpdateTaskScreenArguments(updateTaskId: farmresList?.name ?? ""),
-    );
-  }
+
 }
