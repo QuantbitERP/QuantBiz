@@ -202,8 +202,7 @@ class CustomMultiDropdownButton2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height:60,
+
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18.0),
         border: Border.all(
@@ -242,49 +241,15 @@ class CustomMultiDropdownButton2 extends StatelessWidget {
             String? item,
             bool isSelected,
             ) {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child:Container(
-                      width: 20, // Adjust the width as needed
-                      height: 20, // Adjust the height as needed
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 1.0,
-                        ),
-                        color: isSelected ? Colors.blueAccent : Colors.transparent,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: ListTile(
-                      title: Text(
-                        item ?? '',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: isSelected ? Colors.blue : Colors.black,
-                        ),
-                      ),
-                      selected: isSelected,
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(
-                thickness: 1,
-                color: Colors.black45,
-              ),
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Text(item ?? ""),
           );
         },),
         items:items,
         dropdownDecoratorProps:  DropDownDecoratorProps(
           dropdownSearchDecoration:InputDecoration(
+
               contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
               labelText: labelText,
               hintText: hintText,

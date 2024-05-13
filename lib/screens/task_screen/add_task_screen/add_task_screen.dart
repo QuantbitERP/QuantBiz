@@ -159,7 +159,7 @@ prefixIcon: Icon(Icons.flag),
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [Expanded(child: CtextButton(onPressed: () => Navigator.of(context).pop(), text: 'Cancel', buttonColor: Colors.redAccent.shade400,)),
               SizedBox(width: 20),
-              Expanded(child: CtextButton(onPressed: ()=> model.onSavePressed(context), text:'Create Task', buttonColor: Colors.blueAccent.shade400,))
+              Expanded(child: CtextButton(onPressed: ()=> model.onSavePressed(context), text:model.idEdit ? 'Update Task' :'Create Task', buttonColor: Colors.blueAccent.shade400,))
             ]
         )
       ],

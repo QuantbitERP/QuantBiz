@@ -43,6 +43,37 @@ class AddTaskServices{
     return false;
   }
 
+  Future<bool> changeStatus(String? name,String? status) async {
+    baseurl =  await geturl();
+
+    var data = {
+      'task_id': name,'new_status':status};
+
+    try {
+      var dio = Dio();
+      var response = await dio.request(
+        '$baseurl/api/method/mobile.mobile_env.task.update_task_status',
+        options: Options(
+          method: 'POST',
+          headers: {'Authorization': await getTocken()},
+        ),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        Logger().i(response.data["message"]);
+        return true;
+      } else {
+        Fluttertoast.showToast(msg: "UNABLE TO add notes!");
+        return false;
+      }
+    } on DioException catch (e) {
+      Fluttertoast.showToast(gravity:ToastGravity.BOTTOM,msg: 'Error: ${e.response!.data["message"].toString()} ',textColor:Color(0xFFFFFFFF),backgroundColor: Color(0xFFBA1A1A),);
+      Logger().e(e.response!.data["message"].toString());
+    }
+    return false;
+  }
+
   Future<List<String>> fetchProject() async {
     baseurl =  await geturl();
     try {

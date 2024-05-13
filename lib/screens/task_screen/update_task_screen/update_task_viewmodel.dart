@@ -21,6 +21,16 @@ comments.addAll(taskData.comments?.toList() ?? []);
     setBusy(false);
   }
 
+  List<String> statusItem = [
+    "Open",
+    "Working",
+    "Pending Review",
+    "Overdue",
+    "Template",
+    "Completed",
+    "Cancelled"
+  ];
+
   Color getColorForPriority(String status) {
     switch (status) {
       case 'Low':
@@ -70,6 +80,17 @@ comments.addAll(taskData.comments?.toList() ?? []);
     }
     comment.clear();
     notifyListeners();
+  }
+
+  Future<void> changeStatus(BuildContext context,String? action) async {
+    setBusy(true);
+    bool res = false;
+    res = res=await AddTaskServices().changeStatus(taskData.name,action);
+    if (res) {
+      initialise(context,taskData.name.toString());
+    }
+    notifyListeners();
+    setBusy(false);
   }
 
 }

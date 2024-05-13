@@ -29,12 +29,12 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
       appBar: AppBar(
         title: Text(widget.updateTaskId),
         actions: [
-          IconButton(onPressed: ()=>Navigator.pushNamed(context, Routes.addTaskScreen,arguments: AddTaskScreenArguments(taskId: widget.updateTaskId)), icon: Icon(Icons.edit))
+          IconButton(onPressed: ()=>Navigator.pushNamed(context, Routes.addTaskScreen,arguments: AddTaskScreenArguments(taskId: widget.updateTaskId)), icon: const Icon(Icons.edit))
         ],
       ),
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
 
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: fullScreenLoader(loader: model.isBusy, child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -56,7 +56,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                   FontWeight.w500,
                   color: Colors.black54
               ),),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -81,6 +81,7 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                   ),
                 ),
                 Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 7),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
@@ -89,20 +90,25 @@ class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
                     ),
                   ),
                   // color:model.getColorForStatus(model.expenselist[index].approvalStatus.toString()),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 7),
-                    child: AutoSizeText(model.taskData.status ?? "",  textAlign:
-                    TextAlign.center,
-                      style:  TextStyle(
-                        color: model.getColorForStatus(model.taskData.status.toString()),
-                        fontWeight:
-                        FontWeight.bold,
-                      ),),
+                  child: PopupMenuButton(
+                    icon:  Icon(Icons.arrow_drop_down, color: model.getColorForStatus(model.taskData.status.toString())),
+                    itemBuilder: (BuildContext context) =>
+                        model.statusItem.map<PopupMenuItem<String>>((String item) {
+                          // Populate menu items from fetched data
+                          return PopupMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          );
+                        }).toList(),
+                    onSelected: (value) {
+
+                      model.changeStatus(context,value);
+                    },
                   ),
                 )
               ],
             ),
-SizedBox(height: 10,),
+const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -110,14 +116,14 @@ SizedBox(height: 10,),
                 buildItemColumn(additionalText: (model.taskData.expEndDate ?? 0.0).toString(), labelText: 'Due Date'),
                 buildItemColumn(additionalText: (model.taskData.actualTime ?? 0.0).toString(), labelText: 'Actual Hrs'),
               ],),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             buildItemColumn(additionalText: model.taskData.description ?? "", labelText: 'Description'),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AutoSizeText(
-                "Assigned By", style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),minFontSize: 16,),
+              const AutoSizeText(
+                "Assigned By", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),minFontSize: 16,),
               Row(
 
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +141,7 @@ SizedBox(height: 10,),
                       errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/profile.png', scale: 5)),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   AutoSizeText(
                    model.taskData.assignedBy?.fullName ?? "", style: const TextStyle(fontWeight: FontWeight.bold),minFontSize: 18,),
 
@@ -172,33 +178,33 @@ SizedBox(height: 10,),
 
               ],
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             TextFormField(
               controller: model.comment,
               decoration: InputDecoration(
                 hintText: 'Comment Here',
-                hintStyle: TextStyle(fontSize: 15),
+                hintStyle: const TextStyle(fontSize: 15),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
-                  borderSide: BorderSide(color: Colors.blue, width: 2),
+                  borderSide: const BorderSide(color: Colors.blue, width: 2),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
-                  borderSide: BorderSide(color: Colors.grey, width: 2),
+                  borderSide: const BorderSide(color: Colors.grey, width: 2),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
-                  borderSide: BorderSide(color: Colors.black45, width: 2),
+                  borderSide: const BorderSide(color: Colors.black45, width: 2),
                 ),
                 suffixIcon: Padding(
-                  padding: EdgeInsets.only(right: 10.0),
+                  padding: const EdgeInsets.only(right: 10.0),
                   child: TextButton(
                     onPressed: () {
                       if (model.comment.text.isNotEmpty) {
                         model.addComment(model.taskData.name, model.comment.text);
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       'Send',
                       style: TextStyle(fontSize: 14.0, color: Colors.black),
                     ),
@@ -233,14 +239,14 @@ SizedBox(height: 10,),
                     ),
                   ),
                   title: Html(data: comment.comment.toString(),shrinkWrap: true,),
-                  subtitle: Text("${comment.commentBy} | ${comment.creation}",style: TextStyle(fontWeight: FontWeight.bold),),
+                  subtitle: Text("${comment.commentBy} | ${comment.creation}",style: const TextStyle(fontWeight: FontWeight.bold),),
                 );
               },
             )
                 : Center(
               child: Container(
                 padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
