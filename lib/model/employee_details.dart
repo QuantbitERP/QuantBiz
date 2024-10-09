@@ -10,6 +10,7 @@ class EmployeeDetails {
   String? cellNumber;
   String? emergencyPhoneNumber;
   String? employeeImage;
+  String? company;
 
   EmployeeDetails(
       {this.employeeName,
@@ -22,7 +23,9 @@ class EmployeeDetails {
         this.personalEmail,
         this.cellNumber,
         this.emergencyPhoneNumber,
-        this.employeeImage});
+        this.employeeImage,
+        this.company
+      });
 
   EmployeeDetails.fromJson(Map<String, dynamic> json) {
     employeeName = json['employee_name'];
@@ -36,6 +39,7 @@ class EmployeeDetails {
     cellNumber = json['cell_number'];
     emergencyPhoneNumber = json['emergency_phone_number'];
     employeeImage = json['employee_image'];
+    company = json["company"];
   }
 
   Map<String, dynamic> toJson() {

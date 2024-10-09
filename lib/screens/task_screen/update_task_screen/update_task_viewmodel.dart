@@ -85,9 +85,9 @@ comments.addAll(taskData.comments?.toList() ?? []);
   Future<void> changeStatus(BuildContext context,String? action) async {
     setBusy(true);
     bool res = false;
-    res = res=await AddTaskServices().changeStatus(taskData.name,action);
+    //res = res=await AddTaskServices().changeStatus(taskData.name,action);
     if (res) {
-      initialise(context,taskData.name.toString());
+    //  initialise(context,taskData.name.toString());
     }
     notifyListeners();
     setBusy(false);

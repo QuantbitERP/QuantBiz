@@ -1,5 +1,4 @@
 class AddTaskModel {
-  String? name;
   String? subject;
   String? project;
   String? priority;
@@ -9,39 +8,32 @@ class AddTaskModel {
   String? expEndDate;
   double? expectedTime;
   double? actualTime;
-  List<AssignedTo>? assignedTo;
-  AssignedTo? assignedBy;
-  AssignedTo? completedBy;
-  String? completedOn;
+  List<String>? assignedTo; // List of email strings
   double? progress;
   String? issue;
   String? projectName;
-  List<Comments>? comments;
-  int? numComments;
+  List<Comments>? comments; // List of Comments objects
+  int? numComments; // Added numComments field
 
-  AddTaskModel(
-      {this.name,
-        this.subject,
-        this.project,
-        this.priority,
-        this.parentTask,
-        this.status,
-        this.description,
-        this.expEndDate,
-        this.expectedTime,
-        this.actualTime,
-        this.assignedTo,
-        this.assignedBy,
-        this.completedBy,
-        this.completedOn,
-        this.progress,
-        this.issue,
-        this.projectName,
-        this.comments,
-        this.numComments});
+  AddTaskModel({
+    this.subject,
+    this.project,
+    this.priority,
+    this.parentTask,
+    this.status,
+    this.description,
+    this.expEndDate,
+    this.expectedTime,
+    this.actualTime,
+    this.assignedTo,
+    this.progress,
+    this.issue,
+    this.projectName,
+    this.comments, // Added comments field
+    this.numComments, // Initialize numComments
+  });
 
   AddTaskModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
     subject = json['subject'];
     project = json['project'];
     priority = json['priority'];
@@ -51,19 +43,9 @@ class AddTaskModel {
     expEndDate = json['exp_end_date'];
     expectedTime = json['expected_time'];
     actualTime = json['actual_time'];
-    if (json['assigned_to'] != null) {
-      assignedTo = <AssignedTo>[];
-      json['assigned_to'].forEach((v) {
-        assignedTo!.add(AssignedTo.fromJson(v));
-      });
-    }
-    assignedBy = json['assigned_by'] != null
-        ? AssignedTo.fromJson(json['assigned_by'])
-        : null;
-    completedBy = json['completed_by'] != null
-        ? AssignedTo.fromJson(json['completed_by'])
-        : null;
-    completedOn = json['completed_on'];
+    assignedTo = json['assigned_to'] != null
+        ? List<String>.from(json['assigned_to'])
+        : null; // Parse list of strings
     progress = json['progress'];
     issue = json['issue'];
     projectName = json['project_name'];
@@ -73,12 +55,11 @@ class AddTaskModel {
         comments!.add(Comments.fromJson(v));
       });
     }
-    numComments = json['num_comments'];
+    numComments = json['num_comments']; // Parse numComments
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = name;
     data['subject'] = subject;
     data['project'] = project;
     data['priority'] = priority;
@@ -89,47 +70,15 @@ class AddTaskModel {
     data['expected_time'] = expectedTime;
     data['actual_time'] = actualTime;
     if (assignedTo != null) {
-      data['assigned_to'] = assignedTo!.map((v) => v.toJson()).toList();
+      data['assigned_to'] = assignedTo; // Serialize list of strings
     }
-    if (assignedBy != null) {
-      data['assigned_by'] = assignedBy!.toJson();
-    }
-    if (completedBy != null) {
-      data['completed_by'] = completedBy!.toJson();
-    }
-    data['completed_on'] = completedOn;
     data['progress'] = progress;
     data['issue'] = issue;
     data['project_name'] = projectName;
     if (comments != null) {
-      data['comments'] = comments!.map((v) => v.toJson()).toList();
+      data['comments'] = comments!.map((v) => v.toJson()).toList(); // Serialize comments
     }
-    data['num_comments'] = numComments;
-    return data;
-  }
-}
-
-class AssignedTo {
-  String? name;
-  String? user;
-  String? fullName;
-  String? userImage;
-
-  AssignedTo({this.name, this.user, this.fullName, this.userImage});
-
-  AssignedTo.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    user = json['user'];
-    fullName = json['full_name'];
-    userImage = json['user_image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = name;
-    data['user'] = user;
-    data['full_name'] = fullName;
-    data['user_image'] = userImage;
+    data['num_comments'] = numComments; // Serialize numComments
     return data;
   }
 }
@@ -143,14 +92,15 @@ class Comments {
   String? commented;
   String? userImage;
 
-  Comments(
-      {this.comment,
-        this.commentBy,
-        this.referenceName,
-        this.creation,
-        this.commentEmail,
-        this.commented,
-        this.userImage});
+  Comments({
+    this.comment,
+    this.commentBy,
+    this.referenceName,
+    this.creation,
+    this.commentEmail,
+    this.commented,
+    this.userImage,
+  });
 
   Comments.fromJson(Map<String, dynamic> json) {
     comment = json['comment'];

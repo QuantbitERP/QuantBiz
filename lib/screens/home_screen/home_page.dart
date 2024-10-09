@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/router.router.dart';
 import 'package:geolocation/screens/task_screen/list_task_screen/list_task_screen.dart';
+
 import 'package:geolocation/widgets/full_screen_loader.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:logger/logger.dart';
@@ -14,6 +15,8 @@ import '../../constants.dart';
 import '../../widgets/drawer.dart';
 import '../geolocation/geolocation_view.dart';
 import '../profile_screen/profile_screen.dart';
+import '../timesheet_screens/add_timesheet/add_timesheet_view.dart';
+import '../timesheet_screens/time_sheet_list/time_sheet_list.dart';
 import 'home_view_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,12 +45,17 @@ class _HomePageState extends State<HomePage> {
                   controller: model.pageController,
                   children:  <Widget>[
                     homePage(model),
-Center(child: TaskScreen(),),
+                    Center(
+                      child: TaskScreen(),
+                    ),
                     Center(
                       child: Geolocation(),
                     ),
                     Center(
                       child: ProfileScreen(),
+                    ),
+                    Center(
+                      child: TimesheetListView(),
                     ),
                   ],
                 ),
@@ -68,6 +76,8 @@ Center(child: TaskScreen(),),
               BottomNavigationBarItem(icon: Icon(Icons.task), label: "Tasks"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.location_on_outlined), label: "Routes"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: "Profile"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: "Profile"),
             ],

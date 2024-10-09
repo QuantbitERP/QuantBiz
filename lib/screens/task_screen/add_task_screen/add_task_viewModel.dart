@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:geolocation/services/add_task_services.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../model/add_task_model.dart';
 
-class AddTaskViewModel extends BaseViewModel{
-  AddTaskModel taskData= AddTaskModel();
+class AddTaskViewModel extends BaseViewModel {
+  AddTaskModel taskData = AddTaskModel();
   final formKey = GlobalKey<FormState>();
   var subject = TextEditingController();
   var description = TextEditingController();
@@ -20,8 +21,8 @@ class AddTaskViewModel extends BaseViewModel{
   List<String> projectList = [];
   List<String> userList = [];
   List<String> parentTaskList = [];
-  List<String> assignToList=[];
-bool idEdit =false;
+  List<String> assignToList = [];
+  bool idEdit = false;
 
   List statusItem = [
     "Open",
@@ -35,30 +36,30 @@ bool idEdit =false;
 
   List priorityItem = ["Low", "Medium", "High", "Urgent"];
 
-  initialise(BuildContext context,String id) async {
+  initialise(BuildContext context, String id) async {
     setBusy(true);
     projectList = await AddTaskServices().fetchProject();
     userList = await AddTaskServices().fetchUser();
     parentTaskList = await AddTaskServices().fetchParentTask();
-    taskData.priority="Low";
-    taskData.status="Open";
-    if(id!= ""){
-      idEdit=true;
-taskData=await AddTaskServices().getTask(id) ?? AddTaskModel();
-subject.text=taskData.subject ?? "";
-description.text=taskData.description ?? "";
-endDate.text=taskData.expEndDate ?? "";
+    taskData.priority = "Low";
+    taskData.status = "Open";
+
+    if (id != "") {
+      idEdit = true;
+      taskData = await AddTaskServices().getTask(id) ?? AddTaskModel();
+      subject.text = taskData.subject ?? "";
+      description.text = taskData.description ?? "";
+      endDate.text = taskData.expEndDate ?? "";
     }
     setBusy(false);
   }
 
   void onSavePressed(BuildContext context) async {
-
     setBusy(true);
 
     if (formKey.currentState!.validate()) {
-
       bool res = false;
+      taskData.assignedTo = assignToList;
       // if(isEdit==true){
       //   res = await AddCustomerServices().createCustomer(customerData);
       //   if (res) {
@@ -68,14 +69,16 @@ endDate.text=taskData.expEndDate ?? "";
       //     }}
       // }
       // else{
-        res = await AddTaskServices().addTask(taskData);
-        if (res) {
-          if (context.mounted) {
-            setBusy(false);
-            Navigator.pop(context);
-          }}
-      // }
+      Logger().i(taskData.toJson());
+      res = await AddTaskServices().addTask(taskData);
+      if (res) {
+        if (context.mounted) {
+          setBusy(false);
+          Navigator.pop(context);
+        }
       }
+      // }
+    }
     setBusy(false);
   }
 
@@ -95,38 +98,40 @@ endDate.text=taskData.expEndDate ?? "";
     notifyListeners();
   }
 
-  void changeSubject(String subjecttext){
-    subject.text=subjecttext;
-    taskData.subject=subject.text;
+  void changeSubject(String subjecttext) {
+    subject.text = subjecttext;
+    taskData.subject = subject.text;
     notifyListeners();
   }
 
-  void changeDescription(String descriptionText){
-    description.text=descriptionText;
-    taskData.description=subject.text;
+  void changeDescription(String descriptionText) {
+    description.text = descriptionText;
+    taskData.description = subject.text;
     notifyListeners();
   }
 
-  void changeStatus(String? status){
-    taskData.status=status;
-    notifyListeners();
-  }
-  void changeParentTask(String? parentTask){
-    taskData.parentTask=parentTask;
+  void changeStatus(String? status) {
+    taskData.status = status;
     notifyListeners();
   }
 
-  void changePriority(String? priority){
-    taskData.priority=priority;
+  void changeParentTask(String? parentTask) {
+    taskData.parentTask = parentTask;
     notifyListeners();
   }
+
+  void changePriority(String? priority) {
+    taskData.priority = priority;
+    notifyListeners();
+  }
+
   void onChanged(List<String>? newValue) {
-   assignToList.addAll(newValue?.toList() ?? []);
-   notifyListeners();
+    assignToList.addAll(newValue?.toList() ?? []);
+    notifyListeners();
   }
 
-  void changeProject(String? project){
-    taskData.project=project;
+  void changeProject(String? project) {
+    taskData.project = project;
     notifyListeners();
   }
 

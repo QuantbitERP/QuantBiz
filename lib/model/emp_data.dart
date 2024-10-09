@@ -1,12 +1,14 @@
 class EmpData {
+  String? employee;
   String? empName;
   String? email;
   String? company;
   String? employeeImage;
 
-  EmpData({this.empName, this.email, this.company, this.employeeImage});
+  EmpData({this.employee,this.empName, this.email, this.company, this.employeeImage});
 
   EmpData.fromJson(Map<String, dynamic> json) {
+    employee = json['employee'];
     empName = json['emp_name'];
     email = json['email'];
     company = json['company'];

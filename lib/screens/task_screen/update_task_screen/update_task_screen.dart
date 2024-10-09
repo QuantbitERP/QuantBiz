@@ -129,21 +129,21 @@ const SizedBox(height: 10,),
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // Product Image
-                  ClipRRect(
-
-                    borderRadius: BorderRadius.circular(8.0),
-                    child:CachedNetworkImage(
-                      imageUrl: '$baseurl${model.taskData.assignedBy?.userImage ?? ""}',
-                      width: 15, // Set width to twice the radius for a complete circle
-                      height: 15,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
-                      errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/profile.png', scale: 5)),
-                    ),
-                  ),
+                  // ClipRRect(
+                  //
+                  //   borderRadius: BorderRadius.circular(8.0),
+                  //   child:CachedNetworkImage(
+                  //    // imageUrl: '$baseurl${model.taskData.assignedBy?.userImage ?? ""}',
+                  //     width: 15, // Set width to twice the radius for a complete circle
+                  //     height: 15,
+                  //     fit: BoxFit.cover,
+                  //     placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
+                  //     errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/profile.png', scale: 5)),
+                  //   ),
+                  // ),
                   const SizedBox(width: 10,),
-                  AutoSizeText(
-                   model.taskData.assignedBy?.fullName ?? "", style: const TextStyle(fontWeight: FontWeight.bold),minFontSize: 18,),
+                  // AutoSizeText(
+                  //  model.taskData.assignedBy?.fullName ?? "", style: const TextStyle(fontWeight: FontWeight.bold),minFontSize: 18,),
 
                 ])
             ],
@@ -201,7 +201,7 @@ const SizedBox(height: 10,),
                   child: TextButton(
                     onPressed: () {
                       if (model.comment.text.isNotEmpty) {
-                        model.addComment(model.taskData.name, model.comment.text);
+                        //model.addComment(model.taskData.name, model.comment.text);
                       }
                     },
                     child: const Text(
