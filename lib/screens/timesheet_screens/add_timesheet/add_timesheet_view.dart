@@ -14,6 +14,7 @@ class AddTimesheetForm extends StatelessWidget {
       ),
       body: ViewModelBuilder<AddTimeSheetViewModel>.reactive(
         viewModelBuilder: () => AddTimeSheetViewModel(),
+        onDispose: (model) => model.dispose(),
         onViewModelReady: (model) => model.initialise(context),
         builder: (context, viewModel, child) {
           return Padding(
@@ -97,7 +98,7 @@ class AddTimesheetForm extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        viewModel.submitForm();
+                        viewModel.submitForm(context);
                       },
                       child: Text('Submit Timesheet'),
                     ),

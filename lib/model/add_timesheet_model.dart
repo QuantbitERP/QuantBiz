@@ -40,6 +40,7 @@ class TimeLog {
   DateTime fromTime;
   DateTime toTime;
   String project;
+  String description;
 
   TimeLog({
     required this.activityType,
@@ -48,6 +49,7 @@ class TimeLog {
     required this.fromTime,
     required this.toTime,
     required this.project,
+    required this.description
   });
 
   Map<String, dynamic> toJson() {

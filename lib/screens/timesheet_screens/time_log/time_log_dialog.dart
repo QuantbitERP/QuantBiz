@@ -15,6 +15,7 @@ class TimeLogDialog extends StatelessWidget {
 
     return ViewModelBuilder<TimeLogViewModel>.reactive(
       viewModelBuilder: () => TimeLogViewModel(),
+      onDispose: (model) => model.dispose(),
       // Pass the project to the ViewModel in onViewModelReady
       onViewModelReady: (model) => model.initialize(context, project),
       builder: (context, viewModel, child) {
@@ -75,17 +76,7 @@ class TimeLogDialog extends StatelessWidget {
                   ),
                   SizedBox(height: 16.0),
                   // TextField for Hours
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Hours',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: viewModel.setHours,
-                  ),
-                  SizedBox(height: 16.0),
+
                   // TextField for From Time
                   TextField(
                     decoration: InputDecoration(
@@ -160,6 +151,19 @@ class TimeLogDialog extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16.0),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Hours',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: TextEditingController(text: viewModel.hours.toString()),
+                    onChanged: viewModel.setHours,
+                  ),
+
+                  SizedBox(height: 16.0),
                   // TextField for Project
                   TextField(
                     decoration: InputDecoration(
@@ -168,7 +172,7 @@ class TimeLogDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    controller: TextEditingController(text: project), // Show project passed to dialog
+                    controller: TextEditingController(text: viewModel.project), // Show project passed to dialog
                     readOnly: true,
                   ),
                   SizedBox(height: 16.0),
@@ -181,6 +185,7 @@ class TimeLogDialog extends StatelessWidget {
                       ),
                     ),
                     keyboardType: TextInputType.text,
+                    controller: TextEditingController(text: viewModel.description),
                     onChanged: viewModel.setDescription,
                     maxLines: 2,
                   ),

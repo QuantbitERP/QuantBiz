@@ -19,11 +19,15 @@ class GeolocationService {
         throw Exception('Location services are disabled.');
       }
 
+
+
       // Request location permission
       var locationPermissionStatus = await Permission.location.request();
       if (locationPermissionStatus != PermissionStatus.granted) {
         throw Exception('Location permissions are denied.');
+
       }
+
 
       // Request notification permission
       var notificationPermissionStatus = await Permission.notification.request();

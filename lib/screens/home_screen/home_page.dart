@@ -41,23 +41,26 @@ class _HomePageState extends State<HomePage> {
 
               body: WillPopScope(
                 onWillPop: showExitPopup,
-                child: PageView(
-                  controller: model.pageController,
-                  children:  <Widget>[
-                    homePage(model),
-                    Center(
-                      child: TaskScreen(),
-                    ),
-                    Center(
-                      child: Geolocation(),
-                    ),
-                    Center(
-                      child: ProfileScreen(),
-                    ),
-                    Center(
-                      child: TimesheetListView(),
-                    ),
-                  ],
+                child: ClipRect(
+                  child: PageView(
+                    controller: model.pageController,
+                    children:  <Widget>[
+                      homePage(model),
+                  
+                      Center(
+                        child: Geolocation(),
+                      ),
+                      Center(
+                        child: ProfileScreen(),
+                      ),
+                      Center(
+                        child: TaskScreen(),
+                      ),
+                      Center(
+                        child: TimesheetListView(),
+                      ),
+                    ],
+                  ),
                 ),
 
                 ),
@@ -71,15 +74,15 @@ class _HomePageState extends State<HomePage> {
               },
             selectedItemColor: Colors.red,
             unselectedItemColor: Colors.grey,
-            items: [
+            items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.task), label: "Tasks"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.location_on_outlined), label: "Routes"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: "Profile"),
+              BottomNavigationBarItem(icon: Icon(Icons.task), label: "Tasks"),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile"),
+                  icon: Icon(Icons.calendar_today), label: "Timesheet"),
             ],
           ),
 

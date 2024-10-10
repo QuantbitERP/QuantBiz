@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocation/constants.dart';
 import 'package:geolocation/model/emp_data.dart';
 import 'package:geolocation/model/employee_details.dart';
+import 'package:geolocation/services/timesheet_services.dart';
 import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
 import '../../../model/add_timesheet_model.dart';
@@ -98,13 +100,14 @@ class AddTimeSheetViewModel extends BaseViewModel {
   }
 
 
-  void submitForm() async {
-    // Check if required fields are filled
-    // if (_name.isEmpty || _employee.isEmpty || _company.isEmpty || _timeLogs.isEmpty) {
-    //   // Handle the case where required fields are not filled
-    //   print('Please fill all required fields.');
-    //   return;
-    // }
+  void submitForm(BuildContext context) async {
+   // Check if required fields are filled
+    if (_name.isEmpty || _employee.isEmpty || _company.isEmpty || _timeLogs.isEmpty) {
+      // Handle the case where required fields are not filled
+      print('Please fill all required fields.');
+      Fluttertoast.showToast(msg: "Please fill all required details.");
+      return;
+    }
 
     // Prepare the data to be sent
     Map<String, dynamic> data = {
@@ -126,30 +129,8 @@ class AddTimeSheetViewModel extends BaseViewModel {
     };
 
     // Call the createTimesheet method
-    await createTimesheet(data, headers);
+    await TimesheetServices().createTimesheet(data, headers,context);
   }
 
-  Future<void> createTimesheet(Map<String, dynamic> data, Map<String, dynamic> headers) async {
-    try {
-      var response = await Dio().request(
-        'https://mobilecrm.erpdata.in/api/method/mobile.mobile_env.timesheet.create_timesheet',
-        options: Options(
-          method: 'POST',
-          headers: headers,
-        ),
-        data: data,
-      );
 
-      if (response.statusCode == 200) {
-        print('Success: ${json.encode(response.data)}');
-        // You can handle the successful response here, e.g., navigate to another page
-      } else {
-        print('Error: ${response.statusMessage}');
-        // Handle error response
-      }
-    } catch (e) {
-      print('Exception: $e');
-      // Handle exceptions, such as network errors
-    }
-  }
 }

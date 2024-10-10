@@ -28,6 +28,7 @@ class TimeLogViewModel extends ChangeNotifier {
   DateTime get fromTime => _fromTime;
   DateTime get toTime => _toTime;
   String get project => _project;
+  String get description => _description;
 
   initialize(BuildContext context,String s) async {
     activityTypes = await fetchActivityTypes();
@@ -54,8 +55,9 @@ class TimeLogViewModel extends ChangeNotifier {
   double calculateTotalHours() {
     // Calculate the difference between fromTime and toTime
     Duration duration = _toTime.difference(_fromTime);
-    _hours= duration.inHours + duration.inMinutes.remainder(60) / 60.0;
-    return -_hours;
+     var hr = duration.inHours + duration.inMinutes.remainder(60) / 60.0;
+     _hours =  double.parse(hr.toStringAsFixed(2));
+     return _hours;
   }
 
   void setActivityType(String value) {
@@ -96,12 +98,13 @@ class TimeLogViewModel extends ChangeNotifier {
   }
 
   TimeLog get timeLog => TimeLog(
-    activityType: _activityType,
+    activityType: activityType,
     task: getTaskIdBySelectedTask()!,
-    hours: _hours,
-    fromTime: _fromTime,
-    toTime: _toTime,
-    project: _project,
+    hours: hours,
+    fromTime: fromTime,
+    toTime: toTime,
+    project: project,
+    description: description
   );
 
 
