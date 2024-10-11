@@ -34,7 +34,6 @@ class AddTimeSheetViewModel extends BaseViewModel {
   List<TimeLog> _timeLogs = [];
   EmployeeDetails employeeDetails= EmployeeDetails();
 
-
   // Getters
   String get name => _name;
   String get employee => _employee;
@@ -102,12 +101,12 @@ class AddTimeSheetViewModel extends BaseViewModel {
 
   void submitForm(BuildContext context) async {
    // Check if required fields are filled
-    if (_name.isEmpty || _employee.isEmpty || _company.isEmpty || _timeLogs.isEmpty) {
-      // Handle the case where required fields are not filled
-      print('Please fill all required fields.');
-      Fluttertoast.showToast(msg: "Please fill all required details.");
-      return;
-    }
+   //  if (_name.isEmpty || _employee.isEmpty || _company.isEmpty || _timeLogs.isEmpty) {
+   //    // Handle the case where required fields are not filled
+   //    print('Please fill all required fields.');
+   //    Fluttertoast.showToast(msg: "Please fill all required details.");
+   //    return;
+   //  }
 
     // Prepare the data to be sent
     Map<String, dynamic> data = {
@@ -117,6 +116,7 @@ class AddTimeSheetViewModel extends BaseViewModel {
       'start_date': _startDate.toIso8601String(),
       'end_date': _endDate.toIso8601String(),
       'remarks': _remarks,
+      'project':_project,
       'time_logs': _timeLogs.map((log) => log.toJson()).toList(), // Convert TimeLog objects to JSON
     };
 

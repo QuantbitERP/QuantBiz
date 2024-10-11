@@ -5,8 +5,22 @@ import 'package:stacked/stacked.dart';
 import '../../../model/timesheet_model.dart';
 import '../../../router.router.dart';
 
+class TimesheetListView extends StatefulWidget {
+  @override
+  _TimesheetListViewState createState() => _TimesheetListViewState();
+}
 
-class TimesheetListView extends StatelessWidget {
+class _TimesheetListViewState extends State<TimesheetListView> {
+  String? selectedMonth;
+  int? selectedYear;
+
+  final List<String> months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  final List<int> years = List.generate(5, (index) => DateTime.now().year - index);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TimesheetViewModel>.reactive(
@@ -17,7 +31,46 @@ class TimesheetListView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text('Timesheets'),
-            backgroundColor: Colors.white, // You can set your preferred color here
+            backgroundColor: Colors.white,
+            actions: [
+              // Dropdown for month selection
+              DropdownButton<String>(
+                value: selectedMonth,
+                hint: Text('Month'),
+                items: months.map((String month) {
+                  return DropdownMenuItem<String>(
+                    value: month,
+                    child: Text(month),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedMonth = newValue;
+                    // Trigger fetching timesheets based on the selected month/year
+                    model.fetchTimesheetsByMonthAndYear(selectedMonth, selectedYear);
+                  });
+                },
+              ),
+              SizedBox(width: 10),
+              // Dropdown for year selection
+              DropdownButton<int>(
+                value: selectedYear,
+                hint: Text('Year'),
+                items: years.map((int year) {
+                  return DropdownMenuItem<int>(
+                    value: year,
+                    child: Text(year.toString()),
+                  );
+                }).toList(),
+                onChanged: (int? newValue) {
+                  setState(() {
+                    selectedYear = newValue;
+                    // Trigger fetching timesheets based on the selected month/year
+                    model.fetchTimesheetsByMonthAndYear(selectedMonth, selectedYear);
+                  });
+                },
+              ),
+            ],
           ),
           body: model.isBusy
               ? Center(child: CircularProgressIndicator())
@@ -40,7 +93,7 @@ class TimesheetListView extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black, // Title font color
+                      color: Colors.black,
                     ),
                   ),
                   subtitle: Column(
@@ -52,14 +105,14 @@ class TimesheetListView extends StatelessWidget {
                             'Date: $formattedStartDate',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[700], // Subtitle font color for dates
+                              color: Colors.grey[700],
                             ),
                           ),
                           Text(
                             '- $formattedEndDate',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[700], // Subtitle font color for dates
+                              color: Colors.grey[700],
                             ),
                           ),
                         ],
@@ -68,7 +121,7 @@ class TimesheetListView extends StatelessWidget {
                         'Hours: ${timesheet.totalHours}',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey[800], // Subtitle font color for hours
+                          color: Colors.grey[800],
                         ),
                       ),
                     ],
@@ -78,7 +131,7 @@ class TimesheetListView extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: timesheet.status == 'Draft' ? Colors.orange : Colors.green, // Dynamic color for status
+                      color: timesheet.status == 'Draft' ? Colors.orange : Colors.green,
                     ),
                   ),
                 ),
@@ -86,8 +139,7 @@ class TimesheetListView extends StatelessWidget {
             },
           ),
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () => Navigator.pushNamed(
-                context, Routes.addTimesheetForm),
+            onPressed: () => Navigator.pushNamed(context, Routes.addTimesheetForm),
             label: const Text('Add Timesheet'),
           ),
         );

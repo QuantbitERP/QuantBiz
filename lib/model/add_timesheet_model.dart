@@ -7,6 +7,7 @@ class Timesheet {
   List<TimeLog> timeLogs;
   String status; // Draft or leave empty if submitted on creation
   String remarks;
+  String project;
 
   Timesheet({
     required this.name,
@@ -17,6 +18,7 @@ class Timesheet {
     required this.timeLogs,
     required this.status,
     required this.remarks,
+    required this.project
   });
 
   Map<String, dynamic> toJson() {
@@ -29,6 +31,7 @@ class Timesheet {
       'time_logs': timeLogs.map((log) => log.toJson()).toList(),
       'status': status,
       'remarks': remarks,
+      'project':project
     };
   }
 }
@@ -60,6 +63,7 @@ class TimeLog {
       'from_time': fromTime.toIso8601String(),
       'to_time': toTime.toIso8601String(),
       'project': project,
+      'description':description
     };
   }
 }

@@ -7,6 +7,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../constants.dart';
+
 class TimesheetServices{
 
 
@@ -36,6 +38,45 @@ class TimesheetServices{
       // Handle exceptions, such as network errors
     }
   }
+
+  Future<List<String>> fetchActivityTypes() async {
+    var token = await getTocken();
+    var dio = Dio();
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization':token, // Replace with actual token
+    };
+
+    try {
+      var response = await dio.request(
+        'https://mobilecrm.erpdata.in/api/method/mobile.mobile_env.app.get_activity_types',
+        options: Options(
+          method: 'GET',
+          headers: headers,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        // Map<String, dynamic> jsonData = json.decode(response.data);
+        // List<String> activityTypes = List<String>.from(jsonData['data'].map((activity) => activity['name']));
+        // Parse the JSON response string into a Map
+        Map<String, dynamic> parsedJson = response.data;  // Ensure this is a string and then decoded
+
+        // Ensure 'data' is treated as a List of Maps
+        List<dynamic> dataList = parsedJson['data'];  // 'data' is a list of maps
+
+        // Extracting the list of names
+        List<String> activityNames = dataList.map((activity) => activity['name'].toString()).toList();
+        return activityNames;
+      } else {
+        throw Exception('Failed to fetch activity types: ${response.statusMessage}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
 
 
 
