@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocation/model/list_task_model.dart';
 import 'package:geolocation/screens/timesheet_screens/time_log/time_log_view_model.dart';
 import 'package:stacked/stacked.dart';
 
-class TimeLogDialog extends StatelessWidget {
-  final String project; // Define project as a final variable
+import '../../../model/add_timesheet_model.dart';
 
-  // Constructor to accept the project string
-  TimeLogDialog( this.project); // Using a named parameter
+class TimeLogDialog extends StatelessWidget {
+  final TimeLog? existingTimeLog; // Optional existing TimeLog
+  final String project;
+// Constructor to accept project and existing TimeLog
+  TimeLogDialog(this.project, this.existingTimeLog);
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class TimeLogDialog extends StatelessWidget {
       viewModelBuilder: () => TimeLogViewModel(),
       onDispose: (model) => model.dispose(),
       // Pass the project to the ViewModel in onViewModelReady
-      onViewModelReady: (model) => model.initialize(context, project),
+      onViewModelReady: (model) => model.initialize(context, project,existingTimeLog),
       builder: (context, viewModel, child) {
         return Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -38,6 +42,7 @@ class TimeLogDialog extends StatelessWidget {
                   SizedBox(height: 16.0),
                   // Dropdown for Activity Type
                   DropdownButtonFormField<String>(
+                    value: viewModel.activityType.isNotEmpty ? viewModel.activityType : null,
                     decoration: InputDecoration(
                       labelText: 'Activity Type',
                       border: OutlineInputBorder(
@@ -58,20 +63,66 @@ class TimeLogDialog extends StatelessWidget {
                   ),
                   SizedBox(height: 16.0),
                   // Dropdown for Task
-                  DropdownButtonFormField<String>(
-                    value: viewModel.selectedTask,
-                    items: viewModel.tasks.toSet().map((String task) {
-                      return DropdownMenuItem<String>(
-                        value: task,
-                        child: Text(task), // Display task name in dropdown
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                     viewModel.setTask(newValue!);
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Select Task',
-                      border: OutlineInputBorder(),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Rounded corners for card
+                    ),
+                    elevation: 4.0, // Add shadow for depth effect
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.all(8.0), // Padding inside card
+                      child: DropdownButtonHideUnderline(
+                        // Hide the default underline of DropdownButton
+                        child: DropdownButton<TaskList>(
+                          value: viewModel.selectedTask,
+                          hint: Text('Select the task'),
+                          isExpanded: true, // To ensure full-width dropdown
+                          icon: Icon(Icons
+                              .arrow_drop_down), // Customize dropdown arrow
+                          dropdownColor: Colors
+                              .white, // Change the dropdown popup background
+                          items: viewModel.taskList.map((TaskList taskList) {
+                            return DropdownMenuItem<TaskList>(
+                              value: taskList,
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.task,
+                                      color: Colors
+                                          .blueAccent), // Custom icon color
+                                  SizedBox(
+                                      width:
+                                      10.0), // Space between icon and text
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        taskList.subject!,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14.0, // Custom text size
+                                        ),
+                                      ),
+                                      Text(
+                                       taskList.name!,
+                                        style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 14.0),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (TaskList? selectedTask) {
+                            if (selectedTask != null) {
+                              viewModel.setTask(selectedTask);
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 16.0),

@@ -4,6 +4,7 @@ import 'package:geolocation/widgets/customtextfield.dart';
 import 'package:geolocation/widgets/full_screen_loader.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../model/add_task_model.dart';
 import '../../../widgets/drop_down.dart';
 import '../../../widgets/text_button.dart';
 import 'add_task_viewModel.dart';
@@ -35,15 +36,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     key: model.formKey,
                     child: Column(
                       children: [
-                        CustomDropdownButton2(
-                          value: model.taskData.project,
-                          prefixIcon: Icons.local_post_office_outlined,
-                          items: model.projectList,
-                          hintText: 'Select the project',
-                          labelText: 'Project',
-                          onChanged: model.changeProject,
-                          validator: model.validate,
-                        ),
+                    DropdownButton<Project>(
+                    value: model.selectedProject,  // Assuming you store the selected project here
+                      hint: Text('Select the project'),
+                      isExpanded: true,
+                      items: model.projectList.map((Project project) {
+                        return DropdownMenuItem<Project>(
+                          value: project,
+                          child: ListTile(
+                            leading: Icon(Icons.local_post_office_outlined),
+                            title: Text(project.projectName),
+                            subtitle: Text(project.name),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (Project? selectedProject) {
+                        if (selectedProject != null) {
+                          model.changeProject(selectedProject);
+                        }
+                      },
+                    )
+                        ,
                         const SizedBox(
                           height: 15,
                         ),

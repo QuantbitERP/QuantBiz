@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocation/constants.dart';
 import 'package:stacked/stacked.dart';
+import '../../../model/add_task_model.dart';
 import '../../../model/add_timesheet_model.dart';
 import '../../../widgets/drop_down.dart';
 import '../time_log/time_log_dialog.dart';
@@ -20,12 +22,15 @@ class AddTimesheetForm extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
-              child: SingleChildScrollView( // Added SingleChildScrollView to allow scrolling
+              child: SingleChildScrollView(
+                physics:
+                    AlwaysScrollableScrollPhysics(), // Added SingleChildScrollView to allow scrolling
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
-                      controller: TextEditingController(text: viewModel.employee),
+                      controller:
+                          TextEditingController(text: viewModel.employee),
                       decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(
@@ -38,7 +43,8 @@ class AddTimesheetForm extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     TextFormField(
-                      controller: TextEditingController(text: viewModel.company),
+                      controller:
+                          TextEditingController(text: viewModel.company),
                       decoration: InputDecoration(
                         labelText: 'Company',
                         border: OutlineInputBorder(
@@ -50,16 +56,67 @@ class AddTimesheetForm extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 16.0),
-                    CustomDropdownButton2(
-                        value: viewModel.project,
-                        prefixIcon: Icons.local_post_office_outlined,
-                        items: viewModel.projectList,
-                        hintText: 'Select the project',
-                        labelText: 'Project',
-                        onChanged: (value){
-                          viewModel.updateProject(value!);
-                         // viewModel.selectedProject = value!;
-                        }
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Rounded corners for card
+                      ),
+                      elevation: 4.0, // Add shadow for depth effect
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.all(8.0), // Padding inside card
+                        child: DropdownButtonHideUnderline(
+                          // Hide the default underline of DropdownButton
+                          child: DropdownButton<Project>(
+                            value: viewModel.selectedProject,
+                            hint: Text('Select the project'),
+                            isExpanded: true, // To ensure full-width dropdown
+                            icon: Icon(Icons
+                                .arrow_drop_down), // Customize dropdown arrow
+                            dropdownColor: Colors
+                                .white, // Change the dropdown popup background
+                            items: viewModel.projectList.map((Project project) {
+                              return DropdownMenuItem<Project>(
+                                value: project,
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.task,
+                                        color: Colors
+                                            .blueAccent), // Custom icon color
+                                    SizedBox(
+                                        width:
+                                            10.0), // Space between icon and text
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          project.projectName,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.0, // Custom text size
+                                          ),
+                                        ),
+                                        Text(
+                                          project.name,
+                                          style: TextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 14.0),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (Project? selectedProject) {
+                              if (selectedProject != null) {
+                                viewModel.updateProject(selectedProject);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 16.0),
                     TextFormField(
@@ -74,20 +131,25 @@ class AddTimesheetForm extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 16.0),
-                    _buildDateField(context, viewModel, 'Start Date', viewModel.startDate, viewModel.updateStartDate),
+                    _buildDateField(context, viewModel, 'Start Date',
+                        viewModel.startDate, viewModel.updateStartDate),
                     SizedBox(height: 16.0),
-                    _buildDateField(context, viewModel, 'End Date', viewModel.endDate, viewModel.updateEndDate),
+                    _buildDateField(context, viewModel, 'End Date',
+                        viewModel.endDate, viewModel.updateEndDate),
                     SizedBox(height: 16.0),
-                    Text('Time Logs', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Time Logs',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     SizedBox(height: 8.0),
-                    _buildTimeLogList(viewModel),
+                    _buildTimeLogList(viewModel, context),
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () async {
                         final timeLog = await showDialog<TimeLog>(
                           context: context,
                           builder: (context) {
-                            return TimeLogDialog(viewModel.selectedProject);
+                            return TimeLogDialog(
+                                viewModel.selectedProject!.name ?? "--",null);
                           },
                         );
                         if (timeLog != null) {
@@ -112,7 +174,8 @@ class AddTimesheetForm extends StatelessWidget {
     );
   }
 
-  Widget _buildDateField(BuildContext context, AddTimeSheetViewModel viewModel, String label, DateTime date, Function(DateTime) onUpdate) {
+  Widget _buildDateField(BuildContext context, AddTimeSheetViewModel viewModel,
+      String label, DateTime date, Function(DateTime) onUpdate) {
     return TextFormField(
       decoration: InputDecoration(
         labelText: label,
@@ -138,27 +201,37 @@ class AddTimesheetForm extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeLogList(AddTimeSheetViewModel viewModel) {
-    return SizedBox(
-      height: 150.0, // Set a fixed height to avoid layout issues
-      child: ListView.builder(
-        itemCount: viewModel.timeLogs.length,
-        itemBuilder: (context, index) {
-          final timeLog = viewModel.timeLogs[index];
-          return Card(
-            child: ListTile(
-              title: Text('${timeLog.activityType} (${timeLog.hours} hrs)'),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${timeLog.project}'),
-                  Text(timeLog.task),
+  Widget _buildTimeLogList(
+      AddTimeSheetViewModel viewModel, BuildContext context) {
+    return ListView.builder(
+      itemCount: viewModel.timeLogs.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        final timeLog = viewModel.timeLogs[index];
+        return Card(
+          child: ListTile(
+            title: Text('${timeLog.activityType} (${timeLog.hours} hrs)'),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${timeLog.project}'),
+                Text(timeLog.task),
+              ],
+            ),
+            onTap: () async {
+              final timeLogdetails = await showDialog<TimeLog>(
+                context: context,
+                builder: (context) {
+                  return TimeLogDialog(viewModel.selectedProject!.name ?? "--",timeLog);
+                },
+              );
 
-                ],  ),
-              ),
-          );
-        },
-      ),
+                viewModel.updateTimeLog(index,timeLog);
+
+            },
+          ),
+        );
+      },
     );
   }
 }

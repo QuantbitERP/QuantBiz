@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:geolocation/constants.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import '../../../model/timesheet_model.dart';
 
@@ -11,8 +12,16 @@ class TimesheetViewModel extends BaseViewModel {
   String? selectedMonth;
   int? selectedYear;
 
+
   Future<void> fetchTimesheets({String? month, int? year}) async {
     setBusy(true);  // Set loading state
+
+    // Get the current date
+    DateTime now = DateTime.now();
+    // Use current month and year if not provided
+    month ??= DateFormat.MMMM().format(now); // Get the full month name
+    year ??= now.year; // Get the current year
+
     var token = await getTocken();
     var headers = {
       'Authorization': token,
@@ -52,6 +61,8 @@ class TimesheetViewModel extends BaseViewModel {
 
     setBusy(false);  // Set state back to not loading
   }
+
+
 
   // New method to fetch timesheets with selected month and year
   void fetchTimesheetsByMonthAndYear(String? month, int? year) {

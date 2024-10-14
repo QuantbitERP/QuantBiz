@@ -74,12 +74,12 @@ class AddTaskServices{
     return false;
   }
 
-  Future<List<String>> fetchProject() async {
-    baseurl =  await geturl();
+  Future<List<Project>> fetchProject() async {
+    baseurl = await geturl();
     try {
       var dio = Dio();
       var response = await dio.request(
-        'https://mobilecrm.erpdata.in/api/resource/Project',
+        '$baseurl/api/resource/Project?fields=["name","project_name"]',
         options: Options(
           method: 'GET',
           headers: {'Authorization': await getTocken()},
@@ -91,26 +91,28 @@ class AddTaskServices{
         Map<String, dynamic> jsonDataMap = json.decode(jsonData);
         List<dynamic> dataList = jsonDataMap["data"];
 
-        List<String> namesList =
-        dataList.map((item) => item["name"].toString()).toList();
-        return namesList;
+        // Convert the list of dynamic items into a list of Project objects
+        List<Project> projectList = dataList.map((item) {
+          return Project.fromJson(item);
+        }).toList();
+
+        return projectList;
       } else {
-        Fluttertoast.showToast(msg: "Unable to fetch orders");
+        Fluttertoast.showToast(msg: "Unable to fetch projects");
         return [];
       }
     } on DioException catch (e) {
       Fluttertoast.showToast(
         gravity: ToastGravity.BOTTOM,
-        msg: 'Error: ${e.response!.data["exception"].toString()} ',
+        msg: 'Error: ${e.response?.data?["exception"] ?? e.message}',
         textColor: Color(0xFFFFFFFF),
         backgroundColor: Color(0xFFBA1A1A),
       );
-
       return [];
     }
   }
 
-  fetchUser() async {
+  Future<List<String>> fetchUser() async {
     baseurl =  await geturl();
     try {
       var dio = Dio();

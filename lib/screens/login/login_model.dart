@@ -46,7 +46,7 @@ class LoginViewModel extends BaseViewModel {
   void loginWithDemoUser(BuildContext context) async {
     isDemoLoading = true;
     notifyListeners();
-    baseurl="https://mobilecrm.erpdata.in";
+    baseurl="https://intertestv15.erpdata.in";
     String username = 'demo@erpdata.in';
     String password = 'admin@123';
     bool res = await LoginServices().login(baseurl,username, password);

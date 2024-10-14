@@ -124,3 +124,35 @@ class Comments {
     return data;
   }
 }
+
+class Project {
+  final String name;
+  final String projectName;
+
+  Project({
+    required this.name,
+    required this.projectName,
+  });
+
+  // Factory constructor to create an instance of Project from JSON
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      name: json['name'] as String,
+      projectName: json['project_name'] as String,
+    );
+  }
+
+  // Method to convert a Project instance to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'project_name': projectName,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Project{name: $name, projectName: $projectName}';
+  }
+}
+

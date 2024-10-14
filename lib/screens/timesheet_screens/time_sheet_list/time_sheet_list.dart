@@ -5,6 +5,7 @@ import 'package:stacked/stacked.dart';
 import '../../../model/timesheet_model.dart';
 import '../../../router.router.dart';
 
+
 class TimesheetListView extends StatefulWidget {
   @override
   _TimesheetListViewState createState() => _TimesheetListViewState();
@@ -19,7 +20,7 @@ class _TimesheetListViewState extends State<TimesheetListView> {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  final List<int> years = List.generate(5, (index) => DateTime.now().year - index);
+  final List<int> years = List.generate(5, (index) => DateTime.now().year + index);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class _TimesheetListViewState extends State<TimesheetListView> {
                   setState(() {
                     selectedMonth = newValue;
                     // Trigger fetching timesheets based on the selected month/year
-                    model.fetchTimesheetsByMonthAndYear(selectedMonth, selectedYear);
+                    model.fetchTimesheets();
                   });
                 },
               ),
@@ -66,80 +67,91 @@ class _TimesheetListViewState extends State<TimesheetListView> {
                   setState(() {
                     selectedYear = newValue;
                     // Trigger fetching timesheets based on the selected month/year
-                    model.fetchTimesheetsByMonthAndYear(selectedMonth, selectedYear);
+                    model.fetchTimesheets();
                   });
                 },
               ),
             ],
           ),
-          body: model.isBusy
-              ? Center(child: CircularProgressIndicator())
-              : model.timesheets.isEmpty
-              ? Center(child: Text('No timesheets found.'))
-              : ListView.builder(
-            itemCount: model.timesheets.length,
-            itemBuilder: (context, index) {
-              TimesheetDetails? timesheet = model.timesheets[index];
-
-              // Format the start and end dates
-              final dateFormat = DateFormat('dd/MM/yyyy');
-              String formattedStartDate = dateFormat.format(DateTime.parse(timesheet.startDate));
-              String formattedEndDate = dateFormat.format(DateTime.parse(timesheet.endDate));
-
-              return Card(
-                child: ListTile(
-                  title: Text(
-                    timesheet.title.isNotEmpty ? timesheet.title : 'Unnamed',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Date: $formattedStartDate',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          Text(
-                            '- $formattedEndDate',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        'Hours: ${timesheet.totalHours}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ],
-                  ),
-                  trailing: Text(
-                    timesheet.status,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: timesheet.status == 'Draft' ? Colors.orange : Colors.green,
-                    ),
-                  ),
-                ),
-              );
+          body: RefreshIndicator(
+            onRefresh: () async {
+              // Refresh timesheets when the user pulls down
+              await model.fetchTimesheets();
             },
+            child: model.isBusy
+                ? Center(child: CircularProgressIndicator())
+                : model.timesheets.isEmpty
+                ? Center(child: Text('No timesheets found.'))
+                : ListView.builder(
+              itemCount: model.timesheets.length,
+              itemBuilder: (context, index) {
+                TimesheetDetails? timesheet = model.timesheets[index];
+
+                // Format the start and end dates
+                final dateFormat = DateFormat('dd/MM/yyyy');
+                String formattedStartDate = dateFormat.format(DateTime.parse(timesheet.startDate));
+                String formattedEndDate = dateFormat.format(DateTime.parse(timesheet.endDate));
+
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                      timesheet.title.isNotEmpty ? timesheet.title : 'Unnamed',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Date: $formattedStartDate',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            Text(
+                              '- $formattedEndDate',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Hours: ${timesheet.totalHours}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: Text(
+                      timesheet.status,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: timesheet.status == 'Draft' ? Colors.orange : Colors.green,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () => Navigator.pushNamed(context, Routes.addTimesheetForm),
+            onPressed: () async {
+              final result = await Navigator.pushNamed(context, Routes.addTimesheetForm);
+              if (result == true) {
+                model.fetchTimesheets();
+              }
+            },
             label: const Text('Add Timesheet'),
           ),
         );

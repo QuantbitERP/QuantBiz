@@ -15,10 +15,10 @@ class AddTaskViewModel extends BaseViewModel {
   DateTime? selecteddeliveryDate;
   String statusValueChoose = 'Open';
   String priorityValueChoose = 'Low';
-  String? project;
+  Project? selectedProject;
   String? type;
   String? parentTask;
-  List<String> projectList = [];
+  List<Project> projectList = [];
   List<String> userList = [];
   List<String> parentTaskList = [];
   List<String> assignToList = [];
@@ -130,8 +130,9 @@ class AddTaskViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void changeProject(String? project) {
-    taskData.project = project;
+  void changeProject(Project project) {
+    selectedProject = project;
+    taskData.project = project.name;
     notifyListeners();
   }
 

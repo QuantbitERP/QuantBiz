@@ -35,7 +35,7 @@ class TaskListService{
       }
     } on DioException catch (e) {
 
-      Logger().e(e.response?.data['message'].toString());
+    //  Logger().e(e.response?.data['message'].toString());
       Fluttertoast.showToast(msg: "Unauthorized task List!");
       return [];
     }

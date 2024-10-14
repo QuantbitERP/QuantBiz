@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocation/constants.dart';
+import 'package:geolocation/model/add_task_model.dart';
 import 'package:geolocation/model/emp_data.dart';
 import 'package:geolocation/model/employee_details.dart';
 import 'package:geolocation/services/timesheet_services.dart';
@@ -26,9 +27,9 @@ class AddTimeSheetViewModel extends BaseViewModel {
   // List of employees and companies
   List<String> employeeList = ['John Doe', 'Jane Smith', 'Robert Brown']; // Mock data
   List<String> companyList = ['ABC Corp', 'XYZ Ltd', '123 Industries'];
-  List<String> projectList =[];
+  List<Project> projectList =[];
   EmpData employeeData = EmpData();
-  String selectedProject="";
+  Project? selectedProject;
 
   // List of time logs
   List<TimeLog> _timeLogs = [];
@@ -82,8 +83,8 @@ class AddTimeSheetViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void updateProject(String value) {
-    _project = value;
+  void updateProject(Project value) {
+    _project = value.name;
     selectedProject = value;
     notifyListeners();
   }
@@ -96,6 +97,15 @@ class AddTimeSheetViewModel extends BaseViewModel {
   void addTimeLog(TimeLog timeLog) {
     _timeLogs.add(timeLog);
     notifyListeners();
+  }
+  void updateTimeLog(int index, TimeLog updatedTimeLog) {
+    if (index >= 0 && index < _timeLogs.length) {
+      _timeLogs[index] = updatedTimeLog; // Update the specific time log
+      notifyListeners(); // Notify listeners about the change
+    } else {
+      // Optionally handle invalid index case
+      print("Invalid index for updating TimeLog");
+    }
   }
 
 
@@ -129,7 +139,10 @@ class AddTimeSheetViewModel extends BaseViewModel {
     };
 
     // Call the createTimesheet method
-    await TimesheetServices().createTimesheet(data, headers,context);
+    bool result = await TimesheetServices().createTimesheet(data, headers,context);
+    if(result){
+      Navigator.pop(context,true);
+    }
   }
 
 
