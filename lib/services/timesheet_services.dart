@@ -44,8 +44,9 @@ class TimesheetServices{
       Map<String, dynamic> headers,
       BuildContext context) async {
         try {
+          var url = await geturl();
           var response = await Dio().request(
-            'https://mobilecrm.erpdata.in/api/method/mobile.mobile_env.timesheet.create_timesheet',
+            '$url/api/method/mobile.mobile_env.timesheet.create_timesheet',
             options: Options(
               method: 'POST',
               headers: headers,
@@ -72,6 +73,7 @@ class TimesheetServices{
 
   Future<List<String>> fetchActivityTypes() async {
     var token = await getTocken();
+    var url = await geturl();
     var dio = Dio();
     var headers = {
       'Content-Type': 'application/json',
@@ -80,7 +82,7 @@ class TimesheetServices{
 
     try {
       var response = await dio.request(
-        'https://mobilecrm.erpdata.in/api/method/mobile.mobile_env.app.get_activity_types',
+        '$url/api/method/mobile.mobile_env.app.get_activity_types',
         options: Options(
           method: 'GET',
           headers: headers,

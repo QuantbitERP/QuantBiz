@@ -5,6 +5,7 @@ import 'package:geolocation/screens/timesheet_screens/time_log/time_log_view_mod
 import 'package:stacked/stacked.dart';
 
 import '../../../model/add_timesheet_model.dart';
+import '../../../widgets/custom_task_dropdown.dart';
 
 class TimeLogDialog extends StatelessWidget {
   final TimeLog? existingTimeLog; // Optional existing TimeLog
@@ -72,56 +73,12 @@ class TimeLogDialog extends StatelessWidget {
                     child: Padding(
                       padding:
                       const EdgeInsets.all(8.0), // Padding inside card
-                      child: DropdownButtonHideUnderline(
-                        // Hide the default underline of DropdownButton
-                        child: DropdownButton<TaskList>(
-                          value: viewModel.selectedTask,
-                          hint: Text('Select the task'),
-                          isExpanded: true, // To ensure full-width dropdown
-                          icon: Icon(Icons
-                              .arrow_drop_down), // Customize dropdown arrow
-                          dropdownColor: Colors
-                              .white, // Change the dropdown popup background
-                          items: viewModel.taskList.map((TaskList taskList) {
-                            return DropdownMenuItem<TaskList>(
-                              value: taskList,
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.task,
-                                      color: Colors
-                                          .blueAccent), // Custom icon color
-                                  SizedBox(
-                                      width:
-                                      10.0), // Space between icon and text
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        taskList.subject!,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14.0, // Custom text size
-                                        ),
-                                      ),
-                                      Text(
-                                       taskList.name!,
-                                        style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 14.0),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (TaskList? selectedTask) {
-                            if (selectedTask != null) {
-                              viewModel.setTask(selectedTask);
-                            }
-                          },
-                        ),
+                      child: CustomSearchableDropdown(
+                        selectedTask: viewModel.selectedTask,
+                        taskList: viewModel.taskList,
+                        onChanged: (TaskList? selectedTask) {
+                          viewModel.setTask(selectedTask!);
+                        },
                       ),
                     ),
                   ),
@@ -160,9 +117,8 @@ class TimeLogDialog extends StatelessWidget {
                         }
                       }
                     },
-                    controller: TextEditingController(
-                      text: "${viewModel.fromTime.toLocal().toString().split(' ')[0]} ${viewModel.fromTime.toLocal().toString().split(' ')[1].substring(0, 5)}",
-                    ),
+                    controller: viewModel.fromTimeController,
+
                   ),
                   SizedBox(height: 16.0),
                   // TextField for To Time
@@ -197,9 +153,8 @@ class TimeLogDialog extends StatelessWidget {
                         }
                       }
                     },
-                    controller: TextEditingController(
-                      text: "${viewModel.toTime.toLocal().toString().split(' ')[0]} ${viewModel.toTime.toLocal().toString().split(' ')[1].substring(0, 5)}",
-                    ),
+                    controller:viewModel.toTimeController
+
                   ),
                   SizedBox(height: 16.0),
                   TextField(
@@ -210,7 +165,7 @@ class TimeLogDialog extends StatelessWidget {
                       ),
                     ),
                     keyboardType: TextInputType.number,
-                    controller: TextEditingController(text: viewModel.hours.toString()),
+                    controller: viewModel.hoursController,
                     onChanged: viewModel.setHours,
                   ),
 
@@ -223,7 +178,7 @@ class TimeLogDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    controller: TextEditingController(text: viewModel.project), // Show project passed to dialog
+                    controller: viewModel.projectController ,// Show project passed to dialog
                     readOnly: true,
                   ),
                   SizedBox(height: 16.0),
@@ -236,7 +191,7 @@ class TimeLogDialog extends StatelessWidget {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    controller: TextEditingController(text: viewModel.description),
+                    controller: viewModel.descriptionController,
                     onChanged: viewModel.setDescription,
                     maxLines: 2,
                   ),

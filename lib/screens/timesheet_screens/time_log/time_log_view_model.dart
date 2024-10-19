@@ -19,10 +19,11 @@ class TimeLogViewModel extends ChangeNotifier {
   List<TaskList> taskList = [];
   bool _isDisposed = false; // Flag to check if disposed
 
-  // var projectController = TextEditingController();
-  // var descriptionController = TextEditingController();
-  // var fromTimeController = TextEditingController();
-  // var toTimeController = TextEditingController();
+  var projectController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var fromTimeController = TextEditingController();
+  var toTimeController = TextEditingController();
+  var hoursController = TextEditingController();
 
   String get activityType => _activityType;
   String get task => _task;
@@ -84,23 +85,22 @@ class TimeLogViewModel extends ChangeNotifier {
 
 
   double calculateTotalHours() {
-    // Ensure _toTime is not before _fromTime
     if (_toTime.isBefore(_fromTime)) {
-      // You can log an error or handle it as per your requirements
-      _hours = 0.0; // Reset to 0.0 if toTime is before fromTime
-    } else {
-      // Calculate the duration
-      Duration duration = _toTime.difference(_fromTime);
-
-      // Calculate total hours in decimal form
-      double hours = duration.inHours + duration.inMinutes.remainder(60) / 60.0;
-
-      // Format the result to two decimal places
-      _hours = double.parse(hours.toStringAsFixed(2));
+      // Log error or throw exception
+      return 0.0; // Return 0.0 if toTime is before fromTime
     }
 
+    Duration duration = _toTime.difference(_fromTime);
+
+    // Calculate total hours in decimal form
+    double totalHours = duration.inHours + duration.inMinutes.remainder(60) / 60.0;
+
+    // Format the result to two decimal places and clamp to non-negative values
+    _hours = double.parse(totalHours.toStringAsFixed(2)).clamp(0.0, double.infinity);
     return _hours;
+
   }
+
 
 
   void setActivityType(String value) {
@@ -116,27 +116,32 @@ class TimeLogViewModel extends ChangeNotifier {
 
   void setHours(String value) {
     _hours = double.tryParse(value) ?? 0.0;
+    hoursController.text = _hours.toString();
     notifyListeners();
   }
 
   void setDescription(String value) {
     _description = value;
+    descriptionController.text = _description;
     notifyListeners();
   }
 
   void setFromTime(DateTime value) {
     _fromTime = value;
+    fromTimeController.text = "${"${fromTime.toLocal()}".split(' ')[0]} ${fromTime.hour}:${fromTime.minute.toString().padLeft(2, '0')}";
     notifyListeners();
   }
 
   void setToTime(DateTime value) {
     _toTime = value;
-    calculateTotalHours();
+    toTimeController.text = "${"${toTime.toLocal()}".split(' ')[0]} ${toTime.hour}:${toTime.minute.toString().padLeft(2, '0')}";
+    hoursController.text=calculateTotalHours().toString();
     notifyListeners();
   }
 
   void setProject(String value) {
     _project = value;
+    projectController.text = value;
     notifyListeners();
   }
 
@@ -152,6 +157,12 @@ class TimeLogViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    // Dispose all controllers to free up resources
+    projectController.dispose();
+    descriptionController.dispose();
+    fromTimeController.dispose();
+    toTimeController.dispose();
+    hoursController.dispose();
     _isDisposed = true; // Set the flag when disposed
     super.dispose();
   }

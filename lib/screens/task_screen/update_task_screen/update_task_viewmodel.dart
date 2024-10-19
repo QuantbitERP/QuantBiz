@@ -16,7 +16,7 @@ class UpdateTaskViewModel extends BaseViewModel{
     if(Id!= ""){
 
       taskData=await AddTaskServices().getTask(Id) ?? AddTaskModel();
-comments.addAll(taskData.comments?.toList() ?? []);
+      comments.addAll(taskData.comments?.toList() ?? []);
     }
     setBusy(false);
   }

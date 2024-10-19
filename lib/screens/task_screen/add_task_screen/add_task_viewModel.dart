@@ -5,6 +5,8 @@ import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../model/add_task_model.dart';
+import '../../../model/list_task_model.dart';
+import '../../../services/list_task_service.dart';
 
 class AddTaskViewModel extends BaseViewModel {
   AddTaskModel taskData = AddTaskModel();
@@ -23,6 +25,9 @@ class AddTaskViewModel extends BaseViewModel {
   List<String> parentTaskList = [];
   List<String> assignToList = [];
   bool idEdit = false;
+  List<String> tasks = []; // Example values
+  TaskList? selectedTask;
+  List<TaskList> taskList = [];
 
   List statusItem = [
     "Open",
@@ -40,7 +45,9 @@ class AddTaskViewModel extends BaseViewModel {
     setBusy(true);
     projectList = await AddTaskServices().fetchProject();
     userList = await AddTaskServices().fetchUser();
-    parentTaskList = await AddTaskServices().fetchParentTask();
+    // parentTaskList = await AddTaskServices().fetchParentTask();
+    taskList = await TaskListService().fetchTask();
+
     taskData.priority = "Low";
     taskData.status = "Open";
 
@@ -135,6 +142,13 @@ class AddTaskViewModel extends BaseViewModel {
     taskData.project = project.name;
     notifyListeners();
   }
+
+  void setTask(TaskList value) {
+    selectedTask = value;
+    taskData.subject = value.name!;
+    notifyListeners();
+  }
+
 
   String? validate(String? value) {
     if (value == null || value.isEmpty) {

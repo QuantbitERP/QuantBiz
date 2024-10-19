@@ -145,5 +145,13 @@ class AddTimeSheetViewModel extends BaseViewModel {
     }
   }
 
+  void removeTimeLog(int index) {
+    if (index >= 0 && index < timeLogs.length) {
+      timeLogs.removeAt(index);
+      // Notify listeners if you're using ChangeNotifier or a similar pattern
+      notifyListeners(); // Uncomment if using ChangeNotifier
+    }
+  }
+
 
 }

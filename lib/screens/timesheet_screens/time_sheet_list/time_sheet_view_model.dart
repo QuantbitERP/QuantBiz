@@ -21,7 +21,7 @@ class TimesheetViewModel extends BaseViewModel {
     // Use current month and year if not provided
     month ??= DateFormat.MMMM().format(now); // Get the full month name
     year ??= now.year; // Get the current year
-
+    var url = await geturl();
     var token = await getTocken();
     var headers = {
       'Authorization': token,
@@ -41,7 +41,7 @@ class TimesheetViewModel extends BaseViewModel {
       print('Fetching timesheets for month: $monthNumber, year: $year');
 
       var response = await dio.request(
-        'https://mobilecrm.erpdata.in/api/method/mobile.mobile_env.timesheet.get_timesheet_list',
+        '$url/api/method/mobile.mobile_env.timesheet.get_timesheet_list',
         options: Options(
           method: 'GET',
           headers: headers,

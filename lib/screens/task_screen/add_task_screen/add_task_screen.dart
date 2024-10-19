@@ -5,6 +5,7 @@ import 'package:geolocation/widgets/full_screen_loader.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../model/add_task_model.dart';
+import '../../../model/list_task_model.dart';
 import '../../../widgets/drop_down.dart';
 import '../../../widgets/text_button.dart';
 import 'add_task_viewModel.dart';
@@ -36,26 +37,68 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     key: model.formKey,
                     child: Column(
                       children: [
-                    DropdownButton<Project>(
-                    value: model.selectedProject,  // Assuming you store the selected project here
-                      hint: Text('Select the project'),
-                      isExpanded: true,
-                      items: model.projectList.map((Project project) {
-                        return DropdownMenuItem<Project>(
-                          value: project,
-                          child: ListTile(
-                            leading: Icon(Icons.local_post_office_outlined),
-                            title: Text(project.projectName),
-                            subtitle: Text(project.name),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Rounded corners for card
                           ),
-                        );
-                      }).toList(),
-                      onChanged: (Project? selectedProject) {
-                        if (selectedProject != null) {
-                          model.changeProject(selectedProject);
-                        }
-                      },
-                    )
+                          elevation: 4.0, // Add shadow for depth effect
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.all(8.0), // Padding inside card
+                            child: DropdownButtonHideUnderline(
+                              // Hide the default underline of DropdownButton
+                              child: DropdownButton<Project>(
+                                value: model.selectedProject,
+                                hint: Text('Select the project'),
+                                isExpanded: true, // To ensure full-width dropdown
+                                icon: Icon(Icons
+                                    .arrow_drop_down), // Customize dropdown arrow
+                                dropdownColor: Colors
+                                    .white, // Change the dropdown popup background
+                                items: model.projectList.map((Project project) {
+                                  return DropdownMenuItem<Project>(
+                                    value: project,
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.task,
+                                            color: Colors
+                                                .blueAccent), // Custom icon color
+                                        SizedBox(
+                                            width:
+                                            10.0), // Space between icon and text
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              project.projectName,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14.0, // Custom text size
+                                              ),
+                                            ),
+                                            Text(
+                                              project.name,
+                                              style: TextStyle(
+                                                  color: Colors.grey[600],
+                                                  fontSize: 14.0),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (Project? selectedProject) {
+                                  if (selectedProject != null) {
+                                    model.changeProject(selectedProject);
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        )
                         ,
                         const SizedBox(
                           height: 15,
@@ -177,13 +220,67 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        CustomDropdownButton2(
-                          value: model.taskData.parentTask,
-                          prefixIcon: Icons.file_open,
-                          items: model.parentTaskList,
-                          hintText: 'Select the Parent Task',
-                          labelText: 'Parent Task',
-                          onChanged: model.changeParentTask,
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Rounded corners for card
+                          ),
+                          elevation: 4.0, // Add shadow for depth effect
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.all(8.0), // Padding inside card
+                            child: DropdownButtonHideUnderline(
+                              // Hide the default underline of DropdownButton
+                              child: DropdownButton<TaskList>(
+                                value: model.selectedTask,
+                                hint: Text('Select the task'),
+                                isExpanded: true, // To ensure full-width dropdown
+                                icon: Icon(Icons
+                                    .arrow_drop_down), // Customize dropdown arrow
+                                dropdownColor: Colors
+                                    .white, // Change the dropdown popup background
+                                items: model.taskList.map((TaskList taskList) {
+                                  return DropdownMenuItem<TaskList>(
+                                    value: taskList,
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.task,
+                                            color: Colors
+                                                .blueAccent), // Custom icon color
+                                        SizedBox(
+                                            width:
+                                            10.0), // Space between icon and text
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              taskList.subject!,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14.0, // Custom text size
+                                              ),
+                                            ),
+                                            Text(
+                                              taskList.name!,
+                                              style: TextStyle(
+                                                  color: Colors.grey[600],
+                                                  fontSize: 14.0),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (TaskList? selectedTask) {
+                                  if (selectedTask != null) {
+                                    model.setTask(selectedTask);
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 25,

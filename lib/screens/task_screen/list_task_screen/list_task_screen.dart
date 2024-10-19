@@ -45,20 +45,8 @@ class _TaskScreenState extends State<TaskScreen> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (builder, index) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(
-                                              0.5), // Customize the shadow color and opacity
-                                          // spreadRadius: 5,
-                                          blurRadius: 7,
-                                          // offset: const Offset(0, 3), // Customize the shadow offset
-                                        ),
-                                      ],
-                                    ),
+                                  return Card(
+                                    elevation: 2.0,
                                     child: MaterialButton(
                                       onPressed: () => model.onRowClick(
                                           context, model.filterTaskList[index]),
@@ -159,8 +147,8 @@ class _TaskScreenState extends State<TaskScreen> {
                                             model.filterTaskList[index]
                                                     .projectName ??
                                                 "",
-                                            minFontSize: 19,
                                             style: const TextStyle(
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

@@ -149,7 +149,9 @@ class AddTimesheetForm extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return TimeLogDialog(
-                                viewModel.selectedProject!.name ?? "--",null);
+                                viewModel.selectedProject != null ? viewModel.selectedProject!.name : "--",
+                                null
+                            );
                           },
                         );
                         if (timeLog != null) {
@@ -218,20 +220,53 @@ class AddTimesheetForm extends StatelessWidget {
                 Text(timeLog.task),
               ],
             ),
+            trailing: IconButton(
+              icon: Icon(Icons.delete, color: Colors.red),
+              onPressed: () {
+                // Show a confirmation dialog before removing
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("Confirm Delete"),
+                      content: Text("Are you sure you want to delete this time log?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Remove the time log
+                            viewModel.removeTimeLog(index);
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Text("Delete"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
             onTap: () async {
-              final timeLogdetails = await showDialog<TimeLog>(
+              final timeLogDetails = await showDialog<TimeLog>(
                 context: context,
                 builder: (context) {
-                  return TimeLogDialog(viewModel.selectedProject!.name ?? "--",timeLog);
+                  return TimeLogDialog(viewModel.selectedProject!.name ?? "--", timeLog);
                 },
               );
 
-                viewModel.updateTimeLog(index,timeLog);
-
+              if (timeLogDetails != null) {
+                viewModel.updateTimeLog(index, timeLogDetails);
+              }
             },
           ),
         );
       },
     );
   }
+
 }

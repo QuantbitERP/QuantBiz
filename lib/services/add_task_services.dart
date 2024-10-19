@@ -117,7 +117,7 @@ class AddTaskServices{
     try {
       var dio = Dio();
       var response = await dio.request(
-        'https://mobilecrm.erpdata.in/api/resource/User',
+        '$baseurl/api/resource/User',
         options: Options(
           method: 'GET',
           headers: {'Authorization': await getTocken()},
@@ -148,8 +148,8 @@ class AddTaskServices{
     }
   }
 
-  fetchParentTask() async {
-    baseurl =  await geturl();
+  Future<List<String>> fetchParentTask() async {
+    baseurl = await geturl();
     try {
       var dio = Dio();
       var response = await dio.request(
@@ -161,12 +161,15 @@ class AddTaskServices{
       );
 
       if (response.statusCode == 200) {
-        var jsonData = json.encode(response.data);
-        Map<String, dynamic> jsonDataMap = json.decode(jsonData);
+        var jsonDataMap = response.data; // No need to encode and decode
         List<dynamic> dataList = jsonDataMap["data"];
 
-        List<String> namesList =
-        dataList.map((item) => item["name"].toString()).toList();
+        // Safely map to List<String>
+        List<String> namesList = dataList
+            .map((item) => item["name"] != null ? item["name"].toString() : '')
+            .where((name) => name.isNotEmpty) // Remove empty names
+            .toList();
+
         return namesList;
       } else {
         Fluttertoast.showToast(msg: "Unable to fetch orders");
@@ -175,7 +178,7 @@ class AddTaskServices{
     } on DioException catch (e) {
       Fluttertoast.showToast(
         gravity: ToastGravity.BOTTOM,
-        msg: 'Error: ${e.response!.data["exception"].toString()} ',
+        msg: 'Error: ${e.response?.data["exception"]?.toString() ?? 'Unknown error'}',
         textColor: Color(0xFFFFFFFF),
         backgroundColor: Color(0xFFBA1A1A),
       );
@@ -183,12 +186,13 @@ class AddTaskServices{
       return [];
     }
   }
+
   Future<List<TaskList>> fetchTaskList() async {
     baseurl =  await geturl();
     try {
       var dio = Dio();
       var response = await dio.request(
-        'https://mobilecrm.erpdata.in/api/resource/Task?fields=["subject","status","name","priority","exp_end_date"]',
+        '$baseurl/api/resource/Task?fields=["subject","status","name","priority","exp_end_date"]',
         options: Options(
           method: 'GET',
           headers: {'Authorization': await getTocken()},
@@ -266,10 +270,9 @@ class AddTaskServices{
       );
 
       if (response.statusCode == 200) {
-        // Logger().i(AddQuotation.fromJson(response.data["data"]));
+        print(response.data);
         return AddTaskModel.fromJson(response.data["data"]);
       } else {
-
         return null;
       }
     } on DioException catch (e) {

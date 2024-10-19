@@ -1,4 +1,5 @@
 class AddTaskModel {
+  String? name;
   String? subject;
   String? project;
   String? priority;
@@ -16,6 +17,7 @@ class AddTaskModel {
   int? numComments; // Added numComments field
 
   AddTaskModel({
+    this.name,
     this.subject,
     this.project,
     this.priority,
@@ -34,6 +36,7 @@ class AddTaskModel {
   });
 
   AddTaskModel.fromJson(Map<String, dynamic> json) {
+    name= json["name"];
     subject = json['subject'];
     project = json['project'];
     priority = json['priority'];
@@ -43,9 +46,9 @@ class AddTaskModel {
     expEndDate = json['exp_end_date'];
     expectedTime = json['expected_time'];
     actualTime = json['actual_time'];
-    assignedTo = json['assigned_to'] != null
-        ? List<String>.from(json['assigned_to'])
-        : null; // Parse list of strings
+    // assignedTo = json['assigned_to'] != null
+    //     ? List<String>.from(json['assigned_to'])
+    //     : null; // Parse list of strings
     progress = json['progress'];
     issue = json['issue'];
     projectName = json['project_name'];
@@ -60,6 +63,7 @@ class AddTaskModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
+    data['name'] = name;
     data['subject'] = subject;
     data['project'] = project;
     data['priority'] = priority;

@@ -48,7 +48,7 @@ class _TimesheetListViewState extends State<TimesheetListView> {
                   setState(() {
                     selectedMonth = newValue;
                     // Trigger fetching timesheets based on the selected month/year
-                    model.fetchTimesheets();
+                    model.fetchTimesheetsByMonthAndYear(selectedMonth,selectedYear);
                   });
                 },
               ),
@@ -67,7 +67,7 @@ class _TimesheetListViewState extends State<TimesheetListView> {
                   setState(() {
                     selectedYear = newValue;
                     // Trigger fetching timesheets based on the selected month/year
-                    model.fetchTimesheets();
+                    model.fetchTimesheetsByMonthAndYear(selectedMonth, selectedYear);
                   });
                 },
               ),
