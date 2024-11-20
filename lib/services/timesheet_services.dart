@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocation/model/timesheet_model.dart';
+import 'package:logger/logger.dart';
 
 import '../constants.dart';
 
@@ -98,6 +100,7 @@ class TimesheetServices{
         // Ensure 'data' is treated as a List of Maps
         List<dynamic> dataList = parsedJson['data'];  // 'data' is a list of maps
 
+
         // Extracting the list of names
         List<String> activityNames = dataList.map((activity) => activity['name'].toString()).toList();
         return activityNames;
@@ -109,6 +112,45 @@ class TimesheetServices{
       return [];
     }
   }
+
+  Future<TimesheetDetails?> getTimesheetDetails(String id) async {
+    String baseurl = await geturl();
+    var data = {"name": id};  // The data object
+
+    try {
+      var dio = Dio();
+
+      var response = await dio.post(
+        '$baseurl/api/method/mobile.mobile_env.timesheet.get_timesheet_details',
+        options: Options(
+          headers: {
+            'Authorization': await getTocken(),
+            'Content-Type': 'application/json',  // Ensure Content-Type is set correctly
+          },
+        ),
+        data: jsonEncode(data),  // JSON-encode the data
+      );
+
+      // Check for successful response
+      if (response.statusCode == 200) {
+        if (response.data["data"] != null) {
+          return TimesheetDetails.fromJson(response.data["data"]);
+        } else {
+          Fluttertoast.showToast(msg: "No data found");
+          return null;
+        }
+      } else {
+        Fluttertoast.showToast(msg: "Failed to fetch data");
+        return null;
+      }
+    } on DioException catch (e) {
+      print("DioException: ${e.response?.data}");
+      Fluttertoast.showToast(msg: "Error occurred");
+    }
+
+    return null;
+  }
+
 
 
 

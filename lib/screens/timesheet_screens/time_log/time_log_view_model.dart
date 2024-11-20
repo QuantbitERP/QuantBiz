@@ -49,13 +49,18 @@ class TimeLogViewModel extends ChangeNotifier {
       _task = existingTimeLog.task;
       _fromTime = existingTimeLog.fromTime;
       _toTime = existingTimeLog.toTime;
-      _hours = existingTimeLog.hours;
+      setFromTime(_fromTime);
+      setToTime(_toTime);
+      calculateTotalHours();
+
       _description = existingTimeLog.description;
+      setDescription(_description);
       selectedTask = taskList.firstWhere((task) => task.name == existingTimeLog.task, orElse: () => taskList.first);
 
     }
 
     setProject(s);
+    notifyListeners();
   }
 
   List<String> getTaskNames(List<TaskList> taskList) {

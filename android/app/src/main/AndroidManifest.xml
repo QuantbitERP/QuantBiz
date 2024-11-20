@@ -23,7 +23,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:label="QuantBiz">
         <activity
-            android:name=".MainActivity"
+            android:name="com.quantbit.crm.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".LocationTrackingService"
+            android:name="com.quantbit.crm.LocationTrackingService"
             android:exported="false"/>
         <service
             android:name="dev.fluttercommunity.plus.androidalarmmanager.AlarmService"

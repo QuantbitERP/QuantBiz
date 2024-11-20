@@ -89,13 +89,20 @@ class _TimesheetListViewState extends State<TimesheetListView> {
 
                 // Format the start and end dates
                 final dateFormat = DateFormat('dd/MM/yyyy');
-                String formattedStartDate = dateFormat.format(DateTime.parse(timesheet.startDate));
-                String formattedEndDate = dateFormat.format(DateTime.parse(timesheet.endDate));
+                String formattedStartDate = dateFormat.format(DateTime.parse(timesheet.startDate!));
+                String formattedEndDate = dateFormat.format(DateTime.parse(timesheet.endDate!));
 
                 return Card(
                   child: ListTile(
+                    onTap: ()=>{
+                        Navigator.pushNamed(
+                        context,
+                        Routes.timesheetDetailsScreen,
+                        arguments: TimesheetDetailsScreenArguments(updateTaskId: timesheet.name ?? ""),
+                        )
+                    },
                     title: Text(
-                      timesheet.title.isNotEmpty ? timesheet.title : 'Unnamed',
+                      timesheet.title!.isNotEmpty ? timesheet.title! : 'Unnamed',
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -133,7 +140,7 @@ class _TimesheetListViewState extends State<TimesheetListView> {
                       ],
                     ),
                     trailing: Text(
-                      timesheet.status,
+                      timesheet.status!,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

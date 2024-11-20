@@ -30,6 +30,7 @@ import 'package:geolocation/screens/task_screen/list_task_screen/list_task_scree
 import 'package:geolocation/screens/task_screen/update_task_screen/update_task_screen.dart';
 import 'package:geolocation/screens/timesheet_screens/add_timesheet/add_timesheet_view.dart';
 import 'package:geolocation/screens/timesheet_screens/time_sheet_list/time_sheet_list.dart';
+import 'package:geolocation/screens/timesheet_screens/timesheet_details/timesheet_details_screen.dart';
 import 'package:geolocation/screens/visit_screens/add_visit/add_visit_view.dart';
 import 'package:geolocation/screens/visit_screens/update_visit/update_visit_view.dart';
 import 'package:geolocation/screens/visit_screens/visit_List/visit_list_screen.dart';
@@ -75,7 +76,8 @@ import 'screens/lead_screen/lead_list/lead_screen.dart';
     MaterialRoute(page: AddTaskScreen),
     MaterialRoute(page: UpdateTaskScreen),
     MaterialRoute(page: AddTimesheetForm),
-    MaterialRoute(page: TimesheetListView)
+    MaterialRoute(page: TimesheetListView),
+    MaterialRoute(page: TimesheetDetailsScreen)
     // DetailedFarmerScreen
   ],
   dependencies: [

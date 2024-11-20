@@ -33,10 +33,16 @@ class _CustomSearchableDropdownState extends State<CustomSearchableDropdown> {
   void filterTasks(String query) {
     setState(() {
       searchText = query;
-      filteredTasks = widget.taskList
-          .where((task) => task.subject!.toLowerCase().contains(query.toLowerCase()) ||
-          task.name!.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      // Filter the list only when there's a search text, otherwise reset it.
+      if (query.isEmpty) {
+        filteredTasks = widget.taskList;
+      } else {
+        filteredTasks = widget.taskList
+            .where((task) =>
+        task.subject!.toLowerCase().contains(query.toLowerCase()) ||
+            task.name!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
     });
   }
 

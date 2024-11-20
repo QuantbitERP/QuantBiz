@@ -1,4 +1,4 @@
-package com.example.geolocation
+package com.quantbit.crm
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -22,8 +22,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
-import com.example.geolocation.MainActivity
-import com.example.geolocation.R
+
+
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Granularity
 import com.google.android.gms.location.LocationCallback
@@ -31,6 +31,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.quantbit.crm.R
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.HttpUrl
@@ -54,6 +55,7 @@ class LocationTrackingService: Service() {
     private var token = ""
     private lateinit var geocoder: Geocoder
 
+    @SuppressLint("ForegroundServiceType")
     override fun onCreate() {
         super.onCreate()
         //ServiceCompat.startForeground(0, notification, FOREGROUND_SERVICE_TYPE_LOCATION)
