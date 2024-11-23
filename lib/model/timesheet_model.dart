@@ -1,3 +1,5 @@
+import 'add_timesheet_model.dart';
+
 class TimesheetDetails {
   String? name;
   String? owner;
@@ -126,6 +128,8 @@ class TimeLog {
     this.isBillable,
     this.billingHours,
   });
+
+
 
   factory TimeLog.fromJson(Map<String, dynamic> json) {
     return TimeLog(

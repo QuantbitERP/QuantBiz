@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class DashBoard {
   List<LeaveBalance>? leaveBalance;
   String? lastLogType;
@@ -33,6 +35,8 @@ class DashBoard {
     company = json['company'];
     email=json['email'];
     lastLogTime = json['last_log_time'];
+
+
     employeeImage = json['employee_image'];
   }
 

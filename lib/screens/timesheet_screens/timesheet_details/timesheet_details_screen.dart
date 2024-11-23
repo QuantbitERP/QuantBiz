@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:geolocation/screens/task_screen/update_task_screen/update_task_viewmodel.dart';
+import 'package:geolocation/screens/timesheet_screens/add_timesheet/add_timesheet_view.dart';
 import 'package:geolocation/screens/timesheet_screens/timesheet_details/timesheet_details_viewmodel.dart';
 import 'package:geolocation/widgets/full_screen_loader.dart';
 import 'package:stacked/stacked.dart';
@@ -32,10 +33,11 @@ class _TimesheetDetailsScreenState extends State<TimesheetDetailsScreen> {
                 actions: [
                   IconButton(
                       onPressed: () => Navigator.pushNamed(
-                          context, Routes.addTaskScreen,
-                          arguments: AddTaskScreenArguments(
-                              taskId: widget.updateTaskId)),
-                      icon: const Icon(Icons.edit))
+                          context, Routes.addTimesheetForm,
+                          arguments: AddTimesheetFormArguments(
+                              timeSheetId: widget.updateTaskId,)),
+                      icon: const Icon(Icons.edit)
+                )
                 ],
               ),
               body: SingleChildScrollView(
@@ -198,15 +200,15 @@ class _TimesheetDetailsScreenState extends State<TimesheetDetailsScreen> {
                                     // Project Name
                                     Row(
                                       children: [
-                                        Icon(Icons.work, size: 16, color: Colors.orange), // Icon for project
+                                        Icon(Icons.work, size: 16, color: Colors.green), // Icon for project
                                         SizedBox(width: 8),
                                         Expanded(
                                           child: AutoSizeText(
-                                            'Project Name: ${model.taskData.timeLogs?[index].projectName ?? 'N/A'}',
+                                            'Project Name: ${model.taskData.timeLogs?[index].project ?? 'N/A'}',
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.orange,
+                                              color: Colors.green,
                                             ),
                                             maxLines: 1,
                                           ),
@@ -245,7 +247,6 @@ class _TimesheetDetailsScreenState extends State<TimesheetDetailsScreen> {
                                             'Activity Type: ${model.taskData.timeLogs?[index].activityType ?? 'N/A'}',
                                             style: TextStyle(
                                               fontSize: 16,
-                                              fontWeight: FontWeight.bold,
                                               color: Colors.black54,
                                             ),
                                             maxLines: 1,

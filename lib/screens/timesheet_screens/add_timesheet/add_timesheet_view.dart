@@ -7,7 +7,17 @@ import '../../../widgets/drop_down.dart';
 import '../time_log/time_log_dialog.dart';
 import 'add_timesheet_form_view_model.dart';
 
-class AddTimesheetForm extends StatelessWidget {
+class AddTimesheetForm extends StatefulWidget {
+
+  final String timeSheetId;
+
+  const AddTimesheetForm({super.key, required this.timeSheetId});
+
+  @override
+  State<AddTimesheetForm> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTimesheetForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,20 +27,21 @@ class AddTimesheetForm extends StatelessWidget {
       body: ViewModelBuilder<AddTimeSheetViewModel>.reactive(
         viewModelBuilder: () => AddTimeSheetViewModel(),
         onDispose: (model) => model.dispose(),
-        onViewModelReady: (model) => model.initialise(context),
+        onViewModelReady: (model) => model.initialise(context,widget.timeSheetId),
         builder: (context, viewModel, child) {
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
               child: SingleChildScrollView(
                 physics:
-                    AlwaysScrollableScrollPhysics(), // Added SingleChildScrollView to allow scrolling
+                AlwaysScrollableScrollPhysics(),
+                // Added SingleChildScrollView to allow scrolling
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
                       controller:
-                          TextEditingController(text: viewModel.employee),
+                      TextEditingController(text: viewModel.employee),
                       decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(
@@ -44,7 +55,7 @@ class AddTimesheetForm extends StatelessWidget {
                     SizedBox(height: 16.0),
                     TextFormField(
                       controller:
-                          TextEditingController(text: viewModel.company),
+                      TextEditingController(text: viewModel.company),
                       decoration: InputDecoration(
                         labelText: 'Company',
                         border: OutlineInputBorder(
@@ -64,17 +75,20 @@ class AddTimesheetForm extends StatelessWidget {
                       elevation: 4.0, // Add shadow for depth effect
                       child: Padding(
                         padding:
-                            const EdgeInsets.all(8.0), // Padding inside card
+                        const EdgeInsets.all(8.0), // Padding inside card
                         child: DropdownButtonHideUnderline(
                           // Hide the default underline of DropdownButton
                           child: DropdownButton<Project>(
                             value: viewModel.selectedProject,
                             hint: Text('Select the project'),
-                            isExpanded: true, // To ensure full-width dropdown
+                            isExpanded: true,
+                            // To ensure full-width dropdown
                             icon: Icon(Icons
-                                .arrow_drop_down), // Customize dropdown arrow
+                                .arrow_drop_down),
+                            // Customize dropdown arrow
                             dropdownColor: Colors
-                                .white, // Change the dropdown popup background
+                                .white,
+                            // Change the dropdown popup background
                             items: viewModel.projectList.map((Project project) {
                               return DropdownMenuItem<Project>(
                                 value: project,
@@ -85,10 +99,10 @@ class AddTimesheetForm extends StatelessWidget {
                                             .blueAccent), // Custom icon color
                                     SizedBox(
                                         width:
-                                            10.0), // Space between icon and text
+                                        10.0), // Space between icon and text
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           project.projectName,
@@ -149,7 +163,8 @@ class AddTimesheetForm extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return TimeLogDialog(
-                                viewModel.selectedProject != null ? viewModel.selectedProject!.name : "--",
+                                viewModel.selectedProject != null ? viewModel
+                                    .selectedProject!.name : "--",
                                 null
                             );
                           },
@@ -203,8 +218,8 @@ class AddTimesheetForm extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeLogList(
-      AddTimeSheetViewModel viewModel, BuildContext context) {
+  Widget _buildTimeLogList(AddTimeSheetViewModel viewModel,
+      BuildContext context) {
     return ListView.builder(
       itemCount: viewModel.timeLogs.length,
       shrinkWrap: true,
@@ -229,7 +244,8 @@ class AddTimesheetForm extends StatelessWidget {
                   builder: (context) {
                     return AlertDialog(
                       title: Text("Confirm Delete"),
-                      content: Text("Are you sure you want to delete this time log?"),
+                      content: Text(
+                          "Are you sure you want to delete this time log?"),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -255,7 +271,8 @@ class AddTimesheetForm extends StatelessWidget {
               final timeLogDetails = await showDialog<TimeLog>(
                 context: context,
                 builder: (context) {
-                  return TimeLogDialog(viewModel.selectedProject!.name ?? "--", timeLog);
+                  return TimeLogDialog(
+                      viewModel.selectedProject!.name ?? "--", timeLog);
                 },
               );
 
@@ -270,3 +287,5 @@ class AddTimesheetForm extends StatelessWidget {
   }
 
 }
+
+

@@ -130,7 +130,7 @@ class Comments {
 }
 
 class Project {
-  final String name;
+  late final String name;
   final String projectName;
 
   Project({

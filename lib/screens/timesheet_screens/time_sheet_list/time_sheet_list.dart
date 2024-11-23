@@ -154,7 +154,10 @@ class _TimesheetListViewState extends State<TimesheetListView> {
           ),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () async {
-              final result = await Navigator.pushNamed(context, Routes.addTimesheetForm);
+
+              var result = Navigator.pushNamed(context, Routes.addTimesheetForm, arguments: AddTimesheetFormArguments(
+                    timeSheetId: ""));
+
               if (result == true) {
                 model.fetchTimesheets();
               }

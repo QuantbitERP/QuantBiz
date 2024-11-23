@@ -582,8 +582,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i36.AddTimesheetForm: (data) {
+      final args = data.getArgs<AddTimesheetFormArguments>(nullOk: false);
       return _i39.MaterialPageRoute<dynamic>(
-        builder: (context) => _i36.AddTimesheetForm(),
+        builder: (context) =>
+            _i36.AddTimesheetForm(key: args.key, timeSheetId: args.timeSheetId),
         settings: data,
       );
     },
@@ -995,6 +997,33 @@ class UpdateTaskScreenArguments {
   @override
   int get hashCode {
     return key.hashCode ^ updateTaskId.hashCode;
+  }
+}
+
+class AddTimesheetFormArguments {
+  const AddTimesheetFormArguments({
+    this.key,
+    required this.timeSheetId,
+  });
+
+  final _i39.Key? key;
+
+  final String timeSheetId;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "timeSheetId": "$timeSheetId"}';
+  }
+
+  @override
+  bool operator ==(covariant AddTimesheetFormArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.timeSheetId == timeSheetId;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ timeSheetId.hashCode;
   }
 }
 
@@ -1550,14 +1579,18 @@ extension NavigatorStateExtension on _i43.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToAddTimesheetForm([
+  Future<dynamic> navigateToAddTimesheetForm({
+    _i39.Key? key,
+    required String timeSheetId,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.addTimesheetForm,
+        arguments:
+            AddTimesheetFormArguments(key: key, timeSheetId: timeSheetId),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -2120,14 +2153,18 @@ extension NavigatorStateExtension on _i43.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithAddTimesheetForm([
+  Future<dynamic> replaceWithAddTimesheetForm({
+    _i39.Key? key,
+    required String timeSheetId,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.addTimesheetForm,
+        arguments:
+            AddTimesheetFormArguments(key: key, timeSheetId: timeSheetId),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

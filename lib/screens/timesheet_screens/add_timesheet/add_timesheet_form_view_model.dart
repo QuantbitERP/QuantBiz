@@ -45,13 +45,40 @@ class AddTimeSheetViewModel extends BaseViewModel {
   String get project => _project;
   List<TimeLog> get timeLogs => _timeLogs;
 
-  initialise(BuildContext context) async {
+  initialise(BuildContext context,String id) async {
     setBusy(true);
     employeeDetails = await ProfileServices().profile() ?? EmployeeDetails();
     Logger().i(employeeDetails.toJson());
     projectList = await AddTaskServices().fetchProject();
     updateEmployee(employeeDetails.employeeName!);
     updateCompany(employeeDetails.company!);
+
+    if (id != "") {
+      var timesheetDetails = await TimesheetServices().getTimesheetDetails(id) ;
+      if(timesheetDetails != null) {
+      //  _timeLogs = (timesheetDetails.timeLogs as List<TimeLog>) ?? [];
+         for(var timesheet in timesheetDetails.timeLogs!){
+           _timeLogs.add(TimeLog(activityType: timesheet.activityType!,
+               task: timesheet.task!, hours: timesheet.hours!.toDouble(),
+               fromTime: DateTime.parse(timesheet.fromTime!),
+               toTime: DateTime.parse(timesheet.toTime!),
+               project: timesheet.project!,
+               description: timesheet.description!));
+         }
+       //  updateProject(timesheetDetails.parentProject!);
+        _project = timesheetDetails.parentProject!;
+        _name = timesheetDetails.name!;
+        _employee = timesheetDetails.employeeName!;
+        _company = timesheetDetails.company!;
+        _startDate = DateTime.parse(timesheetDetails.startDate!);
+        _endDate = DateTime.parse(timesheetDetails.endDate!);
+        selectedProject = projectList.firstWhere(
+                 (project) => project.name == timesheetDetails.parentProject
+         );
+      }
+
+
+    }
 
     setBusy(false);
   }

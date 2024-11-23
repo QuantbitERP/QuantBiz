@@ -7,6 +7,7 @@ import 'package:geolocation/model/dashboard.dart';
 import 'package:geolocation/model/emp_data.dart';
 import 'package:geolocation/services/home_services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -156,6 +157,23 @@ class HomeViewModel extends BaseViewModel {
     }
     notifyListeners();
   }
+
+  String convertToIST(String timeString) {
+    // Parse the given time string into a DateTime object (AM/PM format)
+    if(timeString.isNotEmpty) {
+      DateFormat format = DateFormat("hh:mma");
+      DateTime parsedTime = format.parse(timeString);
+
+      // Convert it to IST (Indian Standard Time, UTC +5:30)
+      DateTime istTime = parsedTime.add(Duration(hours: 5, minutes: 30));
+
+      // Format the resulting DateTime to display the time in desired format
+      return DateFormat("hh:mm a").format(istTime);
+    }else{
+      return "";
+    }
+  }
+
 
 
   void handleGreeting() {
