@@ -9,6 +9,7 @@ import 'package:geolocation/screens/customer_screen/customer_list/customer_list_
 import 'package:geolocation/screens/expense_screen/add_expense/add_expense_view.dart';
 import 'package:geolocation/screens/expense_screen/list_expense/list_expense_view.dart';
 import 'package:geolocation/screens/geolocation/geolocation_view.dart';
+import 'package:geolocation/screens/helpdesk/ticket_list_screen.dart';
 import 'package:geolocation/screens/holiday_screen/holiday_view.dart';
 import 'package:geolocation/screens/home_screen/home_page.dart';
 import 'package:geolocation/screens/lead_screen/add_lead_screen/add_lead_screen.dart';
@@ -77,7 +78,8 @@ import 'screens/lead_screen/lead_list/lead_screen.dart';
     MaterialRoute(page: UpdateTaskScreen),
     MaterialRoute(page: AddTimesheetForm),
     MaterialRoute(page: TimesheetListView),
-    MaterialRoute(page: TimesheetDetailsScreen)
+    MaterialRoute(page: TimesheetDetailsScreen),
+    MaterialRoute(page: TicketListScreen)
     // DetailedFarmerScreen
   ],
   dependencies: [

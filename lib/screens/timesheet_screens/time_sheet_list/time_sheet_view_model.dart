@@ -12,9 +12,8 @@ class TimesheetViewModel extends BaseViewModel {
   String? selectedMonth;
   int? selectedYear;
 
-
   Future<void> fetchTimesheets({String? month, int? year}) async {
-    setBusy(true);  // Set loading state
+    setBusy(true); // Set loading state
 
     // Get the current date
     DateTime now = DateTime.now();
@@ -35,7 +34,8 @@ class TimesheetViewModel extends BaseViewModel {
 
       // Construct query parameters based on month and year
       final queryParameters = <String, dynamic>{};
-      if (monthNumber != null) queryParameters['month'] = monthNumber;  // Use month number
+      if (monthNumber != null)
+        queryParameters['month'] = monthNumber; // Use month number
       if (year != null) queryParameters['year'] = year;
 
       print('Fetching timesheets for month: $monthNumber, year: $year');
@@ -46,12 +46,15 @@ class TimesheetViewModel extends BaseViewModel {
           method: 'GET',
           headers: headers,
         ),
-        queryParameters: queryParameters,  // Add query parameters to the request
+        queryParameters: queryParameters, // Add query parameters to the request
       );
 
       if (response.statusCode == 200) {
-        var data = response.data['data'];  // Assuming response data contains a 'data' key with timesheet list
-        _timesheets = (data as List).map((json) => TimesheetDetails.fromJson(json)).toList();
+        var data = response.data[
+            'data']; // Assuming response data contains a 'data' key with timesheet list
+        _timesheets = (data as List)
+            .map((json) => TimesheetDetails.fromJson(json))
+            .toList();
       } else {
         print('Failed to fetch timesheets: ${response.statusMessage}');
       }
@@ -59,10 +62,8 @@ class TimesheetViewModel extends BaseViewModel {
       print('Error: $e');
     }
 
-    setBusy(false);  // Set state back to not loading
+    setBusy(false); // Set state back to not loading
   }
-
-
 
   // New method to fetch timesheets with selected month and year
   void fetchTimesheetsByMonthAndYear(String? month, int? year) {

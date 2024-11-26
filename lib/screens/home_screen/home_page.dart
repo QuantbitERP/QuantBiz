@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/router.router.dart';
+import 'package:geolocation/screens/helpdesk/ticket_list_screen.dart';
 import 'package:geolocation/screens/task_screen/list_task_screen/list_task_screen.dart';
 
 import 'package:geolocation/widgets/full_screen_loader.dart';
@@ -46,7 +47,9 @@ class _HomePageState extends State<HomePage> {
                     controller: model.pageController,
                     children:  <Widget>[
                       homePage(model),
-                  
+                      Center(
+                        child: TicketListScreen(),
+                      ),
                       Center(
                         child: Geolocation(),
                       ),
@@ -76,13 +79,15 @@ class _HomePageState extends State<HomePage> {
             unselectedItemColor: Colors.grey,
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Help Desk"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.calendar_today), label: "Timesheet"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.location_on_outlined), label: "Routes"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: "Profile"),
               BottomNavigationBarItem(icon: Icon(Icons.task), label: "Tasks"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_today), label: "Timesheet"),
+
             ],
           ),
 
